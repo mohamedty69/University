@@ -1,0 +1,295 @@
+:root {
+    --primary-color: #080808; /* Abyss Black */
+    --secondary-color: #1a1a1a; /* Graphite Matte */
+    --text-color: #e8ecef; /* Frost White */
+    --highlight-color: #2e1a47; /* Dark Plum */
+    --animation: #5c4b7d; /* Muted Lilac */
+  }
+  body{
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 30px;
+  }
+  
+.container h1{
+    color: var(--text-color);
+    text-align: center;
+}
+.container form{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    height: 83vh;
+    background-color: var(--secondary-color);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 900px;
+    margin-left: 170px;
+    margin-right: 200px;
+    border:2px solid var(--highlight-color)
+    
+}
+.container form input{
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.container form input[type="submit"]{
+    background-color: #4f2d7b;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.container form input[type="submit"]:hover{
+    background-color: var(--animation);
+}
+.container form label{
+    margin: 10px 0;
+    font-size: 18px;
+}
+.container form .error{
+    color: red;
+    font-size: 14px;
+}
+
+.container form .success{
+    color: green;
+    font-size: 14px;
+}
+.container  .mb-3{
+    margin-bottom: 3px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px;
+    border-radius: 5px;
+}
+.container form .mb-3 input{
+    width: 255px;
+    padding: 10px;
+}
+.container form .mb-3 label{
+    text-align: right;
+    margin-right: 88px;
+}
+.container button{
+    background-color: var(--highlight-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-left: 120px;
+    border-radius: 5px;
+    
+}
+.container button:hover{
+    background-color:var(--animation);
+}
+.container button:focus{
+    outline: none;
+}
+
+
+body {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container h1 {
+    color: var(--text-color);
+    text-align: center;
+  }
+  
+  .container form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    height: 83vh;
+    background-color: var(--secondary-color);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 900px;
+    margin-left: 210px;
+    margin-right: 200px;
+    border: 2px solid var(--highlight-color);
+  }
+  
+  .container form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .container form input[type="submit"] {
+    background-color: #4c66af;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .container form input[type="submit"]:hover {
+    background-color: var(--animation);
+  }
+  
+  .container form label {
+    margin: 10px 0;
+    font-size: 18px;
+  }
+  
+  .container form .error {
+    color: red;
+    font-size: 14px;
+  }
+  
+  .container form .success {
+    color: green;
+    font-size: 14px;
+  }
+  
+  .container .mb-3 {
+    margin-bottom: 3px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px;
+    border-radius: 5px;
+  }
+  
+  .container form .mb-3 input {
+    width: 255px;
+    padding: 10px;
+  }
+  
+  .container form .mb-3 label {
+    text-align: right;
+    margin-right: 88px;
+  }
+  
+  .container button {
+    background-color: var(--highlight-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-left: 120px;
+    border-radius: 5px;
+  }
+  
+  .container button:hover {
+    background-color: var(--animation);
+  }
+  
+  .container button:focus {
+    outline: none;
+  }
+
+  /* ===== Medium: screens between 600px and 1000px ===== */
+@media (min-width: 600px) and (max-width: 1150px) {
+    .container form {
+      flex-direction: row;       /* stack sections */
+      align-items: center;          /* center them */
+      justify-content: space-around;;
+      width: 70%;                   
+      height: 813px;                 
+      margin: 2rem auto;            
+      padding: 2.5rem;
+    }
+  
+    .container .mb-3 {
+      flex-direction: column;       /* label above input */
+      align-items: stretch;
+      padding: 0.75rem 0;
+    }
+  
+    .container form .mb-3 label {
+      text-align: left;
+      margin-right: 0;
+      margin-bottom: 0.5rem;
+      font-size: 17px;
+    }
+  
+    .container form .mb-3 input {
+      width: 100%;
+      margin: 0;
+    }
+  
+    .container form input[type="submit"],
+    .container button {
+      width: 50%;                   /* half width buttons */
+      margin: 1rem auto 0;
+      max-width: 250px;
+    }
+  
+    /* If you want to show the animation but smaller: */
+    .container form .animation {
+      display: block;
+      width: 200px;
+      height: 200px;
+      margin: 1rem auto;
+    }
+  }
+  
+  
+  /* ===== Mobile: screens 600px and below ===== */
+  @media (max-width: 600px) {
+    .container form {
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      height: auto;
+      width: 380px;
+      margin: 1rem;
+      padding: 1rem;
+    }
+  
+    .container .mb-3 {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 0.5rem 0;
+    }
+  
+    .container form .mb-3 label {
+      text-align: left;
+      margin-right: 0;
+      margin-bottom: 0.25rem;
+      font-size: 16px;
+    }
+  
+    .container form .mb-3 input {
+      width: 68%;
+      margin: 0;
+    }
+  
+    .container form input[type="submit"],
+    .container button {
+      margin: 1rem auto 0;
+      width: 100%;
+      max-width: 300px;
+    }
+    .container form .animation {
+      display: none;
+    }
+    .container form h4 {
+      text-align: center;
+      margin-top: -5px;
+    }
+    .container button{
+      margin-left: 55px;
+    }
+  }
+  
