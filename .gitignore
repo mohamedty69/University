@@ -7,4 +7,5 @@ obj/
 *.suo
 .env
 *.env.local
-temp.*.vs/
+temp.*
+.vs/
