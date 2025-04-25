@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="dashprof.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">Port Said University</div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Messages</a></li>
+                    <li><a href="#">Account</a></li>
+                    <li><a href="#">Chart</a></li>
+                    <li><a href="#">Courses</a></li>
+                    <li><a href="#">Log Out </a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header class="main-header">
+                
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="" type="submit">Search</button>
+                      </form>
+                
+                <div class="user-info">
+                    <span>Hi ,</span>
+                    <span class="user-name">User Name</span>
+                    <div class="user-avatar"></div>
+                </div>
+            </header>
+            <div class="chart-container">
+                <canvas id="studentDataChart"></canvas>
+            </div>
+        </main>
+    </div>
+    <script>
+        // This is where you would fetch data from your backend
+        // For now, we'll use some sample data
+
+        const studentData = [
+            { studentId: '101', gpa: 3.8, courseHours: 15 },
+            { studentId: '102', gpa: 3.5, courseHours: 18 },
+            { studentId: '103', gpa: 4.0, courseHours: 12 },
+            { studentId: '104', gpa: 3.2, courseHours: 16 },
+            { studentId: '105', gpa: 3.9, courseHours: 14 }
+            // ... more student data
+        ];
+
+        const studentIds = studentData.map(data => data.studentId);
+        const gpas = studentData.map(data => data.gpa);
+        const courseHours = studentData.map(data => data.courseHours);
+
+        const ctx = document.getElementById('studentDataChart').getContext('2d');
+        const studentChart = new Chart(ctx, {
+            type: 'bar', // You can experiment with 'scatter' or other chart types
+            data: {
+                labels: studentIds,
+                datasets: [
+                    {
+                        label: 'GPA',
+                        data: gpas,
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)', // Blue
+                        yAxisID: 'y-axis-left'
+                    },
+                    {
+                        label: 'Course Hours',
+                        data: courseHours,
+                        backgroundColor: 'rgba(255, 99, 132, 0.7)', // Red
+                        yAxisID: 'y-axis-right'
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    'y-axis-left': {
+                        type: 'linear',
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'GPA'
+                        },
+                        min: 0,
+                        max: 4 // Assuming GPA is out of 4
+                    },
+                    'y-axis-right': {
+                        type: 'linear',
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Course Hours'
+                        },
+                        grid: {
+                            drawOnChartArea: false // Don't draw grid lines on the chart area
+                        },
+                        min: 0 // Adjust as needed
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Student GPA and Course Hours',
+                        fontSize: 16
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

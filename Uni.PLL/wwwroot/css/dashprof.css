@@ -1,0 +1,199 @@
+:root {
+    --primary-color: #080808; /* Abyss Black */
+    --secondary-color: #1a1a1a; /* Graphite Matte */
+    --text-color: #e8ecef; /* Frost White */
+    --highlight-color: #2e1a47; /* Dark Plum */
+    --animation: #5c4b7d; /* Muted Lilac */
+  }
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #f4f6f8;
+    display: flex;
+    min-height: 100vh;
+}
+
+.dashboard-container {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    background-color: var(--secondary-color);
+    color: var(--text-color); 
+    color: white;
+    width: 250px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.main-nav li {
+    margin-bottom: 15px;
+}
+
+.main-nav a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.main-nav a:hover, .main-nav li.active a {
+    background-color: var(--animation);
+}
+.main-nav a:focus {
+    outline: none;
+    box-shadow: 0 0 5px var(--animation);
+}
+
+.badge {
+    background-color: #f44336; 
+    color: white;
+    border-radius: 50%;
+    padding: 5px 8px;
+    font-size: 0.8em;
+    margin-left: 5px;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+form button {
+    background-color: var(--highlight-color);
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+form button:hover {
+    background-color: #5c4b7d;
+    transform: scale(1.05);
+}
+
+form button:focus {
+    outline: none;
+    box-shadow: 0 0 5px #5c4b7d;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-avatar {
+    width: 30px;
+    height: 30px;
+    background-color: var(--primary-color); 
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.overview-section h2 {
+    margin-top: 0;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.average-charts, .calculation-summary, .maps-section, .analytical-data, .recent-activity {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.calculation-items {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.calculation-item {
+    text-align: center;
+}
+
+.calculation-item .icon {
+    font-size: 1.5em;
+    color: #3f51b5; /* Example icon color */
+}
+
+.calculation-item .value {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.calculation-item .label {
+    color: #777;
+    font-size: 0.9em;
+}
+
+.analytical-items .analytical-item {
+    margin-bottom: 15px;
+}
+
+.progress-bar {
+    background-color: #eee;
+    border-radius: 5px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.progress {
+    height: 100%;
+    border-radius: 5px;
+}
+
+.percentage {
+    position: absolute;
+    right: 10px;
+    color: #555;
+    font-size: 0.9em;
+}
+
+.chart-legend {
+    margin-top: 10px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.legend-color {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
+/* Add more detailed styling to match the image */
