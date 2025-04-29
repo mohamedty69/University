@@ -2,6 +2,7 @@ using System;
 using Uni.DAL.Entity;
 using Uni.DAL.DB;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +10,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
-builder.Services.AddDbContext<AppDBContext>(options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
                options.UseSqlServer("name=DefaultConnection"));
+
+builder.Services.AddIdentity<Student, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
+
+
+
+builder.Services.AddIdentityCore<Student>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddTokenProvider<DataProtectorTokenProvider<Student>>(TokenOptions.DefaultProvider);
+
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

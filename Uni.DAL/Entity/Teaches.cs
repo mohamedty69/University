@@ -20,6 +20,9 @@ namespace Uni.DAL.Entity
         public int Year { get; set; }
 
         public virtual Instructor Instructor { get; set; }
+        
+
+        public virtual Course Course { get; set; }
 
     }
 }

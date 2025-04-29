@@ -21,7 +21,7 @@ namespace Uni.DAL.Entity
         public double CGPA { get; set; } = 0;
         public int Warnings { get; set; } = 0;
         [ForeignKey("Student")]
-        public string SId { get; set; }
+        public string Id { get; set; }
        
         public virtual Department Department { get; set; }
 

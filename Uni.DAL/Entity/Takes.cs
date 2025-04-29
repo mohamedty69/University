@@ -12,7 +12,7 @@ namespace Uni.DAL.Entity
     {
         [Key, Column(Order = 0)]
         [ForeignKey("Student")]
-        public string SId { get; set; }
+        public string Id { get; set; }
         [Key, Column(Order = 1)]
         [ForeignKey("Course")]
         public string CourseCode { get; set; }
@@ -22,10 +22,10 @@ namespace Uni.DAL.Entity
         [Key, Column(Order = 3)]
 
         public string Year { get; set; }
-        public string Grade { get; set; }
+        public double GPA { get; set; }
 
         public virtual Student Student { get; set; }
-        public ICollection<Course> Course { get; set; }
+        public virtual Course Course { get; set; }
 
 
     }

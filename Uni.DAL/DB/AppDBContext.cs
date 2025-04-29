@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,10 @@ using Uni.DAL.Entity;
 
 namespace Uni.DAL.DB
 {
-    public class AppDBContext : DbContext
+    public class AppDbContext :  IdentityDbContext<Student>
     {
-            public AppDBContext(DbContextOptions<AppDBContext> options)
-                : base(options)
+
+            public AppDbContext(DbContextOptions<AppDbContext> options): base(options)
             {
             }
 
@@ -24,5 +25,6 @@ namespace Uni.DAL.DB
             public DbSet<Teaches> Teaches { get; set; }
             public DbSet<Department> Departments { get; set; }
             public DbSet<AcademicStatus> AcademicStatus { get; set; }
-        }
+            public DbSet<Prerequisites> Prerequisites { get; set; }
+    }
 }

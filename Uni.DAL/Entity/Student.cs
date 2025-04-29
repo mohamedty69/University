@@ -1,20 +1,22 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Uni.DAL.Entity
 {
-    public class Student
+    public class Student : IdentityUser
     {
         [Key]
-        public string SId { get; set; }
+      //  public string SId { get; set; }
         public string FirstName { get; set; }
         public string MiddelName { get; set; }
         public string LastName { get; set; }
-        public DateTime BirthDate { get; set; }
+       // public DateTime BirthDate { get; set; }
         public string PhoneNumber { get; set; }
         public string NationalId { get; set; }
         public string Address { get; set; }
@@ -23,6 +25,7 @@ namespace Uni.DAL.Entity
         public virtual ICollection<Takes> Takes { get; set; }
         public virtual ICollection<Records> Records { get; set; }
         public virtual AcademicStatus AcademicStatus { get; set; }
+
 
     }
 }

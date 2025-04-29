@@ -19,13 +19,18 @@ namespace Uni.DAL.Entity
         public string Year { get; set; }
         [ForeignKey("Department")]
         public string DeptName{ get; set; }
-        public Department Department { get; set; }
+        public virtual Department Department { get; set; }
 
         public ICollection<Takes> Takes { get; set; }
         public ICollection<Teaches> Teaches { get; set; }
+        [InverseProperty("MainCourse")]
+        public virtual ICollection<Prerequisites> Prerequisites { get; set; }
 
-        public ICollection<CoursePrerequisite> Prerequisites { get; set; }
-        public ICollection<CoursePrerequisite> IsPrerequisiteFor { get; set; }
+        [InverseProperty("PrerequisiteCourse")]
+        public virtual ICollection<Prerequisites> IsPrerequisiteFor { get; set; }
+
+      
+     
 
     }
 }

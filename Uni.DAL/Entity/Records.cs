@@ -13,13 +13,13 @@ namespace Uni.DAL.Entity
         [Key]
         public int recordId { get; set; }
         [ForeignKey("Student")]
-        public string SId { get; set; }
+        public string Id { get; set; }
         public string CourseCode { get; set; }
-        public string Grade { get; set; }
+        public double  GPA { get; set; }
         public bool Improved { get; set; }
         public string Semester { get; set; }
         public string Year { get; set; }
 
-        public virtual Student Student { get; set; }
+        public ICollection<Student> Student { get; set; }
     }
 }
