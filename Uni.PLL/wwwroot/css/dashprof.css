@@ -196,4 +196,117 @@ form button:focus {
     border-radius: 50%;
 }
 
-/* Add more detailed styling to match the image */
+
+  
+  .chat-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--highlight-color);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 15px;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+
+  }
+  
+  .chat-popup {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 300px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+  
+  }
+  
+  .chat-header {
+    background-color: var(--animation);
+    color: white;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    border-radius: 10px 10px 0 0;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+
+  }
+  
+  .chat-header button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .chat-body {
+    padding: 20px;
+    text-align: center;
+    height: 200px;
+  }
+  
+  .start-chat {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: var(--highlight-color);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  .chat-interface {
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    overflow-y: scroll;
+  }
+  
+  .chat-messages {
+    flex: 1;
+    padding: 10px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    max-width: 100%;
+    word-wrap: break-word; /* Prevent overflow */
+    overflow-wrap: break-word; /* Prevent overflow */;
+  }
+  
+  
+  .chat-input-area {
+    display: flex;
+    padding: 10px;
+  }
+  
+  .chat-input-area input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin-right: 10px;
+  }
+  
+  .chat-input-area button {
+    padding: 8px 15px;
+    background-color: var(--highlight-color);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  
+  
