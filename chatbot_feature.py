@@ -14,11 +14,11 @@ app = FastAPI()
 load_dotenv()
 CLIENT = None
 INT_SYS_PROMPT, GEN_SYS_PROMPT, DATA_SYS_PROMPT = None, None, None
+MODEL = "microsoft/mai-ds-r1:free"
 
 
 class UserPrompt(BaseModel):
     user_input: str
-    user_id: str
 
 
 class FormatRequest(BaseModel):
@@ -111,25 +111,19 @@ async def startup_event():
     """Load environment variables and initialize the DeepSeek client."""
     global CLIENT, INT_SYS_PROMPT, GEN_SYS_PROMPT, DATA_SYS_PROMPT
     CLIENT = get_client()
-    context = load_context()
-    INT_SYS_PROMPT, GEN_SYS_PROMPT = context[0], context[1]
-    DATA_SYS_PROMPT = "Your task if to write a SQL query for user_id={user_id} using the schema:"
-    DATA_SYS_PROMPT += f"\n{context[2]}"
-    DATA_SYS_PROMPT += """Answer with a JSON string complying with the following format:
-{
-    "query": "SELECT * FROM table WHERE condition",
-}"""
+    INT_SYS_PROMPT, GEN_SYS_PROMPT, DATA_SYS_PROMPT = load_context()
 
 
 @app.post("/chat")
 @handle_deepseek_errors
 def chat_endpoint(request: UserPrompt):
     """Chatbot endpoint to handle user queries."""
-    if analyze_intent(request.user_input):
-        sql_query = generate_sql(request)
+    user_input = re.escape(request.user_input)
+    if analyze_intent(user_input):
+        sql_query = generate_sql(user_input)
         return {"action": "execute_sql", "query": sql_query}
     else:
-        return generate_response(request.user_input)
+        return generate_response(user_input)
     
 
 @app.post("/format-response")
@@ -146,7 +140,7 @@ def format_results(request: FormatRequest):
     - Clear section headings 
     """
     response = CLIENT.chat.completions.create(
-        model="deepseek/deepseek-chat-v3-0324:free",
+        model=MODEL,
         messages=[{"role": "system", "content": GEN_SYS_PROMPT}, 
                   {"role": "user", "content": formatting_prompt}],
         temperature=0.2,
@@ -157,7 +151,7 @@ def format_results(request: FormatRequest):
 def analyze_intent(user_input: str) -> dict:
     """Analyze the user's intent based on the input."""
     response = CLIENT.chat.completions.create(
-        model="deepseek/deepseek-chat-v3-0324:free",
+        model=MODEL,
         messages=[{"role": "system", "content": INT_SYS_PROMPT}, 
                   {"role": "user", "content": user_input}], 
         temperature=0.1,
@@ -169,12 +163,12 @@ def analyze_intent(user_input: str) -> dict:
             raise ValueError("Invalid response format")
         return requires_data == "true"
     except (json.JSONDecodeError, ValueError) as e:
-        raise HTTPException(status_code=400, detail=f"Invalid response format from intent analysis. Error: {str(e)}")
+        raise HTTPException(status_code=400, detail=f"Invalid response format from intent analysis. Output:\n{response.choices[0].message.content}")
 
 
 def generate_response(user_input: str) -> str:
     response = CLIENT.chat.completions.create(
-        model="deepseek/deepseek-chat-v3-0324:free",
+        model=MODEL,
         messages=[{"role": "system", "content": GEN_SYS_PROMPT}, 
                   {"role": "user", "content": user_input}], 
         temperature=0.3, top_p=0.6, 
@@ -184,25 +178,31 @@ def generate_response(user_input: str) -> str:
     return {"response": response.choices[0].message.content}
 
 
-def generate_sql(request: UserPrompt) -> str:
-    system_prompt = DATA_SYS_PROMPT.format(user_id=request.user_id)
+def generate_sql(user_input: str) -> str:
     response = CLIENT.chat.completions.create(
         model="deepseek/deepseek-chat-v3-0324:free",
-        messages=[{"role": "system", "content": system_prompt}, 
-                  {"role": "user", "content": request.user_input}], 
-        temperature=0.0, max_tokens=400,
+        messages=[{"role": "system", "content": DATA_SYS_PROMPT}, 
+                  {"role": "user", "content": user_input}], 
+        temperature=0.0, max_tokens=100,
     )
     sql_query = (response.choices[0].message.content)
-    if not validate_sql(sql_query, request.user_id):
+    if not validate_sql(sql_query):
         raise HTTPException(status_code=301, detail="Invalid SQL query generated. Output:\n" + sql_query)
     return sql_query
 
 
-def validate_sql(sql_query: str, user_id: str) -> bool:
-    sql_query = sql_query.upper().strip()
-    forbidden_keywords = ["INSERT", "UPDATE", "DELETE", "DROP", "ALTER", "CREATE", "TRUNCATE"]
-    return (sql_query.startswith("SELECT") and f"s_id = {user_id}" in sql_query.lower() and
-            not any(keyword in sql_query for keyword in forbidden_keywords))
+def validate_sql(sql_query: str) -> bool:
+    query_lower = sql_query.lower().strip()
+    forbidden_keywords = {"insert", "update", "delete", "drop", "alter", "create", "truncate"}
+
+    if any(keyword in query_lower for keyword in forbidden_keywords):
+        return False
+    
+    if not re.match(r"^\s*select", query_lower, re.IGNORECASE):
+        return False
+    
+    pattern = re.compile(r"\b\w+\s*=\s*@user_id\b", re.IGNORECASE)
+    return bool(pattern.search(query_lower))
 
 
 def load_context():
@@ -213,8 +213,8 @@ def load_context():
     
     intent_section = parts[2].strip() if len(parts) > 1 else ""
     general_section = parts[4].strip() if len(parts) > 3 else ""
-    schema = parts[6].strip() if len(parts) > 5 else ""
-    return intent_section, general_section, schema
+    sql_section = parts[6].strip() if len(parts) > 5 else ""
+    return intent_section, general_section, sql_section
 
 
 if __name__ == "__main__":
