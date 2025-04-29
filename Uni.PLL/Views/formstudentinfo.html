@@ -1,87 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>information</title>
-    <link rel="stylesheet" href="forminfo.css">
+    <link rel="stylesheet" href="/Uni.PLL/wwwroot/css/forminfo.css">
 </head>
+
 <body>
-    
+
     <div class="container">
         <h1>Student Enrollment </h1>
         <form action="index.html" method="post">
             <section>
                 <h4 style="margin-top: -20px;text-align: center; color:blueviolet">Enter Your Information In Arabic</h1>
-            <div class="mb-3">
-                <label for="name" class="form-label" style="margin-right: 110px;">First Name </label>
-                <input type="text" class="form-control" id="name" name="first"  required>
-            </div>
-            <div class="mb-3">
-                <label for="name" class="form-label"style="margin-right: 100px;">middle Name</label>
-                <input type="text" class="form-control" id="name" name="middle"   required>
-            </div>
-            <div class="mb-3">
-                <label for="name" class="form-label"style="margin-right: 110px;">Last Name</label>
-                <input type="text" class="form-control" id="name" name="last" required>
-           </div>
-           <div class="mb-3">
-                <label for="national-id" class="form-label" style="margin-right: 100px;">National ID</label>
-                <input type="text" class="form-control" id="national-id" name="national-id" required>
-            </div>
-           
-            <div class="mb-3">
-                <label for="phone" class="form-label" style="margin-right: 150px;">Phone</label>
-                <input type="tel" class="form-control" id="phone" name="phone" required>
-            </div>
-            <div class="mb-3">
-                <label for="address" class="form-label" style="margin-right: 130px;">Address</label>
-                <input type="text" class="form-control" id="address" name="address" required>
-            </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label" style="margin-right: 110px;">First Name </label>
+                        <input type="text" class="form-control" id="name" name="first" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label" style="margin-right: 100px;">middle Name</label>
+                        <input type="text" class="form-control" id="name" name="middle" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label" style="margin-right: 110px;">Last Name</label>
+                        <input type="text" class="form-control" id="name" name="last" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="national-id" class="form-label" style="margin-right: 100px;">National ID</label>
+                        <input type="text" class="form-control" id="national-id" name="national-id" required>
+                    </div>
 
-            <div class="mb-3">
-                <label for="birthdate" class="form-label" style="margin-right: 100px;">Birth-of-date</label>
-                <input type="date" class="form-control" id="birthdate" name="birthdate" required>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label" style="margin-right: 150px;">Phone</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label" style="margin-right: 130px;">Address</label>
+                        <input type="text" class="form-control" id="address" name="address" required>
+                    </div>
 
-            </div>
+                    <div class="mb-3">
+                        <label for="birthdate" class="form-label" style="margin-right: 100px;">Birth-of-date</label>
+                        <input type="date" class="form-control" id="birthdate" name="birthdate" required>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
             </section>
             <section>
                 <div class="animation"><dotlottie-player
-                    src="https://lottie.host/9e1c7394-5346-4c3a-97d6-0224b3b2b1f3/YknyrMrJpn.lottie"
-                    background="transparent"
-                    speed="1"
-                    style="width: 300px; height: 300px"
-                    
-                    autoplay
-                  ></dotlottie-player></div>
+                        src="https://lottie.host/9e1c7394-5346-4c3a-97d6-0224b3b2b1f3/YknyrMrJpn.lottie"
+                        background="transparent" speed="1" style="width: 300px; height: 300px"
+                        autoplay></dotlottie-player></div>
             </section>
         </form>
     </div>
 </body>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const form = document.querySelector('form');
-      if (!form) return; // guard in case there’s no <form> on the page
-  
-      // 1. Apply initial “hidden” styles
-      form.style.display    = 'none';
-      form.style.opacity    = '0';
-      form.style.transform  = 'translateX(-20px)';
-      form.style.transition = 'opacity 1s ease-in-out, transform 1s ease-in-out';
-  
-      // 2. After 1.5s, make it visible and let CSS handle the fade/slide
-      setTimeout(() => {
-        form.style.display   = 'flex';    // or 'block' / whatever your layout needs
-        form.style.opacity   = '1';
-        form.style.transform = 'translateX(0)';
-      }, 1500);
+        const form = document.querySelector('form');
+        if (!form) return; // guard in case there’s no <form> on the page
+
+        // 1. Apply initial “hidden” styles
+        form.style.display = 'none';
+        form.style.opacity = '0';
+        form.style.transform = 'translateX(-20px)';
+        form.style.transition = 'opacity 1s ease-in-out, transform 1s ease-in-out';
+
+        // 2. After 1.5s, make it visible and let CSS handle the fade/slide
+        setTimeout(() => {
+            form.style.display = 'flex';    // or 'block' / whatever your layout needs
+            form.style.opacity = '1';
+            form.style.transform = 'translateX(0)';
+        }, 1500);
     });
-  </script>
-  
-<script
-  src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
-  type="module"
-></script>
+</script>
+
+<script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+
 </html>
