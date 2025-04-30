@@ -10,13 +10,13 @@ namespace Uni.DAL.Entity
 {
     public class Takes
     {
-        [Key, Column(Order = 0)]
+       // [Key, Column(Order = 0)]
         [ForeignKey("Student")]
         public string Id { get; set; }
-        [Key, Column(Order = 1)]
+       // [Key, Column(Order = 1)]
         [ForeignKey("Course")]
         public string CourseCode { get; set; }
-        [Key, Column(Order = 2)]
+       // [Key, Column(Order = 2)]
 
         public string Semester { get; set; }
         [Key, Column(Order = 3)]

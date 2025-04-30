@@ -10,12 +10,14 @@ namespace Uni.DAL.Entity
 {
     public class Prerequisites
     {
-        [Key, Column(Order = 0)]
+       // [Key, Column(Order = 0)]
         [ForeignKey("MainCourse")]
+        [MaxLength(450)]
 
         public string CourseId { get; set; }
-        [Key, Column(Order = 1)]
-        [ForeignKey("PrerequisiteCourse")]
+        //[Key, Column(Order = 1)]
+       [ForeignKey("PrerequisiteCourse")]
+        [MaxLength(450)]
 
         public string PrerequisiteId { get; set; }
       

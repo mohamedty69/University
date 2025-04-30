@@ -11,6 +11,7 @@ namespace Uni.DAL.Entity
     public class Course
     {
         [Key]
+        [MaxLength(450)]
         public string CourseCode { get; set; }
         public string CourseName { get; set; }
         public int CreditHours { get; set; } = 0;
@@ -18,6 +19,7 @@ namespace Uni.DAL.Entity
         public string Semester { get; set; }
         public string Year { get; set; }
         [ForeignKey("Department")]
+        [MaxLength(450)]
         public string DeptName{ get; set; }
         public virtual Department Department { get; set; }
 
