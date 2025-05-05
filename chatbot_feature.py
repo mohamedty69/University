@@ -102,7 +102,7 @@ def handle_deepseek_errors(func): # `func` is the function to be decorated (e.g.
                     continue
                 return "Network connection failed"
             
-        return func(*args, **kwargs)
+        return "Max retries exceeded. Please try again later."
     return wrapper
 
 
@@ -118,12 +118,11 @@ async def startup_event():
 @handle_deepseek_errors
 def chat_endpoint(request: UserPrompt):
     """Chatbot endpoint to handle user queries."""
-    user_input = re.escape(request.user_input)
-    if analyze_intent(user_input):
-        sql_query = generate_sql(user_input)
-        return {"action": "execute_sql", "query": sql_query}
+    if analyze_intent(request.user_input):
+        sql_query = generate_sql(request.user_input)
+        return {"query": sql_query}
     else:
-        return generate_response(user_input)
+        return generate_response(request.user_input)
     
 
 @app.post("/format-response")
@@ -180,7 +179,7 @@ def generate_response(user_input: str) -> str:
 
 def generate_sql(user_input: str) -> str:
     response = CLIENT.chat.completions.create(
-        model="deepseek/deepseek-chat-v3-0324:free",
+        model=MODEL,
         messages=[{"role": "system", "content": DATA_SYS_PROMPT}, 
                   {"role": "user", "content": user_input}], 
         temperature=0.0, max_tokens=100,
@@ -201,7 +200,7 @@ def validate_sql(sql_query: str) -> bool:
     if not re.match(r"^\s*select", query_lower, re.IGNORECASE):
         return False
     
-    pattern = re.compile(r"\b\w+\s*=\s*@user_id\b", re.IGNORECASE)
+    pattern = re.compile(r"@user_id\b", re.IGNORECASE)
     return bool(pattern.search(query_lower))
 
 
@@ -209,7 +208,7 @@ def load_context():
     """Load system prompts from the context file."""
     with open("context.txt", 'r', encoding='utf-8') as f:
         content = f.read()
-    parts = re.split(r'### (INTENT|GENERAL|SQL) SYSTEM PROMPT ###', content)
+    parts = re.split(r'# (INTENT|GENERAL|SQL) SYSTEM PROMPT #', content)
     
     intent_section = parts[2].strip() if len(parts) > 1 else ""
     general_section = parts[4].strip() if len(parts) > 3 else ""

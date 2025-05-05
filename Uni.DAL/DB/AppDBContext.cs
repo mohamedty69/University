@@ -28,9 +28,31 @@ namespace Uni.DAL.DB
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Prerequisites>(entity =>
+            {
+                // Set composite primary key with limited column length
+                entity.HasKey(p => new { p.CourseId, p.PrerequisiteId })
+                    .HasAnnotation("MySql:IndexPrefixLength", new[] { 255, 255 }); // Limit to 255 characters
+
+                // Foreign key configurations
+                entity.HasOne(p => p.MainCourse)
+                    .WithMany(c => c.Prerequisites)
+                    .HasForeignKey(p => p.CourseId)
+                    .HasPrincipalKey(c => c.CourseCode)
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(p => p.PrerequisiteCourse)
+                    .WithMany(c => c.IsPrerequisiteFor)
+                    .HasForeignKey(p => p.PrerequisiteId)
+                    .HasPrincipalKey(c => c.CourseCode)
+                    .OnDelete(DeleteBehavior.NoAction);
+            });
             // Configure Course first
             modelBuilder.Entity<Course>(entity =>
             {
+                entity.Property(c => c.CourseCode)
+                    .HasMaxLength(255);
+                    
                 // Configure the Prerequisites relationships
                 entity.HasMany(c => c.Prerequisites)
                     .WithOne(p => p.MainCourse)

@@ -12,7 +12,6 @@ using Microsoft.Extensions.Configuration;
 
 namespace Uni.DAL.DB
 {
-
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Design;
     using Microsoft.Extensions.Configuration;
@@ -33,7 +32,7 @@ namespace Uni.DAL.DB
                 var webProjectPath = Path.GetFullPath(Path.Combine(basePath, "../Uni.PLL"));
 
                 var configuration = new ConfigurationBuilder()
-                    .SetBasePath(@"C:\Users\Rovan Hussien\source\repos\University\Uni.PLL")// Point to web project directory
+                    .SetBasePath(@"P:\Study\Projects\University\Uni.PLL")// Point to web project directory
                     .AddJsonFile("appsettings.json", optional: false)
                     .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true)
                     .Build();
@@ -45,26 +44,13 @@ namespace Uni.DAL.DB
                 }
 
                 var builder = new DbContextOptionsBuilder<AppDbContext>();
-                builder.UseSqlServer(connectionString);
+                builder.UseMySql(
+                    connectionString, 
+                    ServerVersion.AutoDetect(connectionString) // Auto-detect MySQL version
+                );
 
                 return new AppDbContext(builder.Options);
             }
         }
     }
-    //public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
-    //{
-    //    public AppDbContext CreateDbContext(string[] args)
-    //    {
-    //        IConfigurationRoot configuration = new ConfigurationBuilder()
-    //            .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory()).FullName)
-    //            .AddJsonFile("appsettings.json")
-    //            .Build();
-
-    //        var builder = new DbContextOptionsBuilder<AppDbContext>();
-    //        var connectionString = configuration.GetConnectionString("DefaultConnection");
-    //        builder.UseSqlServer(connectionString);
-
-    //        return new AppDbContext(builder.Options);
-    //    }
-    //}
 }
