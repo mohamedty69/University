@@ -6,8 +6,8 @@ inputs[0].addEventListener('focus', function () {
     let label = document.getElementById('E-label');
     label.style.transition = '0.5s ease';
     label.style.transform = 'translateY(-25px)';
-    label.style.fontSize = '15px';
-    label.style.color = '#2e1a47';
+    label.style.fontSize = '13px';
+    label.style.color = 'white';
     label.style.fontWeight = 'bold';
     label.style.backgroundColor = '#1a1a1a';
     label.style.opacity = '1';
@@ -18,8 +18,8 @@ inputs[1].addEventListener('focus', function () {
     let label = document.getElementById('P-label');
     label.style.transition = '0.5s ease';
     label.style.transform = 'translateY(-25px)';
-    label.style.fontSize = '15px';
-    label.style.color = '#2e1a47';
+    label.style.fontSize = '13px';
+    label.style.color = '#white';
     label.style.fontWeight = 'bold';
     label.style.backgroundColor = '#1a1a1a';
     label.style.opacity = '1';
