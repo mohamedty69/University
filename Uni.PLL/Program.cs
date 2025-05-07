@@ -2,6 +2,11 @@ using Uni.DAL.Entity;
 using Uni.DAL.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Uni.DAL.Repo.Abstraction;
+using Uni.DAL.Repo.Impelementation;
+using Uni.BLL.Service.Abstraction;
+using Uni.BLL.Service.Impelementation;
+using Uni.BLL.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +21,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddIdentity<Student, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
+builder.Services.AddScoped<IAccountRepo, AccountRepo>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddAutoMapper(typeof(DomainProfile));
+builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
+
 
 var app = builder.Build();
 
@@ -38,7 +48,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
 app.Run();
 

@@ -1,10 +1,13 @@
+@using Uni.BLL.ModelVM
+@model LoginVM
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="LoginPage.css">
+    <link rel="stylesheet" href="/css/LoginPage.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Our Website</title>
 </head>
@@ -27,11 +30,12 @@
                     id="animation2"></dotlottie-player>
             </div>
             <div class="right-content">
-                <form action="#">
+                <form asp-controller="Account" asp-action="Login" method="post">
+                    
                     <div class="logincontainer">
-                        <input type="text" id="Email" name="Email" required>
+                        <input type="text" id="Email" name="Email" asp-for="Email" required>
                         <label for="Email" id="E-label" class="active">Enter Your Email</label>
-                        <input type="password" id="Password" name="Password" required>
+                        <input type="password" id="Password" name="Password" asp-for="Password" required>
                         <label for="Password" id="P-label">Enter Your Password</label>
                         <button type="submit" class="btn"><span class="sub">Submit</span></button>
                 </form>
@@ -42,7 +46,7 @@
 
     </div>
     <script src="LoginPage.js"></script>
-    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+    <script src="https://unpkg.com/@@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 </body>
 
 </html>

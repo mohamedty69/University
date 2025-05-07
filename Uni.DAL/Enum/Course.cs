@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Uni.DAL.Enum
 {
-    public class Course
+    public enum Course
     {
         SCI011 = 3,
         SCI021 = 3,
         PRD011 = 3,
         SCI031 = 3,
-        PRD011 = 3,
+        //PRD011 = 3,
         HUU011 = 2,
         SCI012 = 3,
         SCI022 = 3,
