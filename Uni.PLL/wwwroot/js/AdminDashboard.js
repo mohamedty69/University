@@ -1,11 +1,26 @@
-let select = document.getElementById("tableSelect"); 
-let headers = document.getElementById("tableHeader"); 
+let select = document.getElementById("tableSelect");
+let headers = document.getElementById("tableHeader");
+
+
+let addbutt = document.getElementsByClassName("add")[0];
+let editbutt = document.getElementsByClassName("Edit");
+let savebutt = document.getElementsByClassName("Save");
+let TableBody = document.getElementsByTagName("tbody")[0];
+let options = select.children;
+
+
 select.addEventListener("change", function () {
+
+  Array.from(options).forEach((e) => {
+    e.classList.remove("choosen")
+  })
   let selectedTable = select.value;
-  let TableBody = document.getElementsByTagName("tbody")[0];
-  console.log(TableBody);
+  Array.from(options).forEach((e) => {
+    if (e.value == selectedTable)
+      e.classList.add("choosen")
+  })
   if (selectedTable === "Takes") {
-    TableBody.innerHTML = "";
+    TableBody.innerHTML = ``;
     headers.innerHTML = "<th>Year</th><th>GPA</th><th>Semester</th><th>Action</th>";
     for (let i = 1; i <= 10; i++) {
       let content = `<tr><td>2023</td><td>3.5</td><td>Fall</td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
@@ -13,66 +28,87 @@ select.addEventListener("change", function () {
     }
   }
   else if (selectedTable === "Student") {
-    TableBody.innerHTML = "";
+    TableBody.innerHTML = ``;
     headers.innerHTML = "  <th>ID</th><th>Name</th><th>Date of Birth</th><th>Address</th><th>Phone Number</th><th>National ID</th><th>Action</th>";
     for (let i = 1; i <= 10; i++) {
       TableBody.innerHTML += ` <tr><td>${i}</td><td >Alice</td><td>alice@example.com</td><td>alice@example.com</td><td>alice@example.com</td><td>alice@example.com</td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
     }
   }
   else if (selectedTable === "Course") {
-    TableBody.innerHTML = "";
-
-    headers.innerHTML = "  <th>Course Code</th><th>Title</th><th>Credit Hours</th><th>Description</th><th>Year</th><th>Semester</th><th>Action</th>";
-    for (let i = 1; i <= 10; i++) {
-      TableBody.innerHTML += ` <tr><td>${i}</td><td >Alice</td><td>alice@example.com</td><td>alice@example.com</td><td>alice@example.com</td><td>alice@example.com</td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
-    }
-  }
-  else if (selectedTable === "Course") {
-    TableBody.innerHTML = "";
-
+    TableBody.innerHTML = ``;
     headers.innerHTML = "  <th>Course Code</th><th>Title</th><th>Credit Hours</th><th>Description</th><th>Year</th><th>Semester</th><th>Action</th>";
     for (let i = 1; i <= 10; i++) {
       TableBody.innerHTML += ` <tr><td>${i}</td><td >Alice</td><td>alice@example.com</td><td>alice@example.com</td><td>alice@example.com</td><td>alice@example.com</td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
     }
   }
   else if (selectedTable === "Teaches") {
-    TableBody.innerHTML = "";
-
+    TableBody.innerHTML = ``;
     headers.innerHTML = "  <th>Year</th><th>Semester</th><th>Action</th>";
     for (let i = 1; i <= 10; i++) {
       TableBody.innerHTML += ` <tr><td>${i}</td><td >Alice</td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
     }
   }
   else if (selectedTable === "Department") {
-    TableBody.innerHTML = "";
-
+    TableBody.innerHTML = ``;
     headers.innerHTML = "  <th>Department Name</th><th>Head of Department</th><th>Building</th><th>Action</th>";
     for (let i = 1; i <= 10; i++) {
       TableBody.innerHTML += ` <tr><td>${i}</td><td >Alice</td><td>Alex Fergsoun Building</td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
     }
   }
   else if (selectedTable === "Instructor") {
-    TableBody.innerHTML = "";
+    TableBody.innerHTML = ``;
     headers.innerHTML = "  <th>Instructor ID</th><th>Name</th><th>Salary</th><th>Action</th>";
     for (let i = 1; i <= 10; i++) {
       TableBody.innerHTML += ` <tr><td>${i}</td><td >Alice</td><td>$100k</td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
     }
   }
   else {
-    TableBody.innerHTML = "";
+    TableBody.innerHTML = ``;
     headers.innerHTML = "<th>Record ID</th><th>Course Code</th><th>Semester</th><th>Year</th><th>GPA</th><th>Improved</th><th>Action</th>";
     for (let i = 1; i <= 10; i++) {
       TableBody.innerHTML += ` <tr><td>${i}</td><td >Alice</td><td>$100k</td><td>100</td><td>100</td><td>100</td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
     }
   }
-  let editbutt = document.getElementsByClassName("Edit");
-  let savebutt = document.getElementsByClassName("Save");
-  console.log(editbutt);
-  console.log(savebutt);
-
   Array.from(editbutt).forEach((button) => {
     button.addEventListener("click", () => {
       let fields = button.parentElement.parentElement.children;
+      console.log(fields)
+      for (let i = 1; i < fields.length - 1; i++) {
+        fields[i].setAttribute("contenteditable", "true");
+      }
+    })
+  });
+  Array.from(savebutt).forEach((button) => {
+    button.addEventListener("click", () => {
+      let fields = button.parentElement.parentElement.children;
+      for (let i = 1; i < fields.length - 1; i++) {
+        fields[i].setAttribute("contenteditable", "false");
+      }
+    })
+  });
+});
+
+addbutt.addEventListener("click", () => {
+  Array.from(options).forEach((e) => {
+    if (e.classList.contains("choosen") && e.value == "Student")
+      TableBody.innerHTML += `<tr><td></td><td ></td><td></td><td></td><td></td><td></td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`
+    else if (e.classList.contains("choosen") && e.value == "Takes")
+      TableBody.innerHTML += `<tr><td></td><td></td><td></td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
+    else if (e.classList.contains("choosen") && e.value == "Course")
+      TableBody.innerHTML += ` <tr><td></td><td ></td><td></td><td></td><td></td><td></td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
+    else if (e.classList.contains("choosen") && e.value == "Teaches")
+      TableBody.innerHTML += ` <tr><td></td><td ></td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
+    else if (e.classList.contains("choosen") && e.value == "Department")
+      TableBody.innerHTML += ` <tr><td></td><td ></td><td></td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
+    else if (e.classList.contains("choosen") && e.value == "Instructor")
+      TableBody.innerHTML += ` <tr><td></td><td ></td><td></td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
+    else if (e.classList.contains("choosen") && e.value == "Records")
+      TableBody.innerHTML += ` <tr><td></td><td ></td><td></td><td></td><td></td><td></td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
+  })
+  Array.from(editbutt).forEach((button) => {
+    button.addEventListener("click", () => {
+      let fields = button.parentElement.parentElement.children;
+      console.log(fields)
       for (let i = 1; i < fields.length - 1; i++) {
         fields[i].setAttribute("contenteditable", "true");
       }
@@ -87,4 +123,5 @@ select.addEventListener("change", function () {
       }
     })
   });
-});
+})
+
