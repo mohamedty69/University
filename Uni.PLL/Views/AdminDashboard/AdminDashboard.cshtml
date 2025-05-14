@@ -1,3 +1,5 @@
+@using Uni.BLL.ModelVM.GetDataVM
+@model GetStudentDataVM
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +8,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard</title>
   <link rel="stylesheet" href="/Uni.PLL/wwwroot/css/AdminDashboard.css" />
+<<<<<<< HEAD:Uni.PLL/Views/AdminDashboard/AdminDashboard.html
 </head>
+=======
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"></head>
+>>>>>>> 9ae7e48e7f9c22bc11d0f5d3fcf9383ccba522c6:Uni.PLL/Views/AdminDashboard/AdminDashboard.cshtml
 
 <body>
   <aside class="sidebar">
@@ -52,10 +58,10 @@
       </p>
 
       <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
-        <label style="margin-top: -10px;" for="tableSelect">Choose a table:</label>
+        <label style="margin-top: 10px;" for="tableSelect">Choose a table:</label>
         <select id="tableSelect" name="tableSelect">
           <option value="" hidden>Select Table</option>
-          <option value="Student">Student</option>
+          <option value="Student" class="choosen">Student</option>
           <option value="Takes">Takes</option>
           <option value="Course">Course</option>
           <option value="Teaches">Teaches</option>
@@ -63,6 +69,7 @@
           <option value="Instructor">Instructor</option>
           <option value="Records">Records</option>
         </select>
+        <button class = "add"><i class="fa-solid fa-plus" style="color: #ffffff;"></i></button>
       </div>
       <div class="tablecontainer">
         <table id="dataTable">
@@ -111,7 +118,7 @@
       </div>
     </div>
   </main>
-  <script src="script.js"></script>
+  <script src="/Uni.PLL/wwwroot/js/AdminDashboard.js"></script>
 </body>
 
 </html>

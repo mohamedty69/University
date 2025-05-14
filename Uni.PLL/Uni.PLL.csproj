@@ -7,6 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Account\LoginPage.cshtml" />
+    <Content Remove="Views\AdminDashboard\AdminDashboard.cshtml" />
+    <Content Remove="Views\dashprofile.cshtml" />
+    <Content Remove="Views\formstudentinfo.cshtml" />
+    <Content Remove="Views\profile.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Account\LoginPage.cshtml" />
+    <None Include="Views\AdminDashboard\AdminDashboard.cshtml" />
+    <None Include="Views\dashprofile.cshtml" />
+    <None Include="Views\formstudentinfo.cshtml" />
+    <None Include="Views\profile.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,6 +39,9 @@
 
   <ItemGroup>
     <Content Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Account\Login.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

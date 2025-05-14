@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Uni.BLL.ModelVM
 {
-    internal class Class1
+    public class TakesVM
     {
+        public string year { get; set; }
+        public string semester { get; set; }
+        public double GPA { get; set; }
     }
 }

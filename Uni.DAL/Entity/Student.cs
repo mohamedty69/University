@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Uni.DAL.Entity
 {
-    public class Student : IdentityUser
+    public class Student : IdentityUser 
     {
         [Key]
       //  public string SId { get; set; }
