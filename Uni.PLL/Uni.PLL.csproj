@@ -7,6 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\dashprofile.cshtml" />
+    <Content Remove="Views\formstudentinfo.cshtml" />
+    <Content Remove="Views\LoginPage\main.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\dashprofile.cshtml" />
+    <None Include="Views\formstudentinfo.cshtml" />
+    <None Include="Views\LoginPage\main.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
