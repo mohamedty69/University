@@ -8,4 +8,3 @@ obj/
 .env
 *.env.local
 temp.*
-.vs/
