@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Uni.DAL.Entity;
 using Uni.BLL.ModelVM;
 using System.Security.Claims;
+using Uni.BLL.ModelVM.GetData;
 
 namespace Uni.BLL.Service.Abstraction
 {
@@ -19,6 +20,7 @@ namespace Uni.BLL.Service.Abstraction
         Task<IdentityResult> RegisterUserAsync(CreateStudentVM registerVM);
         Task<EditVM> GetUserForEdit(ClaimsPrincipal user);
         Task<IdentityResult> UpdateUser(ClaimsPrincipal user, EditVM model);
+        List<GetStudentDataVM> GetAll();
 
 
     }
