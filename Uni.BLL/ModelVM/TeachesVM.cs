@@ -10,6 +10,7 @@ namespace Uni.BLL.ModelVM
     {
         public string Semester { get; set; }
         public string Year { get; set; }
+        
     
     }
 }

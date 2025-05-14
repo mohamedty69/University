@@ -8,6 +8,7 @@ namespace Uni.PLL.Controllers
 {
     public class AdminController(SignInManager<Student> signInManager, UserManager<Student> userManager, IConfiguration configuration, IAccountService userService) : Controller
     {
+        private readonly IAccountService Studentser;
         [HttpGet]
         public IActionResult Register()
         {
@@ -69,6 +70,15 @@ namespace Uni.PLL.Controllers
 
             TempData["SuccessMessage"] = "Your profile has been updated successfully!";
             return RedirectToAction("Profile", "Account");
+        }
+        public IActionResult Index()
+        {
+            var users = Studentser.GetAll();
+            if (User != null)
+            {
+                return View(users);
+            }
+            return View();
         }
 
     }

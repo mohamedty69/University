@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using HospitalSystem.BLL.Helper;
 using AutoMapper;
 using System.Security.Claims;
+using Uni.BLL.ModelVM.GetData;
 
 namespace Uni.BLL.Service.Impelementation
 {
@@ -102,6 +103,12 @@ namespace Uni.BLL.Service.Impelementation
         public Task<IdentityResult> UpdateUser(ClaimsPrincipal user, EditVM model)
         {
             throw new NotImplementedException();
+        }
+        List<GetStudentDataVM> IAccountService.GetAll()
+        {
+            var users = UserRepo.GetAll();
+            var userVMs = mapper.Map<List<GetStudentDataVM>>(users);
+            return userVMs;
         }
     }
     
