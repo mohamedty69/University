@@ -49,5 +49,38 @@ namespace Uni.PLL.Controllers
             await userService.Logout();
             return RedirectToAction("Index", "Home");
         }
+
+
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View(new RegistrationVM());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegisterUser(RegistrationVM registerVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Register", registerVM);
+            }
+
+            var result = await userService.RegisterUserAsync(registerVM);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View("Register", registerVM);
+        }
+
     }
 }

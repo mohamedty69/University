@@ -25,6 +25,8 @@ namespace Uni.DAL.Repo.Abstraction
         //  Task<User> GetCurrentUser();
         Task<IdentityResult> UpdateUserAsync(Student User);
         Task<IdentityResult> UpdateUserAsyn(Student User);
+        Task AddToRoleAsync(Student user, string role);
+
 
 
 

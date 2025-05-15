@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Uni.BLL.ModelVM;
 using Uni.BLL.Service.Abstraction;
@@ -6,6 +7,7 @@ using Uni.DAL.Entity;
 
 namespace Uni.PLL.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController(SignInManager<Student> signInManager, UserManager<Student> userManager, IConfiguration configuration, IAccountService userService) : Controller
     {
         [HttpGet]
@@ -16,7 +18,7 @@ namespace Uni.PLL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(CreateStudentVM registerVM)
+        public async Task<IActionResult> Register(RegistrationVM registerVM)
         {
             if (!ModelState.IsValid)
             {
@@ -27,7 +29,7 @@ namespace Uni.PLL.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("AdminDashboard", "AdminDashboard");
             }
 
             foreach (var error in result.Errors)
@@ -35,7 +37,7 @@ namespace Uni.PLL.Controllers
                 ModelState.AddModelError("", error.Description);
             }
 
-            return View("Register", registerVM);
+            return View("AdminDashboard", registerVM);
         }
         public async Task<IActionResult> Edit()
         {
@@ -68,7 +70,7 @@ namespace Uni.PLL.Controllers
             }
 
             TempData["SuccessMessage"] = "Your profile has been updated successfully!";
-            return RedirectToAction("Profile", "Account");
+            return RedirectToAction("AdminDashboard", "AdminDashboard");
         }
 
     }

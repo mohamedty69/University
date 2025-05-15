@@ -1,0 +1,50 @@
+﻿@using Uni.BLL.ModelVM
+@model EnrollCourseVM
+@{
+    ViewData["Title"] = "SelectCourses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Enroll in Courses</h2>
+<form asp-action="Course" method="post">
+    <input type="hidden" asp-for="DeptName" /> <input type="hidden" asp-for="SelectedYear" /> <input type="hidden" asp-for="SelectedSemester" />
+  
+    <div>
+        <strong>Department:</strong> @Model.DeptName<br />
+        <strong>Year:</strong> @Model.SelectedYear<br />
+        <strong>Semester:</strong> @Model.SelectedSemester
+    </div>
+
+    <hr />
+
+    @if (Model.AvailableCourses != null && Model.AvailableCourses.Any())
+    {
+        <div>
+            <p>Select courses:</p>
+            <ul style="list-style: none; padding-left: 0;">
+                @foreach (var course in Model.AvailableCourses)
+                {
+                    <li>
+                        <input type="checkbox" name="SelectedCourseCodes" value="@course.CourseCode" id="@course.CourseCode" />
+                        <label for="@course.CourseCode">
+                            <strong>@course.CourseCode</strong> - @course.CourseName (@course.CreditHours credits)
+                        </label>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+    else
+    {
+        <p>No courses available for the selected criteria.</p>
+    }
+
+    <div class="text-danger">
+        @Html.ValidationSummary(true)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enroll</button>
+</form>
+

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Uni.BLL.ModelVM;
 using Uni.DAL.Entity;
 using AutoMapper;
+using Profile = Uni.DAL.Entity.Profile;
 
 namespace Uni.BLL.Mapping
 {
@@ -16,7 +17,9 @@ namespace Uni.BLL.Mapping
                 // User Mapper
                 CreateMap<Student, CreateStudentVM>().ReverseMap();
                 CreateMap<LoginVM, Student>().ReverseMap();
-        
-            }
+            CreateMap<Student, RegistrationVM>().ReverseMap();
+            CreateMap<Student, Profile>().ReverseMap();
+
+        }
         }
 }

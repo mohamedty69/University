@@ -19,13 +19,13 @@ namespace Uni.DAL.Repo.Impelementation
         public async Task<Student> FindByEmailAsync(string email) => await userManager.FindByEmailAsync(email);
         public async Task<IEnumerable<AuthenticationScheme>> GetExternalAuthenticationSchemesAsync() => await signInManager.GetExternalAuthenticationSchemesAsync();
         public async Task<bool> CheckPasswordAsync(Student user, string password) => await userManager.CheckPasswordAsync(user, password);
-        public async Task<SignInResult> PasswordSignInAsync(Student User, string password, bool isPersistent, bool lockoutOnFailure) => await signInManager.PasswordSignInAsync(User, password,  isPersistent,  lockoutOnFailure);
+        public async Task<SignInResult> PasswordSignInAsync(Student User, string password, bool isPersistent, bool lockoutOnFailure) => await signInManager.PasswordSignInAsync(User, password, isPersistent, lockoutOnFailure);
         public async Task SignOutAsync() => await signInManager.SignOutAsync();
         public async Task<IdentityResult> AccessFailedAsync(Student User) => await userManager.AccessFailedAsync(User);
 
-        public Task<SignInResult> PasswordSignInAsync(Student user, string password)
+        public async Task<SignInResult> PasswordSignInAsync(Student user, string password)
         {
-            throw new NotImplementedException();
+            return await signInManager.PasswordSignInAsync(user, password, false, false);
         }
         public async Task<IdentityResult> CreateUserAsync(Student user, string password) => await userManager.CreateAsync(user, password);
 
@@ -44,5 +44,10 @@ namespace Uni.DAL.Repo.Impelementation
         }
 
         public async Task<IdentityResult> UpdateUserAsyn(Student User) => await userManager.UpdateAsync(User);
+    
+        public async Task AddToRoleAsync(Student user, string role)
+        {
+            await userManager.AddToRoleAsync(user, role);
+        }
     }
 }
