@@ -7,15 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\LoginPage\**" />
+    <Content Remove="Views\LoginPage\**" />
+    <EmbeddedResource Remove="Views\LoginPage\**" />
+    <None Remove="Views\LoginPage\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\dashprofile.cshtml" />
     <Content Remove="Views\formstudentinfo.cshtml" />
-    <Content Remove="Views\LoginPage\main.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Views\dashprofile.cshtml" />
     <None Include="Views\formstudentinfo.cshtml" />
-    <None Include="Views\LoginPage\main.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +40,9 @@
 
   <ItemGroup>
     <Content Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Account\Login.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

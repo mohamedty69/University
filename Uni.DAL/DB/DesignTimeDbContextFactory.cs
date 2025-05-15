@@ -51,20 +51,4 @@ namespace Uni.DAL.DB
             }
         }
     }
-    //public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
-    //{
-    //    public AppDbContext CreateDbContext(string[] args)
-    //    {
-    //        IConfigurationRoot configuration = new ConfigurationBuilder()
-    //            .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory()).FullName)
-    //            .AddJsonFile("appsettings.json")
-    //            .Build();
-
-    //        var builder = new DbContextOptionsBuilder<AppDbContext>();
-    //        var connectionString = configuration.GetConnectionString("DefaultConnection");
-    //        builder.UseSqlServer(connectionString);
-
-    //        return new AppDbContext(builder.Options);
-    //    }
-    //}
 }
