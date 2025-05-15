@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/LoginPage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Our Website</title>
+</head>
+
+<body>
+    <div class="main">
+        <div class="left">
+            <h1 id="Welcome">Welcome Back!</h1>
+            <h3 id="intro"> We're glad to see you again. Please log in to continue.</h3>
+            <div class="animation1">
+                <dotlottie-player src="https://lottie.host/260d883d-9aa5-4038-904c-acc6ebb1a315/9CfLbR9uV7.lottie"
+                    background="transparent" speed="0.8" style="width: 300px; height: 300px"
+                    autoplay></dotlottie-player>
+            </div>
+        </div>
+        <div class="right">
+            <div class="animation2">
+                <dotlottie-player src="https://lottie.host/905e13d9-33e4-444e-b5f4-24fcc617dd24/NtdwnQxNul.lottie"
+                    background="transparent" speed="1" style="width: 300px; height: 300px"
+                    id="animation2"></dotlottie-player>
+            </div>
+            <div class="right-content">
+                <form action="#">
+                    <div class="logincontainer">
+                        <input type="text" id="Email" name="Email" required>
+                        <label for="Email" id="E-label" class="active">Enter Your Email</label>
+                        <input type="password" id="Password" name="Password" required>
+                        <label for="Password" id="P-label">Enter Your Password</label>
+                        <button type="submit" class="btn"><span class="sub">Submit</span></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+   
+    <script src="~/js/LoginPage.js"></script>
+   @* <script src="https://cdn.jsdelivr.net/npm/@dotlottie/player-component@2.7.12/dist/dotlottie-player.js"></script></body> *@
+   </body>
+</html>
