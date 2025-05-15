@@ -93,3 +93,69 @@
   button:hover {
     background-color: var(--animation);
   }
+  /* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .selector-container {
+    margin-left: 500px;
+    width: 1000px;
+    padding: 40px;
+  }
+
+  button {
+    width: 30%;
+    margin-left: 100px;
+  }
+
+  table {
+    width: 80%;
+  }
+}
+
+/* Medium to large devices (tablets to desktops, 768px - 1199px) */
+@media (max-width: 1199px) and (min-width: 768px) {
+  .selector-container {
+    width: 90%;
+    margin: 50px auto;
+    padding: 30px;
+  }
+
+  button {
+    width: 40%;
+    margin-left: 30%;
+  }
+
+  table {
+    width: 80%;
+  }
+}
+
+/* Small devices (phones, less than 768px) */
+@media (max-width: 767px) {
+  .selector-container {
+    width: 95%;
+    margin: 30px auto;
+    padding: 20px;
+  }
+
+  select {
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  table {
+    width: 80%;
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+
+  label {
+    font-size: 14px;
+  }
+}
