@@ -71,6 +71,8 @@ body {
 }
 
 .main-content {
+    background-color: var(--primary-color);
+    color: var(--text-color);
     flex-grow: 1;
     padding: 20px;
 }
@@ -309,4 +311,38 @@ form button:focus {
     cursor: pointer;
   }
   
-  
+    .profile-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      /* background: white; */
+      padding: 30px;
+      /* border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1); */
+
+    }
+    .charts {
+      display: flex;
+      gap: 40px;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+    .chart-box {
+      flex: 1 1 400px;
+      background: var(--secondary-color);
+        color: var(--text-color);
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border: var(--animation) 2px solid;
+      padding: 30px;
+      border-radius: 8px;
+        margin: 10px;
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        max-width: 900px;
+     
+    }
+    canvas {
+      width: 100% !important;
+      height: 300px !important;
+    }
+   
