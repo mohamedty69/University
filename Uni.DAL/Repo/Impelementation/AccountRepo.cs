@@ -42,6 +42,10 @@ namespace Uni.DAL.Repo.Impelementation
 
             return result;
         }
+        List<Student> IAccountRepo.GetAll()
+        {
+            return userManager.Users.ToList();
+        }   
 
         public async Task<IdentityResult> UpdateUserAsyn(Student User) => await userManager.UpdateAsync(User);
     }
