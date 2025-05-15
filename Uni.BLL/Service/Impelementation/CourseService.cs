@@ -14,67 +14,48 @@ namespace Uni.BLL.Service.Impelementation
 {
     public class CourseService : ICourseService
     {
-        private readonly ICourseRepo _repo;
-        public CourseService(ICourseRepo repo) => _repo = repo;
 
-        public async Task<List<Course>> GetAvailableCoursesAsync(string department, string year, string semester) =>
-            await _repo.GetCoursesAsync(department, year, semester);
+        private readonly ICourseRepo _courseRepo;
 
-        public async Task<bool> EnrollStudentAsync(string studentId, List<string> courseCodes, string semester, string year)
+        public CourseService(ICourseRepo courseRepo)
         {
-            int totalCredits = await _repo.GetTotalCreditsAsync(courseCodes);
-            if (totalCredits < 12) return false;
-
-            var takes = courseCodes.Select(code => new Takes
-            {
-                Id = studentId,
-                CourseCode = code,
-                Semester = semester,
-                Year = year,
-                GPA = 0
-            }).ToList();
-
-            await _repo.SaveTakesAsync(takes);
-            return true;
+            _courseRepo = courseRepo;
         }
 
-        //private readonly ICourseRepo _courseRepo;
+        public List<DAL.Entity.Course> GetAvailableCourses(string department, string semester, string year)
+        {
+            return _courseRepo.GetCourses(department, semester, year);
+        }
 
-        //public CourseService(ICourseRepo courseRepo)
-        //{
-        //    _courseRepo = courseRepo;
-        //}
+        public async Task<bool> EnrollCoursesAsync(EnrollCourseVM model, string studentId)
+        {
+            var selectedCourses = _courseRepo.GetCoursesByCodes(model.SelectedCourseCodes);
+            int totalHours = selectedCourses.Sum(c => c.CreditHours);
 
-        //public List<DAL.Entity.Course> GetAvailableCourses(string department, string semester, string year)
-        //{
-        //    return _courseRepo.GetCourses(department, semester, year);
-        //}
+            if (totalHours >= 12)
+            {
+                foreach (var course in selectedCourses)
+                {
+                    _courseRepo.AddTake(new Takes
+                    {
+                        Id = studentId,
+                        CourseCode = course.CourseCode,
+                        Semester = model.SelectedSemester.ToString(),
+                        Year = model.SelectedYear.ToString(),
+                        GPA = 0.0
+                    });
+                }
 
-        //public async Task<bool> EnrollCoursesAsync(EnrollCourseVM model, string studentId)
-        //{
-        //    var selectedCourses = _courseRepo.GetCoursesByCodes(model.SelectedCourseCodes);
-        //    int totalHours = selectedCourses.Sum(c => c.CreditHours);
+                _courseRepo.SaveChanges();
+                return true;
+            }
 
-        //    if (totalHours >= 12)
-        //    {
-        //        foreach (var course in selectedCourses)
-        //        {
-        //            _courseRepo.AddTake(new Takes
-        //            {
-        //                Id = studentId,
-        //                CourseCode = course.CourseCode,
-        //                Semester = model.Semester.ToString(),
-        //                Year = model.Year.ToString(),
-        //                GPA = 0.0
-        //            });
-        //        }
+            return false;
+        }
+        public List<Course> GetCourses(string dept, string semester, string year)
+        {
+            return _courseRepo.GetCourses(dept, semester, year);
+        }
 
-        //        _courseRepo.SaveChanges();
-        //        return true;
-        //    }
-
-        //    return false;
-        //}
-       
     }
 }

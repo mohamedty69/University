@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Enrollment Success";
+}
+
+<h2>Enrollment Successful</h2>
+
+<div class="alert alert-success">
+    @TempData["Message"]
+</div>
+
+<a asp-controller="Home" asp-action="Index" class="btn btn-primary">Go to Dashboard</a>

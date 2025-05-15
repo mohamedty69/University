@@ -14,20 +14,12 @@ namespace Uni.BLL.ModelVM
         public string DeptName { get; set; }
         public Year SelectedYear { get; set; }
         public Semester SelectedSemester { get; set; }
-        public List<string> SelectedCourses { get; set; }
-        public List<Course> AvailableCourses { get; set; }
-        public string SelectedDept { get; set; }
-    
+        public string SelectedCourses { get; set; } // JSON string representing List<CourseVM>
 
         public List<string> SelectedCourseCodes { get; set; } = new();
-        public int TotalCreditHours { get; set; }
+        public List<Course> AvailableCourses { get; set; } = new();
+
     }
-    public class CourseItem
-    {
-        public string CourseCode { get; set; }
-        public string CourseName { get; set; }
-        public int CreditHours { get; set; }
-        public bool IsSelected { get; set; }
-    }
+ 
 
 }

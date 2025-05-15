@@ -27,13 +27,41 @@ select.addEventListener("change", function () {
       TableBody.innerHTML += content;
     }
   }
+
   else if (selectedTable === "Student") {
-    TableBody.innerHTML = ``;
-    headers.innerHTML = "  <th>ID</th><th>Name</th><th>Date of Birth</th><th>Address</th><th>Phone Number</th><th>National ID</th><th>Action</th>";
-    for (let i = 1; i <= 10; i++) {
-      TableBody.innerHTML += ` <tr><td>${i}</td><td >Alice</td><td>alice@example.com</td><td>alice@example.com</td><td>alice@example.com</td><td>alice@example.com</td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
-    }
+      // Clear existing table content
+      TableBody.innerHTML = ``;
+
+      // Set table headers
+      headers.innerHTML = "<th>Course Code</th><th>Title</th><th>Credit Hours</th><th>Description</th><th>Year</th><th>Semester</th><th>Action</th>";
+
+      // Fetch data from server
+      $.ajax({
+          url: '@Url.Action("Index", "AdminController")',
+          type: 'GET',
+          success: function (GetStudentDataVM) {
+              // Process successful response
+              courses.forEach(function (GetStudentDataVM) {
+                  TableBody.innerHTML += `
+                    <tr>
+                        <td>${GetStudentDataVM.}</td>
+                        <td>${GetStudentDataVM.Title}</td>
+                        <td>${GetStudentDataVM.CreditHours}</td>
+                        <td>${GetStudentDataVM.Description}</td>
+                        <td>${GetStudentDataVM.Year}</td>
+                        <td>${GetStudentDataVM.Semester}</td>
+                        <td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td>
+                    </tr>
+                `;
+              });
+          },
+          error: function (error) {
+              // Handle errors
+              console.error("Error fetching courses:", error);
+          }
+      });
   }
+
   else if (selectedTable === "Course") {
     TableBody.innerHTML = ``;
     headers.innerHTML = "  <th>Course Code</th><th>Title</th><th>Credit Hours</th><th>Description</th><th>Year</th><th>Semester</th><th>Action</th>";

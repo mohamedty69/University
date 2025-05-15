@@ -1,0 +1,44 @@
+﻿@using Uni.BLL.ModelVM
+@model EnrollCourseVM
+@{
+    ViewData["Title"] = "Available Courses";
+}
+
+<h2>Available Courses</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<form asp-action="SubmitCourses" method="post">
+    <input type="hidden" name="DeptName" value="@Model.DeptName" />
+    <input type="hidden" name="SelectedSemester" value="@Model.SelectedSemester" />
+    <input type="hidden" name="SelectedYear" value="@Model.SelectedYear" />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Select</th>
+                <th>Course Code</th>
+                <th>Course Name</th>
+                <th>Credits</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.AvailableCourses.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="SelectedCourseIds" value="@Model.AvailableCourses[i].CourseCode" />
+                    </td>
+                    <td>@Model.AvailableCourses[i].CourseCode</td>
+                    <td>@Model.AvailableCourses[i].CourseName</td>
+                    <td>@Model.AvailableCourses[i].CreditHours</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-success">Submit Enrollment</button>
+</form>

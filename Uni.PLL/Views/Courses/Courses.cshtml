@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enroll courses</title>
+    <link rel="stylesheet" href="/css/courses.css" />
+  </head>
+  <body>
+    <div class="selector-container">
+      <h2>Course Selection</h2>
+
+      <label for="department">Department</label>
+      <select id="department">
+        <option value="" hidden>-- Select Department --</option>
+        <option value="Computer">Computer </option>
+        <option value="Electrical">Electrical</option>
+      </select>
+
+      <label for="level">Level</label>
+      <select id="level">
+        <option value="" hidden>-- Select Level --</option>
+        <option value="0">Level 0</option>
+        <option value="1">Level 1</option>
+        <option value="2">Level 2</option>
+        <option value="3">Level 3</option>
+        <option value="4">Level 4</option>
+      </select>
+
+      <label for="semester">Semester</label>
+      <select id="semester">
+        <option value="" hidden>-- Select Semester --</option>
+        <option value="1">Semester 1</option>
+        <option value="2">Semester 2</option>
+        <option value="3">Semester 3</option>
+      </select>
+
+      <label for="courses">Courses</label>
+      <select id="courses">
+        <option value= "" hidden>-- Select Courses --</option>
+      </select>
+
+      <h3>Selected Courses</h3>
+      <table id="selectedCoursesTable">
+        <thead>
+          <tr>
+            <th hidden>Selected Courses</th>
+            <th hidden>Credit Hours</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+        <button id="submit">Submit</button>
+    </div>
+
+    <script>
+    //   const data = {
+    //     Computer: {
+    //       1: {
+    //         1: ["Intro to Programming", "Math 1", "Physics"],
+    //         2: ["Discrete Math", "Computer Organization"],
+    //         3:["Data Structures", "OOP"],
+    //         4: ["Algorithms", "Software Engineering"],
+    //       },
+    //       2: {
+    //         1: ["Data Structures", "OOP"],
+    //         2: ["Databases", "Web Development"],
+    //       },
+    //         3: {
+    //             1: ["Algorithms", "Software Engineering"],
+    //             2: ["Computer Networks", "Operating Systems"],
+    //         },
+    //         4: {
+    //             1: ["Machine Learning", "Artificial Intelligence"],
+    //             2: ["Cyber Security", "Cloud Computing"],
+    //         },
+    //     },
+    //     Electrical: {
+    //       1: {
+    //         1: ["Circuits 1", "Math 1"],
+    //         2: ["Digital Logic", "Physics"],
+    //       },
+    //       2: {
+    //         1: ["Electronics", "Signals"],
+    //         2: ["Machines", "Power Systems"],
+    //       },
+    //         3: {
+    //             1: ["Control Systems", "Microcontrollers"],
+    //             2: ["Embedded Systems", "Communication Systems"],
+    //         },
+    //     },
+    //   };
+    const data = {
+  Computer: {
+    1: {
+      1: [
+        { name: "Intro to Programming", credits: 3 },
+        { name: "Math 1", credits: 4 },
+        { name: "Physics", credits: 3 },
+      ],
+      2: [
+        { name: "Discrete Math", credits: 3 },
+        { name: "Computer Organization", credits: 3 },
+      ],
+      3: [
+        { name: "Data Structures", credits: 3 },
+        { name: "OOP", credits: 3 },
+      ],
+      4: [
+        { name: "Algorithms", credits: 3 },
+        { name: "Software Engineering", credits: 3 },
+      ],
+    },
+    2: {
+      1: [
+        { name: "Data Structures", credits: 3 },
+        { name: "OOP", credits: 3 },
+      ],
+      2: [
+        { name: "Databases", credits: 3 },
+        { name: "Web Development", credits: 3 },
+      ],
+    },
+    3: {
+      1: [
+        { name: "Algorithms", credits: 3 },
+        { name: "Software Engineering", credits: 3 },
+      ],
+      2: [
+        { name: "Computer Networks", credits: 3 },
+        { name: "Operating Systems", credits: 3 },
+      ],
+    },
+    4: {
+      1: [
+        { name: "Machine Learning", credits: 3 },
+        { name: "Artificial Intelligence", credits: 3 },
+      ],
+      2: [
+        { name: "Cyber Security", credits: 3 },
+        { name: "Cloud Computing", credits: 3 },
+      ],
+    },
+  },
+  Electrical: {
+    1: {
+      1: [
+        { name: "Circuits 1", credits: 4 },
+        { name: "Math 1", credits: 4 },
+      ],
+      2: [
+        { name: "Digital Logic", credits: 3 },
+        { name: "Physics", credits: 3 },
+      ],
+    },
+    2: {
+      1: [
+        { name: "Electronics", credits: 3 },
+        { name: "Signals", credits: 3 },
+      ],
+      2: [
+        { name: "Machines", credits: 3 },
+        { name: "Power Systems", credits: 3 },
+      ],
+    },
+    3: {
+      1: [
+        { name: "Control Systems", credits: 3 },
+        { name: "Microcontrollers", credits: 3 },
+      ],
+      2: [
+        { name: "Embedded Systems", credits: 3 },
+        { name: "Communication Systems", credits: 3 },
+      ],
+    },
+  },
+};
+
+      const departmentSelect = document.getElementById("department");
+      const levelSelect = document.getElementById("level");
+      const semesterSelect = document.getElementById("semester");
+      const coursesSelect = document.getElementById("courses");
+      const tableBody = document.querySelector("#selectedCoursesTable tbody");
+
+      function updateCourses() {
+        const dept = departmentSelect.value;
+        const level = levelSelect.value;
+        const semester = semesterSelect.value;
+        availableCourses = [];
+        if (
+          dept &&
+          level &&
+          semester &&
+          data[dept] &&
+          data[dept][level] &&
+          data[dept][level][semester]
+        ) {
+        //   const courses = data[dept][level][semester];
+        //   courses.forEach((course) => {
+        //     const option = document.createElement("option");
+        //     option.value = course;
+        //     option.textContent = course;
+        //     coursesSelect.appendChild(option);
+        //   });
+        availableCourses = data[dept][level][semester];
+
+availableCourses.forEach((course) => {
+  const option = document.createElement("option");
+  option.value = course.name;
+  option.textContent = `${course.name} (${course.credits} hrs)`;
+  coursesSelect.appendChild(option);
+});
+        }
+      }
+
+      departmentSelect.addEventListener("change", updateCourses);
+      levelSelect.addEventListener("change", updateCourses);
+      semesterSelect.addEventListener("change", updateCourses);
+
+      const selectedCoursesList = [];
+      
+      let availableCourses = []; // Store available courses to avoid duplicates
+      coursesSelect.addEventListener("change", () => {
+        const newlySelected = Array.from(coursesSelect.selectedOptions).map(
+          (opt) => opt.value
+        );
+
+        // newlySelected.forEach((course) => {
+        //   if (!selectedCoursesList.includes(course)) {
+        //     selectedCoursesList.push(course);
+        //     coursesSelect.removeChild(coursesSelect.querySelector(`option[value="${course}"]`));
+        //   }
+        newlySelected.forEach((courseName) => {
+    if (!selectedCoursesList.some((c) => c.name === courseName)) {
+      const courseObj = availableCourses.find((c) => c.name === courseName);
+      if (courseObj) {
+        selectedCoursesList.push(courseObj);
+        coursesSelect.removeChild(coursesSelect.querySelector(`option[value="${courseName}"]`));
+      }
+    }
+        });
+        tableBody.innerHTML = "";
+        let totalCredits = 0;
+        
+    //     selectedCoursesList.forEach((course) => {
+    //       const row = `<tr><td>${course}</td></tr>`;
+    //       tableBody.innerHTML += row;
+    //     });
+    //   });
+    selectedCoursesList.forEach((course) => {
+    totalCredits += course.credits;
+    const row = `<tr><td>${course.name}</td><td>${course.credits}</td></tr>`;
+    tableBody.innerHTML += row;
+  });
+  const totalRow = `<tr><td><strong>Total</strong></td><td><strong>${totalCredits}</strong></td></tr>`;
+  tableBody.innerHTML += totalRow;
+});
+    </script>
+  </body>
+</html>

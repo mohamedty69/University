@@ -33,7 +33,9 @@ namespace Uni.PLL.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                if (User.IsInRole("Admin"))
+                { return RedirectToAction("AdminDashboard", "Admin"); }
+                else { return RedirectToAction("Dashprofile", "Home"); }
             }
             if (result.IsLockedOut)
             {
@@ -47,7 +49,7 @@ namespace Uni.PLL.Controllers
         public async Task<IActionResult> Logout()
         {
             await userService.Logout();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
 

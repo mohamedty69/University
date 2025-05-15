@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Views\AdminDashboard\AdminDashboard.cshtml" />
+    <Content Remove="Views\xxx\EnrollCourses.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Admin\AdminDashboard.cshtml" />
+    <None Include="Views\xxx\EnrollCourses.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
