@@ -32,32 +32,41 @@ select.addEventListener("change", function () {
       // Clear existing table content
       TableBody.innerHTML = ``;
 
-      // Set table headers
-      headers.innerHTML = "<th>Course Code</th><th>Title</th><th>Credit Hours</th><th>Description</th><th>Year</th><th>Semester</th><th>Action</th>";
+      // Set correct table headers for students
+      headers.innerHTML = `
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Birth Date</th>
+        <th>Phone Number</th>
+        <th>National ID</th>
+        <th>Address</th>
+        <th>Action</th>
+    `;
+
+      function renderStudent(student) {
+          TableBody.innerHTML += `
+            <tr>
+                <td>${student.id}</td>
+                <td>${student.firstName}</td>
+                <td>${student.Email}</td>
+                <td>${student.phoneNumber}</td>
+                <td>${student.nationalId}</td>
+                <td>${student.address}</td>
+            </tr>
+        `;
+      }
 
       // Fetch data from server
       $.ajax({
-          url: '@Url.Action("Index", "AdminController")',
+          url: '@Url.Action("Index", "Admin")',
           type: 'GET',
-          success: function (GetStudentDataVM) {
-              // Process successful response
-              courses.forEach(function (GetStudentDataVM) {
-                  TableBody.innerHTML += `
-                    <tr>
-                        <td>${GetStudentDataVM.}</td>
-                        <td>${GetStudentDataVM.Title}</td>
-                        <td>${GetStudentDataVM.CreditHours}</td>
-                        <td>${GetStudentDataVM.Description}</td>
-                        <td>${GetStudentDataVM.Year}</td>
-                        <td>${GetStudentDataVM.Semester}</td>
-                        <td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td>
-                    </tr>
-                `;
+          success: function (students) {
+              students.forEach(function (student) {
+                  renderStudent(student);
               });
           },
           error: function (error) {
-              // Handle errors
-              console.error("Error fetching courses:", error);
+              console.error("Error fetching students:", error);
           }
       });
   }

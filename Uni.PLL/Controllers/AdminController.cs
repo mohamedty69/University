@@ -71,15 +71,25 @@ namespace Uni.PLL.Controllers
             TempData["SuccessMessage"] = "Your profile has been updated successfully!";
             return RedirectToAction("Profile", "Account");
         }
-        public IActionResult Index()
-        {
-            var users = Studentser.GetAll();
-            if (User != null)
-            {
-                return View(users);
-            }
-            return View();
-        }
+        //public IActionResult Index()
+        //{
+        //    var users = Studentser.GetAllStudent();
+        //    if (User != null)
+        //    {
+        //        return View(users);
+        //    }
+        //    return View("AdminDashboard");
+        //}
+		public async Task<IActionResult> GetALL()
+		{
+			var StudentProfileVM = await Studentser.GetAllStudent(User);
+			if (StudentProfileVM == null)
+			{
+				return NotFound();
+			}
 
-    }
+			return View(StudentProfileVM);
+		}
+
+	}
 }

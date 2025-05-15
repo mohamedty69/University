@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Uni.DAL.Entity;
 using Uni.DAL.Repo.Abstraction;
+using Uni.DAL.DB;
 
 namespace Uni.DAL.Repo.Impelementation
 {
@@ -16,7 +17,8 @@ namespace Uni.DAL.Repo.Impelementation
         // repo -> used usermanager and signmanager
         private readonly UserManager<Student> userManager = userManager;
         private readonly SignInManager<Student> signInManager = signInManager;
-        public async Task<Student> FindByEmailAsync(string email) => await userManager.FindByEmailAsync(email);
+		private readonly AppDbContext entity ;
+		public async Task<Student> FindByEmailAsync(string email) => await userManager.FindByEmailAsync(email);
         public async Task<IEnumerable<AuthenticationScheme>> GetExternalAuthenticationSchemesAsync() => await signInManager.GetExternalAuthenticationSchemesAsync();
         public async Task<bool> CheckPasswordAsync(Student user, string password) => await userManager.CheckPasswordAsync(user, password);
         public async Task<SignInResult> PasswordSignInAsync(Student User, string password, bool isPersistent, bool lockoutOnFailure) => await signInManager.PasswordSignInAsync(User, password,  isPersistent,  lockoutOnFailure);
@@ -42,11 +44,15 @@ namespace Uni.DAL.Repo.Impelementation
 
             return result;
         }
-        List<Student> IAccountRepo.GetAll()
-        {
-            return userManager.Users.ToList();
-        }   
+		//List<Student> IAccountRepo.GetAll()
+		//{
+		//    return entity.Students.ToList();
+		//}
+		public async Task<Student> GetAll(ClaimsPrincipal user)
+		{
+			return await userManager.GetUserAsync(user);
+		}
 
-        public async Task<IdentityResult> UpdateUserAsyn(Student User) => await userManager.UpdateAsync(User);
+		public async Task<IdentityResult> UpdateUserAsyn(Student User) => await userManager.UpdateAsync(User);
     }
 }

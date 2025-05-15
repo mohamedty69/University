@@ -22,10 +22,13 @@ namespace Uni.DAL.Repo.Abstraction
         Task SignOutAsync();
         Task<IdentityResult> CreateUserAsync(Student user, string password);
         Task<Student> GetUserAsync(ClaimsPrincipal user);
-        List<Student> GetAll();
-        //  Task<User> GetCurrentUser();
-        Task<IdentityResult> UpdateUserAsync(Student User);
+		//List<Student> GetAll();
+		//  Task<User> GetCurrentUser();
+		Task<Student> GetAll(ClaimsPrincipal user);
+
+		Task<IdentityResult> UpdateUserAsync(Student User);
         Task<IdentityResult> UpdateUserAsyn(Student User);
+
 
 
 

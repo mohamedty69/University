@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Identity;
 using HospitalSystem.BLL.Helper;
 using AutoMapper;
 using System.Security.Claims;
-using Uni.BLL.ModelVM.GetData;
+using Uni.BLL.ModelVM.Data;
+using Uni.DAL.Repo.Impelementation;
 
 namespace Uni.BLL.Service.Impelementation
 {
@@ -104,12 +105,20 @@ namespace Uni.BLL.Service.Impelementation
         {
             throw new NotImplementedException();
         }
-        List<GetStudentDataVM> IAccountService.GetAll()
-        {
-            var users = UserRepo.GetAll();
-            var userVMs = mapper.Map<List<GetStudentDataVM>>(users);
-            return userVMs;
-        }
-    }
+        //List<GetStudentDataVM> IAccountService.GetAllStudent()
+        //{
+        //    var users = UserRepo.GetAll();
+        //    var userVMs = mapper.Map<List<GetStudentDataVM>>(users);
+        //    return userVMs;
+        //}
+		public async Task<GetStudentDataVM> GetAllStudent(ClaimsPrincipal user)
+		{
+			var Student = await UserRepo.GetAll(user);
+			if (Student == null) return null;
+
+			var GetStudentDataVM = mapper.Map<GetStudentDataVM>(Student);
+			return GetStudentDataVM;
+		}
+	}
     
 }
