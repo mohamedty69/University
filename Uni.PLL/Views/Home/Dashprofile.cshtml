@@ -19,7 +19,7 @@
                     <li><a href="#">Account</a></li>
                     <li><a href="#">Chart</a></li>
                     <li><a href="#">Courses</a></li>
-                    <li><a href="/Courses/Courses"> Enrollment</a></li>
+                    <li><a href="/Courses/Select"> Enrollment</a></li>
                     <li><a href="/Account/LogOut">Log Out </a></li>
 
                 </ul>
@@ -39,11 +39,24 @@
                     <div class="user-avatar"></div>
                 </div>
             </header>
-            <div class="chart-container">
-                <canvas id="studentDataChart"></canvas>
+           
+            <div class="profile-container">
+
+                <div class="charts">
+                 <div class="chart-box">
+                   <h3>GPA Over Semesters</h3>
+                   <canvas id="gpaChart"></canvas>
+                 </div>
+                 <div class="chart-box">
+                   <h3>Credit Hours Over Semesters</h3>
+                   <canvas id="creditsChart"></canvas>
+                 </div>
+                </div>
             </div>
+
         </main>
     </div>
+
     <section class="chatbot">
         <button id="chat-toggle" class="chat-btn">💬 chat With Us</button>
 
@@ -73,6 +86,109 @@
         </div>
 
     </section>
+   
+
+  <!-- Chart.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Sample data: semesters, GPA and Credit Hours
+    const semesters = ['Semester 1', 'Semester 2', 'Semester 3', 'Semester 4', 'Semester 5'];
+    const gpaData = [3.2, 3.5, 3.7, 3.8, 3.6];
+    const creditHoursData = [15, 16, 14, 18, 17];
+
+    // GPA Chart config
+    const gpaCtx = document.getElementById('gpaChart').getContext('2d');
+    const gpaChart = new Chart(gpaCtx, {
+      type: 'line',
+      data: {
+        labels: semesters,
+        datasets: [{
+          label: 'GPA',
+          data: gpaData,
+          fill: false,
+          borderColor: '#3b82f6',
+          backgroundColor: '#3b82f6',
+          tension: 0.3,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            min: 0,
+            max: 4,
+            ticks: {
+              stepSize: 0.5
+            },
+            title: {
+              display: true,
+              text: 'GPA'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Semester'
+            }
+          }
+        },
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          },
+          tooltip: {
+            enabled: true
+          }
+        }
+      }
+    });
+
+    // Credit Hours Chart config
+    const creditsCtx = document.getElementById('creditsChart').getContext('2d');
+    const creditsChart = new Chart(creditsCtx, {
+      type: 'bar',
+      data: {
+        labels: semesters,
+        datasets: [{
+          label: 'Credit Hours',
+          data: creditHoursData,
+          backgroundColor: '#10b981',
+          borderRadius: 5,
+          barPercentage: 0.6
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Credit Hours'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Semester'
+            }
+          }
+        },
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          },
+          tooltip: {
+            enabled: true
+          }
+        }
+      }
+    });
+    </script>
 
 
     <script>
@@ -148,87 +264,6 @@ sendBtn.addEventListener('click', () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-    <script>
-        // This is where you would fetch data from your backend
-        // For now, we'll use some sample data
-
-        const studentData = [
-            { studentId: '101', gpa: 3.8, courseHours: 15 },
-            { studentId: '102', gpa: 3.5, courseHours: 18 },
-            { studentId: '103', gpa: 4.0, courseHours: 12 },
-            { studentId: '104', gpa: 3.2, courseHours: 16 },
-            { studentId: '105', gpa: 3.9, courseHours: 14 }
-            // ... more student data
-        ];
-
-        const studentIds = studentData.map(data => data.studentId);
-        const gpas = studentData.map(data => data.gpa);
-        const courseHours = studentData.map(data => data.courseHours);
-
-        const ctx = document.getElementById('studentDataChart').getContext('2d');
-        const studentChart = new Chart(ctx, {
-            type: 'bar', // You can experiment with 'scatter' or other chart types
-            data: {
-                labels: studentIds,
-                datasets: [
-                    {
-                        label: 'GPA',
-                        data: gpas,
-                        backgroundColor: 'rgba(54, 162, 235, 0.7)', // Blue
-                        yAxisID: 'y-axis-left'
-                    },
-                    {
-                        label: 'Course Hours',
-                        data: courseHours,
-                        backgroundColor: 'rgba(255, 99, 132, 0.7)', // Red
-                        yAxisID: 'y-axis-right'
-                    }
-                ]
-            },
-            options: {
-                scales: {
-                    'y-axis-left': {
-                        type: 'linear',
-                        position: 'left',
-                        title: {
-                            display: true,
-                            text: 'GPA'
-                        },
-                        min: 0,
-                        max: 4 // Assuming GPA is out of 4
-                    },
-                    'y-axis-right': {
-                        type: 'linear',
-                        position: 'right',
-                        title: {
-                            display: true,
-                            text: 'Course Hours'
-                        },
-                        grid: {
-                            drawOnChartArea: false // Don't draw grid lines on the chart area
-                        },
-                        min: 0 // Adjust as needed
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Student GPA and Course Hours',
-                        fontSize: 16
-                    }
-                }
-            }
-        });
-    </script>
+          
 </body>
 </html>

@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Uni.BLL.ModelVM
+namespace Uni.BLL.ModelVM.Course
 {
-    public class CourseVM
+    public class SubmitCoursesViewModel
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public int CreditHours { get; set; }
+        public List<string> SelectedCourseCodes { get; set; }
         public string Semester { get; set; }
         public string Year { get; set; }
     }

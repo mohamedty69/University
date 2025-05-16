@@ -1,17 +1,17 @@
-﻿using Uni.BLL.ModelVM;
-using Uni.DAL.Entity;
+﻿using Uni.DAL.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Uni.BLL.ModelVM.Admin;
 //using Newtonsoft.Json;
 
 namespace Uni.PLL.Controllers
 {
     // role for (admin ,user)
 
-   // [Authorize (Roles ="Admin")]
+    // [Authorize (Roles ="Admin")]
     public class RolesController : Controller
     {
         private readonly UserManager<Student> _userManager;

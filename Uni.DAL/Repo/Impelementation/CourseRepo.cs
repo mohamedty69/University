@@ -20,28 +20,36 @@ namespace Uni.DAL.Repo.Impelementation
             _context = context;
         }
 
-        public List<Course> GetCourses(string department, string semester, string year)
+        public async Task<List<Department>> GetAllDepartmentsAsync()
         {
-            return _context.Courses
-                .Where(c => c.DeptName == department && c.Semester == semester && c.Year == year)
-                .ToList();
+            return await _context.Departments.ToListAsync();
         }
 
-        public List<Course> GetCoursesByCodes(List<string> codes)
+        public async Task<List<Course>> GetCoursesAsync(string department, string level, string semester)
         {
-            return _context.Courses
-                .Where(c => codes.Contains(c.CourseCode))
-                .ToList();
+            return await _context.Courses
+                .Where(c => c.Department.DeptName == department && c.Year == level && c.Semester == semester)
+                .ToListAsync();
         }
 
-        public void AddTake(Takes take)
+        public async Task<Course?> GetCourseByCodeAsync(string code)
         {
-            _context.Takes.Add(take);
+            return await _context.Courses.FirstOrDefaultAsync(c => c.CourseCode == code);
         }
 
-        public void SaveChanges()
+        public async Task<Student?> GetStudentByIdAsync(string id)
         {
-            _context.SaveChanges();
+            return await _context.Students.FirstOrDefaultAsync(s => s.Id == id);
+        }
+
+        public async Task AddTakesAsync(Takes takes)
+        {
+            await _context.Takes.AddAsync(takes);
+        }
+
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

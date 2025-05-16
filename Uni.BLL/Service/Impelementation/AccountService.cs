@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using Uni.BLL.Service.Abstraction;
 using Uni.DAL.Entity;
 using Uni.DAL.Repo.Abstraction;
-using Uni.BLL.ModelVM;
 using Microsoft.AspNetCore.Identity;
 using HospitalSystem.BLL.Helper;
 using AutoMapper;
 using System.Security.Claims;
 using Uni.BLL.ModelVM.GetData;
+using Uni.BLL.ModelVM.Account;
+using Uni.BLL.ModelVM.Admin;
 
 namespace Uni.BLL.Service.Impelementation
 {

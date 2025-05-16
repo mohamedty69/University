@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Uni.DAL.Entity;
 using Uni.BLL.Service.Abstraction;
-using Uni.BLL.ModelVM;
+using Uni.BLL.ModelVM.Account;
 namespace Uni.PLL.Controllers
 {
     public class AccountController(SignInManager<Student> signInManager, UserManager<Student> userManager, IConfiguration configuration, IAccountService userService) : Controller

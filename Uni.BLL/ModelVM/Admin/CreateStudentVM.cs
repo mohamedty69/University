@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Uni.DAL.Entity;
 
-namespace Uni.BLL.ModelVM
+namespace Uni.BLL.ModelVM.Admin
 {
     public class CreateStudentVM
     {

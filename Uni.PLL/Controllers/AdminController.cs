@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Uni.BLL.ModelVM;
+using Uni.BLL.ModelVM.Account;
+using Uni.BLL.ModelVM.Admin;
 using Uni.BLL.Service.Abstraction;
 using Uni.DAL.Entity;
 
 namespace Uni.PLL.Controllers
 {
-   // [Authorize(Roles = "Admin")]
+    // [Authorize(Roles = "Admin")]
     public class AdminController(SignInManager<Student> signInManager, UserManager<Student> userManager, IConfiguration configuration, IAccountService userService) : Controller
     {
         private readonly IAccountService Studentser;

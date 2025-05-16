@@ -14,9 +14,11 @@ namespace Uni.DAL.Repo.Abstraction
     public interface ICourseRepo
     {
 
-        List<Course> GetCourses(string department, string semester, string year);
-        List<Course> GetCoursesByCodes(List<string> codes);
-        void AddTake(Takes take);
-        void SaveChanges();
+        Task<List<Department>> GetAllDepartmentsAsync();
+        Task<List<Course>> GetCoursesAsync(string department, string level, string semester);
+        Task<Course?> GetCourseByCodeAsync(string code);
+        Task<Student?> GetStudentByIdAsync(string id);
+        Task AddTakesAsync(Takes takes);
+        Task SaveAsync();
     }
 }

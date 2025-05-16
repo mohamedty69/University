@@ -1,6 +1,4 @@
-﻿
-
-namespace Uni.BLL.ModelVM
+﻿namespace Uni.BLL.ModelVM.Admin
 {
     public class RoleVM
     {

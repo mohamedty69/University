@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Uni.DAL.Entity;
-using Uni.BLL.ModelVM;
 using System.Security.Claims;
 using Uni.BLL.ModelVM.GetData;
+using Uni.BLL.ModelVM.Account;
+using Uni.BLL.ModelVM.Admin;
 
 namespace Uni.BLL.Service.Abstraction
 {
