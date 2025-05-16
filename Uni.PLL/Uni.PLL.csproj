@@ -9,6 +9,7 @@
   <ItemGroup>
     <Content Remove="Views\Account\LoginPage.cshtml" />
     <Content Remove="Views\AdminDashboard\AdminDashboard.cshtml" />
+    <Content Remove="Views\courses.cshtml" />
     <Content Remove="Views\dashprofile.cshtml" />
     <Content Remove="Views\formstudentinfo.cshtml" />
     <Content Remove="Views\profile.cshtml" />
@@ -17,6 +18,7 @@
   <ItemGroup>
     <None Include="Views\Account\LoginPage.cshtml" />
     <None Include="Views\AdminDashboard\AdminDashboard.cshtml" />
+    <None Include="Views\courses.cshtml" />
     <None Include="Views\dashprofile.cshtml" />
     <None Include="Views\formstudentinfo.cshtml" />
     <None Include="Views\profile.cshtml" />
