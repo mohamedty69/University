@@ -14,7 +14,6 @@ namespace Uni.DAL.Entity
         //public string Email { get; set; }
         //public string Password { get; set; }
         //public string UserName { get; set; }
-        public string any { get; set; } 
         public string Gender { get; set; }
         public string? Image { get; set; }
         [ForeignKey("Student")]

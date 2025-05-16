@@ -68,6 +68,9 @@ namespace Uni.DAL.DB
 
             modelBuilder.Entity<Teaches>()
                 .HasKey(t => new { t.IId, t.CId, t.Semester, t.Year });
+
+      
+        
         }
     }
 }
