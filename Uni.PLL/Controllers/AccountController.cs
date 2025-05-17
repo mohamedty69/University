@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Uni.DAL.Entity;
 using Uni.BLL.Service.Abstraction;
-using Uni.BLL.ModelVM;
+using Uni.BLL.ModelVM.Account;
 namespace Uni.PLL.Controllers
 {
     public class AccountController(SignInManager<Student> signInManager, UserManager<Student> userManager, IConfiguration configuration, IAccountService userService) : Controller
@@ -33,7 +33,9 @@ namespace Uni.PLL.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                if (User.IsInRole("Admin"))
+                { return RedirectToAction("AdminDashboard", "Admin"); }
+                else { return RedirectToAction("Dashprofile", "Home"); }
             }
             if (result.IsLockedOut)
             {
@@ -47,7 +49,40 @@ namespace Uni.PLL.Controllers
         public async Task<IActionResult> Logout()
         {
             await userService.Logout();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
+
+
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View(new RegistrationVM());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegisterUser(RegistrationVM registerVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Register", registerVM);
+            }
+
+            var result = await userService.RegisterUserAsync(registerVM);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View("Register", registerVM);
+        }
+
     }
 }

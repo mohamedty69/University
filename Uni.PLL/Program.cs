@@ -1,4 +1,4 @@
-using Uni.DAL.Entity;
+﻿using Uni.DAL.Entity;
 using Uni.DAL.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
@@ -7,6 +7,7 @@ using Uni.DAL.Repo.Impelementation;
 using Uni.BLL.Service.Abstraction;
 using Uni.BLL.Service.Impelementation;
 using Uni.BLL.Mapping;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,13 +22,45 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddIdentity<Student, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
+
+
+builder.Services.AddIdentityCore<Student>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddTokenProvider<DataProtectorTokenProvider<Student>>(TokenOptions.DefaultProvider);
+
 builder.Services.AddScoped<IAccountRepo, AccountRepo>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<ICourseRepo, CourseRepo>();
+builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddAutoMapper(typeof(DomainProfile));
 builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
 
 
+
 var app = builder.Build();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    string[] roles = new[] { "Admin", "Student" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole
+            {
+                Id = Guid.NewGuid().ToString(),                    // ✅ dynamic
+                Name = role,
+                NormalizedName = role.ToUpper(),
+                ConcurrencyStamp = Guid.NewGuid().ToString()       // ✅ dynamic
+            });
+        }
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
