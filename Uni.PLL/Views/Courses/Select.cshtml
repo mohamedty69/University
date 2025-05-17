@@ -7,6 +7,221 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Enroll courses</title>
     <link rel="stylesheet" href="/css/courses.css" />
+    <style>
+        :root {
+            --primary-color: #080808; /* Abyss Black */
+            --secondary-color: #1a1a1a; /* Graphite Matte */
+            --text-color: #e8ecef; /* Frost White */
+            --highlight-color: #2e1a47; /* Dark Plum */
+            --animation: #5c4b7d; /* Muted Lilac */
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+        }
+
+        .selector-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .selector-container {
+            color: var(--text-color);
+            background-color: var(--secondary-color);
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-left: 325px;
+            margin-top: 30px;
+            width: 1500px;
+            height: auto;
+            border: #2e1a47 2px solid;
+            animation: pulse 2s infinite;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        select {
+            width: 80%;
+            padding: 8px;
+            border-radius: 5px;
+            border: #2e1a47 5px solid;
+        }
+
+
+
+        table {
+            width: 70%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background: #fafafa;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px var(--highlight-color);
+            color: #000;
+            margin-bottom: 40px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        button {
+            background-color: var(--highlight-color);
+            color: var(--text-color);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            width: 30%;
+        }
+
+            button:hover {
+                background-color: var(--animation);
+            }
+
+        .remove-button {
+            background-color: var(--highlight-color);
+            color: var(--text-color);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 20px;
+            width: 78%;
+        }
+
+        /* Extra large devices (large desktops, 1200px and up) */
+        @@media (min-width: 1200px) {
+            .selector-container
+
+        {
+            margin-left: 305px;
+            width: 600px;
+            padding: 40px;
+        }
+
+        button {
+            width: 30%;
+            margin-left: 160px;
+        }
+
+        table {
+            width: 80%;
+        }
+
+        }
+
+        /* Medium to large devices (tablets to desktops, 768px - 1199px) */
+        @@media (max-width: 1199px) and (min-width: 768px) {
+            .selector-container
+
+        {
+            width: 60%;
+            margin: 20px auto;
+            padding: 30px;
+        }
+
+        button {
+            width: 37%;
+            margin-left: 25%;
+        }
+
+        table {
+            width: 80%;
+        }
+
+        }
+
+        /* Small devices (phones, less than 768px) */
+        @@media (max-width: 767px) {
+            .selector-container
+
+        {
+            width: 85%;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        select {
+            width: 82%;
+        }
+
+        button {
+            width: 21%;
+            margin-left: 154px;
+        }
+
+        table {
+            width: 80%;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 8px;
+        }
+
+        label {
+            font-size: 14px;
+        }
+
+        }
+
+        @@media (max-width: 500px) {
+            .selector-container {
+                width: 85%;
+                margin: 20px auto;
+                padding: 20px;
+            }
+
+            select {
+                width: 60%;
+            }
+
+            button {
+                width: 57%;
+                margin-left: 31px;
+            }
+
+            table {
+                width: 60%;
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+
+            label {
+                font-size: 14px;
+            }
+}
+    </style>
 </head>
 <body>
     <div class="selector-container">
@@ -40,23 +255,23 @@
         </select>
 
         <label>Courses</label>
-        <select id="courses" multiple size="5">
-            <option value="" disabled>-- Select Courses --</option>
+        <select id="courses">
+            <option value="" hidden>-- Select Courses --</option>
         </select>
 
-        <h3>Selected Courses</h3>
+        <h4>Selected Courses</h4>
         <table id="selectedCoursesTable">
             <thead>
                 <tr>
-                    <th>Selected Courses</th>
-                    <th>Credit Hours</th>
+                    <th >Selected Courses</th>
+                    <th   >Credit Hours</th>
                 </tr>
             </thead>
             <tbody></tbody>
             <tfoot>
                 <tr>
-                    <td><strong>Total</strong></td>
-                    <td id="totalCredits"><strong>0</strong></td>
+                    <td ><strong>Total</strong></td>
+                    <td   id="totalCredits"><strong>0</strong></td>
                 </tr>
             </tfoot>
         </table>
@@ -220,7 +435,9 @@
             // Remove button cell
             const removeCell = document.createElement("td");
             const removeBtn = document.createElement("button");
+            removeBtn.type = "button";
             removeBtn.textContent = "Remove";
+            removeBtn.classList.add("remove-button");
             removeBtn.addEventListener("click", () => {
               removeSelectedCourse(index);
             });

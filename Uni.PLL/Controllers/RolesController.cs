@@ -56,8 +56,7 @@ namespace Uni.PLL.Controllers
         {
             var user = await _userManager.FindByIdAsync(userId);
 
-            List<RoleVM> myRoles =JsonConvert.DeserializeObject<List<RoleVM>>(jsonRoles);
-
+            List<RoleVM> myRoles = JsonConvert.DeserializeObject<List<RoleVM>>(jsonRoles);
             if (user != null)
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
