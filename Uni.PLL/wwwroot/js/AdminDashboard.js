@@ -19,86 +19,210 @@ select.addEventListener("change", function () {
     if (e.value == selectedTable)
       e.classList.add("choosen")
   })
-  if (selectedTable === "Takes") {
-    TableBody.innerHTML = ``;
-    headers.innerHTML = "<th>Year</th><th>GPA</th><th>Semester</th><th>Action</th>";
-    for (let i = 1; i <= 10; i++) {
-      let content = `<tr><td>2023</td><td>3.5</td><td>Fall</td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
-      TableBody.innerHTML += content;
-    }
-  }
-
-  else if (selectedTable === "Student") {
-      // Clear existing table content
-      TableBody.innerHTML = ``;
-
-      // Set correct table headers for students
-      headers.innerHTML = `
-        <th>ID</th>
-        <th>First Name</th>
-        <th>Birth Date</th>
-        <th>Phone Number</th>
-        <th>National ID</th>
-        <th>Address</th>
-        <th>Action</th>
-    `;
-
-      function renderStudent(student) {
-          TableBody.innerHTML += `
-            <tr>
-                <td>${student.id}</td>
-                <td>${student.firstName}</td>
-                <td>${student.Email}</td>
-                <td>${student.phoneNumber}</td>
-                <td>${student.nationalId}</td>
-                <td>${student.address}</td>
-            </tr>
+    if (selectedTable === "Student") {
+        tableBody.innerHTML = ``;
+        tableHeader.innerHTML = `
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Birth Date</th>
+            <th>Phone Number</th>
+            <th>National ID</th>
+            <th>Address</th>
+            <th>Action</th>
         `;
-      }
 
-      // Fetch data from server
-      $.ajax({
-          url: '@Url.Action("Index", "Admin")',
-          type: 'GET',
-          success: function (students) {
-              students.forEach(function (student) {
-                  renderStudent(student);
-              });
-          },
-          error: function (error) {
-              console.error("Error fetching students:", error);
-          }
-      });
-  }
+        $.ajax({
+            url: apiEndpoints.getAllStudents,
+            type: 'GET',
+            success: function (students) {
+                tableBody.innerHTML = '';
+                students.forEach(function (student) {
+                    tableBody.innerHTML += `
+                        <tr>
+                            <td>${student.id}</td>
+                            <td>${student.firstName}</td>
+                            <td>${student.birthDate}</td>
+                            <td>${student.phoneNumber}</td>
+                            <td>${student.nationalId}</td>
+                            <td>${student.address}</td>
+                            <td>
+                                <button class='Edit'>Edit</button>
+                                <button class='Save'>Save</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            },
+            error: function (error) {
+                console.error("Error fetching students:", error);
+            }
+        });
+    }
 
-  else if (selectedTable === "Course") {
-    TableBody.innerHTML = ``;
-    headers.innerHTML = "  <th>Course Code</th><th>Title</th><th>Credit Hours</th><th>Description</th><th>Year</th><th>Semester</th><th>Action</th>";
-    for (let i = 1; i <= 10; i++) {
-      TableBody.innerHTML += ` <tr><td>${i}</td><td >Alice</td><td>alice@example.com</td><td>alice@example.com</td><td>alice@example.com</td><td>alice@example.com</td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
+    else if (selectedTable === "Course") {
+        tableHeader.innerHTML = `
+                <th>Course Code</th>
+                <th>Title</th>
+                <th>Credit Hours</th>
+                <th>Description</th>
+                <th>Year</th>
+                <th>Semester</th>
+                <th>Action</th>
+            `;
+
+        $.ajax({
+            url: apiEndpoints.getAllCourses,
+            type: 'GET',
+            success: function (data) {
+                tableBody.innerHTML = '';
+                data.forEach(function (course) {
+                    tableBody.innerHTML += `
+                            <tr>
+                                <td>${course.courseCode}</td>
+                                <td>${course.title}</td>
+                                <td>${course.creditHours}</td>
+                                <td>${course.description}</td>
+                                <td>${course.year}</td>
+                                <td>${course.semester}</td>
+                                <td>
+                                    <button class='Edit'>Edit</button> 
+                                    <button class='Save'>Save</button>
+                                </td>
+                            </tr>
+                        `;
+                });
+            },
+            error: function (err) {
+                console.error("Failed to fetch courses:", err);
+            }
+        });
     }
-  }
-  else if (selectedTable === "Teaches") {
-    TableBody.innerHTML = ``;
-    headers.innerHTML = "  <th>Year</th><th>Semester</th><th>Action</th>";
-    for (let i = 1; i <= 10; i++) {
-      TableBody.innerHTML += ` <tr><td>${i}</td><td >Alice</td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
+    else if (selectedTable === "Takes") {
+        tableHeader.innerHTML = `
+                <th>Year Code</th>
+                <th>GPA</th>
+                <th>Semester</th>
+                <th>Action</th>
+            `;
+
+        $.ajax({
+            url: apiEndpoints.getAllTakes,
+            type: 'GET',
+            success: function (data) {
+                tableBody.innerHTML = '';
+                data.forEach(function (takes) {
+                    tableBody.innerHTML += `
+                            <tr>
+                                <td>${takes.year}</td>
+                                <td>${takes.gpa}</td>
+                                <td>${takes.semester}</td>
+                                <td>
+                                    <button class='Edit'>Edit</button> 
+                                    <button class='Save'>Save</button>
+                                </td>
+                            </tr>
+                        `;
+                });
+            },
+            error: function (err) {
+                console.error("Failed to fetch courses:", err);
+            }
+        });
     }
-  }
-  else if (selectedTable === "Department") {
-    TableBody.innerHTML = ``;
-    headers.innerHTML = "  <th>Department Name</th><th>Head of Department</th><th>Building</th><th>Action</th>";
-    for (let i = 1; i <= 10; i++) {
-      TableBody.innerHTML += ` <tr><td>${i}</td><td >Alice</td><td>Alex Fergsoun Building</td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
+    else if (selectedTable === "Teaches") {
+        tableHeader.innerHTML = `
+                <th>Year</th>
+                <th>Semester</th>
+                <th>Action</th>
+            `;
+
+        $.ajax({
+            url: apiEndpoints.getAllTeaches,
+            type: 'GET',
+            success: function (data) {
+                tableBody.innerHTML = '';
+                data.forEach(function (teaches) {
+                    tableBody.innerHTML += `
+                            <tr>
+                                <td>${teaches.Year}</td>
+                                <td>${teaches.Semester}</td>
+                                <td>
+                                    <button class='Edit'>Edit</button> 
+                                    <button class='Save'>Save</button>
+                                </td>
+                            </tr>
+                        `;
+                });
+            },
+            error: function (err) {
+                console.error("Failed to fetch department:", err);
+            }
+        });
     }
-  }
-  else if (selectedTable === "Instructor") {
-    TableBody.innerHTML = ``;
-    headers.innerHTML = "  <th>Instructor ID</th><th>Name</th><th>Salary</th><th>Action</th>";
-    for (let i = 1; i <= 10; i++) {
-      TableBody.innerHTML += ` <tr><td>${i}</td><td >Alice</td><td>$100k</td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
+    else if (selectedTable === "Department") {
+        tableHeader.innerHTML = `
+                <th>Department Name</th>
+                <th>Head of Department</th>
+                <th>Building</th>
+                <th>Action</th>
+            `;
+
+        $.ajax({
+            url: apiEndpoints.getAllDepartments,
+            type: 'GET',
+            success: function (data) {
+                tableBody.innerHTML = '';
+                data.forEach(function (department) {
+                    tableBody.innerHTML += `
+                            <tr>
+                                <td>${department.deptName}</td>
+                                <td>${department.head}</td>
+                                <td>${department.building}</td>
+                                <td>
+                                    <button class='Edit'>Edit</button> 
+                                    <button class='Save'>Save</button>
+                                </td>
+                            </tr>
+                        `;
+                });
+            },
+            error: function (err) {
+                console.error("Failed to fetch department:", err);
+            }
+        });
     }
-  }
+    else if (selectedTable === "Instructor") {
+        tableHeader.innerHTML = `
+                <th>Instructor ID</th>
+                <th>Name</th>
+                <th>Salary</th>
+                <th>Action</th>
+            `;
+
+        $.ajax({
+            url: apiEndpoints.getAllInstructor,
+            type: 'GET',
+            success: function (data) {
+                tableBody.innerHTML = '';
+                data.forEach(function (istructor) {
+                    tableBody.innerHTML += `
+                            <tr>
+                                <td>${istructor.IId}</td>
+                                <td>${istructor.Name}</td>
+                                <td>${istructor.Salary}</td>
+                                <td>
+                                    <button class='Edit'>Edit</button> 
+                                    <button class='Save'>Save</button>
+                                </td>
+                            </tr>
+                        `;
+                });
+            },
+            error: function (err) {
+                console.error("Failed to fetch department:", err);
+            }
+        });
+    }
   else {
     TableBody.innerHTML = ``;
     headers.innerHTML = "<th>Record ID</th><th>Course Code</th><th>Semester</th><th>Year</th><th>GPA</th><th>Improved</th><th>Action</th>";

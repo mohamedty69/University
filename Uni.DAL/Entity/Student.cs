@@ -23,7 +23,7 @@ namespace Uni.DAL.Entity
 
         public virtual Profile Profile { get; set; }
         public virtual ICollection<Takes> Takes { get; set; }
-        public virtual ICollection<Records> Records { get; set; }
+        public virtual ICollection<Rcords> Records { get; set; }
         public virtual AcademicStatus AcademicStatus { get; set; }
 
 

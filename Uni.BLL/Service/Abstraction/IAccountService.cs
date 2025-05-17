@@ -20,8 +20,15 @@ namespace Uni.BLL.Service.Abstraction
         Task<IdentityResult> RegisterUserAsync(CreateStudentVM registerVM);
         Task<EditVM> GetUserForEdit(ClaimsPrincipal user);
         Task<IdentityResult> UpdateUser(ClaimsPrincipal user, EditVM model);
-        Task<GetStudentDataVM> GetAllStudent(ClaimsPrincipal user);
+        Task<List<GetStudentDataVM>> GetAllStudent(ClaimsPrincipal user);
+		List<CourseVM> GetAllCourses();
+        
+        List<DepartmentVM> GetAllDepartments();
+        List<TakesVM> GetAllTakes();
+        List<InstructorVM> GetAllInstructors();
+        List<TeachesVM> GetAllTeaches();
+        List<RcordsVM> GetAllRecords();
 
 
-    }
+	}
 }

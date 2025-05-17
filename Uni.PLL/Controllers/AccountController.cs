@@ -33,7 +33,7 @@ namespace Uni.PLL.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("AdminDashboard", "Admin");
             }
             if (result.IsLockedOut)
             {

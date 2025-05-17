@@ -8,7 +8,8 @@ namespace Uni.BLL.ModelVM
 {
     public class InstructorVM
     {
-        public string Name { get; set; }
+		public string IId { get; set; }
+		public string Name { get; set; }
         public double Salary { get; set; }
 
     }

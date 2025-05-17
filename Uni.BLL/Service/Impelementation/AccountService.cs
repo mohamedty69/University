@@ -20,7 +20,6 @@ namespace Uni.BLL.Service.Impelementation
     {
         private readonly IAccountRepo UserRepo;
         private readonly IMapper mapper;
-
         public AccountService(IAccountRepo UserRepo, IMapper mapper)
         {
             this.UserRepo = UserRepo;
@@ -111,13 +110,50 @@ namespace Uni.BLL.Service.Impelementation
         //    var userVMs = mapper.Map<List<GetStudentDataVM>>(users);
         //    return userVMs;
         //}
-		public async Task<GetStudentDataVM> GetAllStudent(ClaimsPrincipal user)
-		{
-			var Student = await UserRepo.GetAll(user);
-			if (Student == null) return null;
+        public async Task<List<GetStudentDataVM>> GetAllStudent(ClaimsPrincipal user)
+        {
+            var Student = await UserRepo.GetAll(user);
+            if (Student == null) return null;
 
-			var GetStudentDataVM = mapper.Map<GetStudentDataVM>(Student);
-			return GetStudentDataVM;
+            var GetStudentDataVM = mapper.Map<List<GetStudentDataVM>>(Student);
+            return GetStudentDataVM;
+        }
+        List<CourseVM> IAccountService.GetAllCourses()
+        {
+            var data = UserRepo.GetCourses();
+            var newData = mapper.Map<List<CourseVM>>(data);
+            return newData;
+
+        }
+        List<DepartmentVM> IAccountService.GetAllDepartments()
+        {
+            var data = UserRepo.GetDepartment();
+            var newData = mapper.Map<List<DepartmentVM>>(data);
+            return newData;
+        }
+        List<TakesVM> IAccountService.GetAllTakes()
+        {
+            var data = UserRepo.GetTakes();
+            var newData = mapper.Map<List<TakesVM>>(data);
+            return newData;
+        }
+        List<InstructorVM> IAccountService.GetAllInstructors()
+		{
+			var data = UserRepo.GetInstructors();
+			var newData = mapper.Map<List<InstructorVM>>(data);
+			return newData;
+		}
+        List<TeachesVM> IAccountService.GetAllTeaches()
+		{
+			var data = UserRepo.GetTeaches();
+			var newData = mapper.Map<List<TeachesVM>>(data);
+			return newData;
+		}
+        List<RcordsVM> IAccountService.GetAllRecords()
+        {
+			var data = UserRepo.GetRecords();
+			var newData = mapper.Map<List<RcordsVM>>(data);
+			return newData;
 		}
 	}
     

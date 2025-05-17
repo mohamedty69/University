@@ -16,7 +16,7 @@ namespace Uni.DAL.DB
         public DbSet<Student> Students { get; set; }
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<Course> Courses { get; set; }
-        public DbSet<Records> Records { get; set; }
+        public DbSet<Rcords> Records { get; set; }
         public DbSet<Takes> Takes { get; set; }
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<Teaches> Teaches { get; set; }

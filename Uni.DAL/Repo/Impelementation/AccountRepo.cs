@@ -9,15 +9,16 @@ using System.Threading.Tasks;
 using Uni.DAL.Entity;
 using Uni.DAL.Repo.Abstraction;
 using Uni.DAL.DB;
+using System.Numerics;
+using Microsoft.EntityFrameworkCore;
 
 namespace Uni.DAL.Repo.Impelementation
 {
-    public class AccountRepo(UserManager<Student> userManager, SignInManager<Student> signInManager) : IAccountRepo
+    public class AccountRepo(UserManager<Student> userManager, SignInManager<Student> signInManager,AppDbContext entity) : IAccountRepo
     {
         // repo -> used usermanager and signmanager
         private readonly UserManager<Student> userManager = userManager;
-        private readonly SignInManager<Student> signInManager = signInManager;
-		private readonly AppDbContext entity ;
+        private readonly SignInManager<Student> signInManager = signInManager;		
 		public async Task<Student> FindByEmailAsync(string email) => await userManager.FindByEmailAsync(email);
         public async Task<IEnumerable<AuthenticationScheme>> GetExternalAuthenticationSchemesAsync() => await signInManager.GetExternalAuthenticationSchemesAsync();
         public async Task<bool> CheckPasswordAsync(Student user, string password) => await userManager.CheckPasswordAsync(user, password);
@@ -48,11 +49,36 @@ namespace Uni.DAL.Repo.Impelementation
 		//{
 		//    return entity.Students.ToList();
 		//}
-		public async Task<Student> GetAll(ClaimsPrincipal user)
+		public async Task<List<Student>> GetAll(ClaimsPrincipal user)
 		{
-			return await userManager.GetUserAsync(user);
+            return await userManager.Users.OfType<Student>().ToListAsync();
+		}
+		List<Course> IAccountRepo.GetCourses()
+		{
+			return entity.Courses.ToList();
+		}
+        List<Department> IAccountRepo.GetDepartment()
+        {
+			return entity.Departments.ToList();
+		}
+        List<Takes> IAccountRepo.GetTakes()
+        { 
+        return entity.Takes.ToList();
+		}
+        List<Instructor> IAccountRepo.GetInstructors()
+		{
+			return entity.Instructors.ToList();
+		}
+        List<Teaches> IAccountRepo.GetTeaches()
+		{
+			return entity.Teaches.ToList();
+		}
+        List<Rcords> IAccountRepo.GetRecords()
+        {
+            return entity.Records.ToList();
 		}
 
 		public async Task<IdentityResult> UpdateUserAsyn(Student User) => await userManager.UpdateAsync(User);
     }
+   
 }
