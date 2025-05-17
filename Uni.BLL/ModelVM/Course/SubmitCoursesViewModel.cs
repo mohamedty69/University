@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Uni.BLL.ModelVM
+namespace Uni.BLL.ModelVM.Course
 {
-    public class RcordsVM
+    public class SubmitCoursesViewModel
     {
-        public double GPA { get; set; }
-        public bool Improved { get; set; }
+        public List<string> SelectedCourseCodes { get; set; }
         public string Semester { get; set; }
         public string Year { get; set; }
     }

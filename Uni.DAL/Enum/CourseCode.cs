@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Uni.DAL.Enum
 {
-    public enum Course
+    public enum CourseCode
     {
         SCI011 = 3,
         SCI021 = 3,

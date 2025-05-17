@@ -1,4 +1,4 @@
-@using Uni.BLL.ModelVM
+@using Uni.BLL.ModelVM.Account;
 @model LoginVM
 
 <!DOCTYPE html>
@@ -39,13 +39,16 @@
                         <label for="Password" id="P-label">Enter Your Password</label>
                         <button type="submit" class="btn"><span class="sub">Submit</span></button>
                 </form>
+                <h3>Contact with IT(Gmail)</h3>
             </div>
+            
+            <a href="/Account/Register">Sign Up</a>
         </div>
     </div>
 
 
     </div>
-    <script src="LoginPage.js"></script>
+    <script src="~/js/LoginPage.js"></script>
     <script src="https://unpkg.com/@@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 </body>
 

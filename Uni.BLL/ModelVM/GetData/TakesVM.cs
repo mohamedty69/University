@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Uni.BLL.ModelVM
+namespace Uni.BLL.ModelVM.GetDataVM
 {
     public class TakesVM
     {
