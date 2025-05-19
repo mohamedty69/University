@@ -1,12 +1,38 @@
 let select = document.getElementById("tableSelect");
 let headers = document.getElementById("tableHeader");
-
-
+let TableData = [];
 let addbutt = document.getElementsByClassName("add")[0];
 let editbutt = document.getElementsByClassName("Edit");
 let savebutt = document.getElementsByClassName("Save");
 let TableBody = document.getElementsByTagName("tbody")[0];
 let options = select.children;
+function addEditSaveListeners() {
+    const editbutt = document.getElementsByClassName("Edit");
+    const savebutt = document.getElementsByClassName("Save");
+
+    Array.from(editbutt).forEach((button) => {
+        button.addEventListener("click", () => {
+            let fields = button.parentElement.parentElement.children;
+            for (let i = 1; i < fields.length - 1; i++) {
+                fields[i].setAttribute("contenteditable", "true");
+            }
+        });
+    });
+
+    Array.from(savebutt).forEach((button) => {
+        let tableHeaders = headers.children;
+        button.addEventListener("click", () => {
+            let fields = button.parentElement.parentElement.children;
+            let data = {}
+            for (let i = 0; i < fields.length - 1; i++) {
+                fields[i].setAttribute("contenteditable", "false");
+                data[tableHeaders[i].innerText] = fields[i].innerText;
+            }
+            TableData.push(data);
+            console.log(TableData);
+        });
+    });
+}
 
 
 select.addEventListener("change", function () {
@@ -51,12 +77,14 @@ select.addEventListener("change", function () {
                             </td>
                         </tr>
                     `;
+                addEditSaveListeners();
                 });
             },
             error: function (error) {
                 console.error("Error fetching students:", error);
             }
         });
+        
     }
 
     else if (selectedTable === "Course") {
@@ -90,6 +118,8 @@ select.addEventListener("change", function () {
                                 </td>
                             </tr>
                         `;
+                    addEditSaveListeners();
+
                 });
             },
             error: function (err) {
@@ -122,6 +152,8 @@ select.addEventListener("change", function () {
                                 </td>
                             </tr>
                         `;
+                    addEditSaveListeners();
+
                 });
             },
             error: function (err) {
@@ -152,6 +184,7 @@ select.addEventListener("change", function () {
                                 </td>
                             </tr>
                         `;
+                    addEditSaveListeners();
                 });
             },
             error: function (err) {
@@ -184,6 +217,7 @@ select.addEventListener("change", function () {
                                 </td>
                             </tr>
                         `;
+                    addEditSaveListeners();
                 });
             },
             error: function (err) {
@@ -216,6 +250,7 @@ select.addEventListener("change", function () {
                                 </td>
                             </tr>
                         `;
+                    addEditSaveListeners();
                 });
             },
             error: function (err) {
@@ -229,24 +264,7 @@ select.addEventListener("change", function () {
     for (let i = 1; i <= 10; i++) {
       TableBody.innerHTML += ` <tr><td>${i}</td><td >Alice</td><td>$100k</td><td>100</td><td>100</td><td>100</td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
     }
-  }
-  Array.from(editbutt).forEach((button) => {
-    button.addEventListener("click", () => {
-      let fields = button.parentElement.parentElement.children;
-      console.log(fields)
-      for (let i = 1; i < fields.length - 1; i++) {
-        fields[i].setAttribute("contenteditable", "true");
-      }
-    })
-  });
-  Array.from(savebutt).forEach((button) => {
-    button.addEventListener("click", () => {
-      let fields = button.parentElement.parentElement.children;
-      for (let i = 1; i < fields.length - 1; i++) {
-        fields[i].setAttribute("contenteditable", "false");
-      }
-    })
-  });
+    }
 });
 
 addbutt.addEventListener("click", () => {
@@ -266,25 +284,6 @@ addbutt.addEventListener("click", () => {
     else if (e.classList.contains("choosen") && e.value == "Records")
       TableBody.innerHTML += ` <tr><td></td><td ></td><td></td><td></td><td></td><td></td><td><button class='Edit'>Edit</button> <button class='Save'>Save</button></td></tr>`;
   })
-  Array.from(editbutt).forEach((button) => {
-    button.addEventListener("click", () => {
-      let fields = button.parentElement.parentElement.children;
-      console.log(fields)
-      for (let i = 1; i < fields.length - 1; i++) {
-        fields[i].setAttribute("contenteditable", "true");
-      }
-    })
-  });
-
-  Array.from(savebutt).forEach((button) => {
-    button.addEventListener("click", () => {
-        let fields = button.parentElement.parentElement.children;
-        console.log(fields)
-      for (let i = 1; i < fields.length - 1; i++) {
-        fields[i].setAttribute("contenteditable", "false");
-        }
-        let newRecord = {};
-    })
-  });
+   addEditSaveListeners();
 })
 
