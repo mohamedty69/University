@@ -18,8 +18,8 @@ namespace Uni.BLL.Mapping
                 // User Mapper
                 CreateMap<Student, CreateStudentVM>().ReverseMap();
                 CreateMap<LoginVM, Student>().ReverseMap();
-            CreateMap<Student, RegistrationVM>().ReverseMap();
-            CreateMap<Student, Profile>().ReverseMap();
+                CreateMap<Student, RegistrationVM>().ReverseMap();
+                CreateMap<Student, Profile>().ReverseMap();
 
         }
         }
