@@ -35,7 +35,7 @@
             padding: 50px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-left: 325px;
+            margin-left: 340px;
             margin-top: 30px;
             width: 1500px;
             height: auto;
@@ -121,7 +121,7 @@
             .selector-container
 
         {
-            margin-left: 305px;
+            margin-left: 355px;
             width: 600px;
             padding: 40px;
         }
@@ -256,7 +256,7 @@
 
         <label>Courses</label>
         <select id="courses">
-            <option value="" hidden>-- Select Courses --</option>
+            <option value="" >-- Select Courses --</option>
         </select>
 
         <h4>Selected Courses</h4>
@@ -370,7 +370,11 @@
           const totalCredits = selectedCoursesList.reduce((sum, course) => sum + course.creditHours, 0);
           if (totalCredits < 12 || totalCredits > 16) {
             alert("Total credit hours must be between 12 and 16.");
-            return;
+            return ;
+          }
+          else if (totalCredits > 12 && totalCredits < 16 ){
+              window.location.href = '/Home/Dashprofile';
+              return;
           }
 
           try {

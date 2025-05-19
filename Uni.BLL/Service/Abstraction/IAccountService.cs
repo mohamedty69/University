@@ -22,6 +22,7 @@ namespace Uni.BLL.Service.Abstraction
         Task<bool> IsLockedOut(Student User);
         Task<LoginVM> GetLoginViewModelAsync();
         Task<IdentityResult> RegisterUserAsync(CreateStudentVM registerVM);
+        Task<IdentityResult> RegisterUserAsync(RegistrationVM registerVM);
         Task<EditVM> GetUserForEdit(ClaimsPrincipal user);
         Task<IdentityResult> UpdateUser(ClaimsPrincipal user, EditVM model);
         Task<List<GetStudentDataVM>> GetAllStudent(ClaimsPrincipal user);
