@@ -15,11 +15,13 @@ namespace Uni.PLL.Controllers
     {
         private readonly ICourseService _courseService;
         private readonly UserManager<Student> _userManager;
+        private readonly IAccountService userService;
 
-        public CoursesController(ICourseService courseService, UserManager<Student> userManager)
+        public CoursesController(ICourseService courseService, UserManager<Student> userManager, IAccountService userService)
         {
             _courseService = courseService;
             _userManager = userManager;
+            this.userService = userService;
         }
 
         public async Task<IActionResult> Select()
@@ -56,6 +58,20 @@ namespace Uni.PLL.Controllers
         public IActionResult Success()
         {
             return View();
+        }
+  
+        public IActionResult GetT()
+        {
+            var userId = _userManager.GetUserId(User);
+            var user = _userManager.Users.FirstOrDefault(u => u.Id == userId);  
+            if (user.Id == userId)
+            {
+                var Data = userService.GetAllTakes();
+                return View(Data);
+            }
+            else
+                return RedirectToAction("Login", "Account");
+            
         }
     }
 }

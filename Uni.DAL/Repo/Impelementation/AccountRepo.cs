@@ -26,9 +26,9 @@ namespace Uni.DAL.Repo.Impelementation
         public async Task SignOutAsync() => await signInManager.SignOutAsync();
         public async Task<IdentityResult> AccessFailedAsync(Student User) => await userManager.AccessFailedAsync(User);
 
-        public Task<SignInResult> PasswordSignInAsync(Student user, string password)
+        public async Task<SignInResult> PasswordSignInAsync(Student user, string password)
         {
-            throw new NotImplementedException();
+            return await signInManager.PasswordSignInAsync(user, password, false, false);
         }
         public async Task<IdentityResult> CreateUserAsync(Student user, string password) => await userManager.CreateAsync(user, password);
 
@@ -77,8 +77,11 @@ namespace Uni.DAL.Repo.Impelementation
         {
             return entity.Records.ToList();
 		}
-
-		public async Task<IdentityResult> UpdateUserAsyn(Student User) => await userManager.UpdateAsync(User);
+        public async Task AddToRoleAsync(Student user, string role)
+        {
+            await userManager.AddToRoleAsync(user, role);
+        }
+        public async Task<IdentityResult> UpdateUserAsyn(Student User) => await userManager.UpdateAsync(User);
     }
    
 }
