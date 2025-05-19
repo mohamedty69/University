@@ -2,7 +2,12 @@
 using Microsoft.AspNetCore.Identity;
 using Uni.DAL.Entity;
 using Uni.BLL.Service.Abstraction;
+using Uni.BLL.ModelVM;
+using Uni.BLL.ModelVM.Data;
+using Uni.BLL.ModelVM.Admin;
 using Uni.BLL.ModelVM.Account;
+using Uni.BLL.ModelVM.GetDataVM;
+
 namespace Uni.PLL.Controllers
 {
     public class AccountController(SignInManager<Student> signInManager, UserManager<Student> userManager, IConfiguration configuration, IAccountService userService) : Controller
@@ -49,40 +54,7 @@ namespace Uni.PLL.Controllers
         public async Task<IActionResult> Logout()
         {
             await userService.Logout();
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("Index", "Home");
         }
-
-
-
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View(new RegistrationVM());
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegisterUser(RegistrationVM registerVM)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View("Register", registerVM);
-            }
-
-            var result = await userService.RegisterUserAsync(registerVM);
-
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error.Description);
-            }
-
-            return View("Register", registerVM);
-        }
-
     }
 }

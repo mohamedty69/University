@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Uni.DAL.Entity
 {
-    public class Records
+    public class Rcords
     {
         [Key]
         public int recordId { get; set; }

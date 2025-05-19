@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,14 +23,22 @@ namespace Uni.DAL.Repo.Abstraction
         Task SignOutAsync();
         Task<IdentityResult> CreateUserAsync(Student user, string password);
         Task<Student> GetUserAsync(ClaimsPrincipal user);
-        List<Student> GetAll();
-        //  Task<User> GetCurrentUser();
-        Task<IdentityResult> UpdateUserAsync(Student User);
+		//List<Student> GetAll();
+		//  Task<User> GetCurrentUser();
+		Task<List<Student>> GetAll(ClaimsPrincipal user);
+
+		Task<IdentityResult> UpdateUserAsync(Student User);
         Task<IdentityResult> UpdateUserAsyn(Student User);
-        Task AddToRoleAsync(Student user, string role);
+		List<Course> GetCourses();
+        List<Department> GetDepartment();
+        List<Takes> GetTakes();
+        List<Instructor> GetInstructors();
+        List<Teaches> GetTeaches();
+        List<Rcords> GetRecords();
 
 
 
 
-    }
+
+	}
 }

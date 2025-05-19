@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Uni.DAL.DB;
 
@@ -11,9 +12,11 @@ using Uni.DAL.DB;
 namespace Uni.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250514210118_createdb")]
+    partial class createdb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,7 +158,7 @@ namespace Uni.DAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RcordsStudent", b =>
+            modelBuilder.Entity("RecordsStudent", b =>
                 {
                     b.Property<int>("RecordsrecordId")
                         .HasColumnType("int");
@@ -167,7 +170,7 @@ namespace Uni.DAL.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("RcordsStudent");
+                    b.ToTable("RecordsStudent");
                 });
 
             modelBuilder.Entity("Uni.DAL.Entity.AcademicStatus", b =>
@@ -335,7 +338,7 @@ namespace Uni.DAL.Migrations
                     b.ToTable("Profiles");
                 });
 
-            modelBuilder.Entity("Uni.DAL.Entity.Rcords", b =>
+            modelBuilder.Entity("Uni.DAL.Entity.Records", b =>
                 {
                     b.Property<int>("recordId")
                         .ValueGeneratedOnAdd()
@@ -381,9 +384,6 @@ namespace Uni.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -396,10 +396,6 @@ namespace Uni.DAL.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gender")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -566,9 +562,9 @@ namespace Uni.DAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RcordsStudent", b =>
+            modelBuilder.Entity("RecordsStudent", b =>
                 {
-                    b.HasOne("Uni.DAL.Entity.Rcords", null)
+                    b.HasOne("Uni.DAL.Entity.Records", null)
                         .WithMany()
                         .HasForeignKey("RecordsrecordId")
                         .OnDelete(DeleteBehavior.Cascade)
