@@ -35,10 +35,11 @@ namespace Uni.DAL.Repo.Abstraction
         List<Instructor> GetInstructors();
         List<Teaches> GetTeaches();
         List<Rcords> GetRecords();
+        Task AddToRoleAsync(Student user, string role);
 
 
 
 
 
-	}
+    }
 }

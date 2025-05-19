@@ -18,6 +18,7 @@
     <None Include="Views\Dashboard\Dashprofile.cshtml" />
     <None Include="Views\formstudentinfo.cshtml" />
     <None Include="Views\profile.cshtml" />
+    <None Include="wwwroot\js\afnan.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +31,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.SharePointOnline.CSOM" Version="16.1.26017.12000" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
     <PackageReference Include="MiNET" Version="1.0.2304" />
   </ItemGroup>
 

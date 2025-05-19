@@ -15,12 +15,14 @@
 }
 
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  display: flex;
-  min-height: 100vh;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    display: flex;
+    min-height: 100vh;
+   
 }
+
 
 .sidebar {
   width: 250px;

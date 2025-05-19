@@ -103,6 +103,38 @@ namespace Uni.BLL.Service.Impelementation
 
             return userCreated;
         }
+        public async Task<IdentityResult> RegisterUserAsync(RegistrationVM registerVM)
+        {
+            // Check if user exists
+            var existingUser = await UserRepo.FindByEmailAsync(registerVM.Email);
+            if (existingUser != null)
+            {
+                return IdentityResult.Failed(new IdentityError
+                {
+                    Description = "Email address is already in use."
+                });
+            }
+
+
+
+            // Use AutoMapper to map RegistrationVM to Patient
+            var newUser = mapper.Map<Student>(registerVM);
+
+            newUser.MiddelName = registerVM.MiddleName;
+
+            newUser.LockoutEnabled = true;
+
+            var userCreated = await UserRepo.CreateUserAsync(newUser, registerVM.Password);
+
+            if (userCreated.Succeeded)
+            {
+                await UserRepo.AddToRoleAsync(newUser, "Student");
+                await UserRepo.PasswordSignInAsync(newUser, registerVM.Password);
+            }
+
+            return userCreated;
+        }
+
 
         public Task<IdentityResult> UpdateUser(ClaimsPrincipal user, EditVM model)
         {
