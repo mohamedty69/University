@@ -287,3 +287,23 @@ addbutt.addEventListener("click", () => {
    addEditSaveListeners();
 })
 
+let freshdata = fetch( '' ,{
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(TableData)
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error("Network response was not ok");
+    }
+    return response.json();        // Convert response back to JS object
+    })
+    .then(result => {
+        console.log("Success:", result);
+    })
+    .catch(error => {
+        console.error("Error:", error);
+    });
+
