@@ -144,8 +144,8 @@ select.addEventListener("change", function () {
                 data.forEach(function (teaches) {
                     tableBody.innerHTML += `
                             <tr>
-                                <td>${teaches.Year}</td>
-                                <td>${teaches.Semester}</td>
+                                <td>${teaches.year}</td>
+                                <td>${teaches.semester}</td>
                                 <td>
                                     <button class='Edit'>Edit</button> 
                                     <button class='Save'>Save</button>
@@ -207,9 +207,9 @@ select.addEventListener("change", function () {
                 data.forEach(function (istructor) {
                     tableBody.innerHTML += `
                             <tr>
-                                <td>${istructor.IId}</td>
-                                <td>${istructor.Name}</td>
-                                <td>${istructor.Salary}</td>
+                                <td>${istructor.iid}</td>
+                                <td>${istructor.name}</td>
+                                <td>${istructor.salary}</td>
                                 <td>
                                     <button class='Edit'>Edit</button> 
                                     <button class='Save'>Save</button>
@@ -278,10 +278,12 @@ addbutt.addEventListener("click", () => {
 
   Array.from(savebutt).forEach((button) => {
     button.addEventListener("click", () => {
-      let fields = button.parentElement.parentElement.children;
+        let fields = button.parentElement.parentElement.children;
+        console.log(fields)
       for (let i = 1; i < fields.length - 1; i++) {
         fields[i].setAttribute("contenteditable", "false");
-      }
+        }
+        let newRecord = {};
     })
   });
 })

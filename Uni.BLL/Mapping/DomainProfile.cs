@@ -8,6 +8,9 @@ using Uni.DAL.Entity;
 using AutoMapper;
 using System.Numerics;
 using Uni.BLL.ModelVM.Data;
+using Uni.BLL.ModelVM.Admin;
+using Uni.BLL.ModelVM.Account;
+using Uni.BLL.ModelVM.GetDataVM;
 
 namespace Uni.BLL.Mapping
 {

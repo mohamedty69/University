@@ -33,7 +33,7 @@ namespace Uni.DAL.DB
                 var webProjectPath = Path.GetFullPath(Path.Combine(basePath, "../Uni.PLL"));
 
                 var configuration = new ConfigurationBuilder()
-                    .SetBasePath(@"C:\Uni\Uni.PLL")// Point to web project directory
+                    .SetBasePath(@"C:\project\University\Uni.PLL")// Point to web project directory
                     .AddJsonFile("appsettings.json", optional: false)
                     .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true)
                     .Build();
