@@ -1,4 +1,4 @@
-import time 
+import asyncio 
 import os
 import json
 import re
@@ -6,7 +6,7 @@ import re
 from fastapi import FastAPI, HTTPException
 from dotenv import load_dotenv
 from pydantic import BaseModel
-from openai import OpenAI, APIError, APIConnectionError
+from openai import AsyncOpenAI, APIError, APIConnectionError
 from functools import wraps
 
 
@@ -14,7 +14,7 @@ app = FastAPI()
 load_dotenv()
 CLIENT = None
 INT_SYS_PROMPT, GEN_SYS_PROMPT, DATA_SYS_PROMPT = None, None, None
-MODEL = "microsoft/mai-ds-r1:free"
+MODEL = "deepseek/deepseek-chat-v3-0324:free"
 
 
 class UserPrompt(BaseModel):
@@ -28,81 +28,68 @@ class FormatRequest(BaseModel):
 
 def get_client():
     """Initialize the OpenAI client with the API key and base URL."""
-    api_key = os.getenv("DEEPSEEK_API_KEY")
+    api_key = os.getenv("CHATBOT_API_KEY")
     if not api_key:
         raise ValueError("""
         Missing API key! Please:
         1. Create .env file
-        2. Add DEEPSEEK_API_KEY=your_key
+        2. Add CHATBOT_API_KEY=your_key
         """)
     
-    return OpenAI(api_key=api_key,
-        base_url=os.getenv("BASE_URL", "https://api.deepseek.com/v1")
+    return AsyncOpenAI(api_key=api_key,
+                       base_url=os.getenv("BASE_URL", "https://api.deepseek.com/v1")
     )
 
 
-def handle_deepseek_errors(func): # `func` is the function to be decorated (e.g., `chat_endpoint`)
-    """Decorator to handle DeepSeek API errors and retry logic."""
+def handle_llm_errors(func):
+    """Universal error handler for LLM APIs (OpenRouter/DeepSeek)"""
     @wraps(func)
-    def wrapper(*args, **kwargs): # `args` and `kwargs` are the arguments passed to the function `func`
-        """Wrapper function to handle errors and retries."""
+    async def wrapper(*args, **kwargs):
         max_retries = 3
         retry_delay = 2
+        error_messages = {
+            401: "Authentication failed - check API key",
+            402: "Insufficient credits/balance - please top up",
+            403: "Model access denied",
+            400: "Model not found",
+            422: "Invalid request parameters",
+            429: "Rate limit exceeded",
+            500: "Internal server error",
+            503: "Service unavailable"
+        }
 
         for attempt in range(max_retries):
             try:
-                return func(*args, **kwargs) # Call the original function `func`, in this case chat_endpoint, with its arguments
-            except APIError as e:
-                error_data = e.response.json() if e.response else {}
-                error_message = error_data.get('error', {}).get('message', 'Unknown error')
-                error_code = e.status_code
-                
-                if error_code == 401: 
-                    print("401 Error: Authentication Failed.\nVerify your API key.")
-                    return "Authentication Error - Check API credentials"
-                
-                elif error_code == 402:
-                    print("402 Error: Insufficient Balance.\nAdd funds to your account.")
-                    return "Account Balance Depleted - Please top up"
-                
-                elif error_code == 422:
-                    print("422 Error: Invalid Parameters.\nCheck token parameters.")
-                    return "Invalid parameters provided"
-                
-                elif error_code == 429:
-                    wait_time = 2 ** (attempt + 1)
-                    print(f"429 Error: Rate Limit Exceeded. Retrying in {wait_time}s...")
-                    time.sleep(wait_time)
-                    continue
-
-                elif error_code == 500:
-                    print("500 Error: Internal Server Error. Retrying...")
-                    if attempt < max_retries - 1:
-                        time.sleep(retry_delay)
-                        continue
-                    return "Internal Server Error - Please try again later"
-                
-                elif error_code == 503:
-                    print("503 Error: Serever is overloaded. Retrying...")
-                    if attempt < max_retries - 1:
-                        time.sleep(retry_delay)
-                        continue
-                    print("Server is overloaded, switch to backup provider.")
-                    return "Server Overloaded - Please try again later"
-                
-                else:
-                    print(f"Unexpected Error {error_code}: {error_message}")
-                    return "Unexpected error occurred"
-                
-            except APIConnectionError  as e:
-                print(f"Connection Error: {str(e)}")
-                if attempt < max_retries - 1:
-                    print(f"Retrying in {retry_delay}s...")
-                    time.sleep(retry_delay)
-                    continue
-                return "Network connection failed"
+                return await func(*args, **kwargs)
             
-        return func(*args, **kwargs)
+            except APIError as e:
+                # Unified error response parsing
+                error_data = getattr(e, "response", {}).json().get("error", {})
+                error_code = error_data.get("code", e.status_code)
+                error_msg = error_data.get("message", "")
+                provider = "OpenRouter" if "openrouter" in str(e).lower() else "DeepSeek"
+
+                print(f"{provider} Error {error_code}: {error_msg}")
+                
+                # Handle retryable status codes
+                if error_code in [429, 500, 503]:
+                    delay = int(e.response.headers.get("Retry-After", retry_delay))
+                    print(f"Retrying in {delay}s (Attempt {attempt+1}/{max_retries})")
+                    await asyncio.sleep(delay)
+                    continue
+                
+                # Return user-friendly messages
+                return {"error": error_messages.get(error_code, "Unknown error occurred")}
+
+            except APIConnectionError as e:
+                print(f"Network error: {str(e)}")
+                if attempt < max_retries - 1:
+                    await asyncio.sleep(retry_delay)
+                    continue
+                return {"error": "Connection failed after retries"}
+
+        return {"error": "Maximum retries exceeded"}
+
     return wrapper
 
 
@@ -115,19 +102,20 @@ async def startup_event():
 
 
 @app.post("/chat")
-@handle_deepseek_errors
-def chat_endpoint(request: UserPrompt):
+@handle_llm_errors
+async def chat_endpoint(request: UserPrompt):
     """Chatbot endpoint to handle user queries."""
-    user_input = re.escape(request.user_input)
-    if analyze_intent(user_input):
-        sql_query = generate_sql(user_input)
-        return {"action": "execute_sql", "query": sql_query}
+    if await analyze_intent(request.user_input):
+        sql_query = await generate_sql(request.user_input)
+        if not validate_sql(sql_query):
+            raise HTTPException(status_code=301, detail="Invalid SQL query generated. Output:\n" + sql_query)
+        return {"query": sql_query}
     else:
-        return generate_response(user_input)
+        return await generate_response(request.user_input)
     
 
 @app.post("/format-response")
-@handle_deepseek_errors
+@handle_llm_errors
 def format_results(request: FormatRequest):
     """Format the SQL query results into a user-friendly response."""
     formatting_prompt = f"""
@@ -148,13 +136,13 @@ def format_results(request: FormatRequest):
     return {"formatted_response": response.choices[0].message.content}
 
 
-def analyze_intent(user_input: str) -> dict:
+async def analyze_intent(user_input: str) -> bool:
     """Analyze the user's intent based on the input."""
-    response = CLIENT.chat.completions.create(
+    response = await CLIENT.chat.completions.create(
         model=MODEL,
         messages=[{"role": "system", "content": INT_SYS_PROMPT}, 
                   {"role": "user", "content": user_input}], 
-        temperature=0.1,
+        temperature=0.0,
     )
 
     requires_data = response.choices[0].message.content.strip().lower()
@@ -163,11 +151,12 @@ def analyze_intent(user_input: str) -> dict:
             raise ValueError("Invalid response format")
         return requires_data == "true"
     except (json.JSONDecodeError, ValueError) as e:
-        raise HTTPException(status_code=400, detail=f"Invalid response format from intent analysis. Output:\n{response.choices[0].message.content}")
+        raise HTTPException(status_code=400, 
+                            detail=f"Invalid response format from intent analysis. Output:\n{response.choices[0].message.content}")
 
 
-def generate_response(user_input: str) -> str:
-    response = CLIENT.chat.completions.create(
+async def generate_response(user_input: str) -> str:
+    response = await CLIENT.chat.completions.create(
         model=MODEL,
         messages=[{"role": "system", "content": GEN_SYS_PROMPT}, 
                   {"role": "user", "content": user_input}], 
@@ -178,17 +167,14 @@ def generate_response(user_input: str) -> str:
     return {"response": response.choices[0].message.content}
 
 
-def generate_sql(user_input: str) -> str:
-    response = CLIENT.chat.completions.create(
-        model="deepseek/deepseek-chat-v3-0324:free",
+async def generate_sql(user_input: str) -> str:
+    response = await CLIENT.chat.completions.create(
+        model=MODEL,
         messages=[{"role": "system", "content": DATA_SYS_PROMPT}, 
                   {"role": "user", "content": user_input}], 
-        temperature=0.0, max_tokens=100,
+        temperature=0.2, max_tokens=200,
     )
-    sql_query = (response.choices[0].message.content)
-    if not validate_sql(sql_query):
-        raise HTTPException(status_code=301, detail="Invalid SQL query generated. Output:\n" + sql_query)
-    return sql_query
+    return response.choices[0].message.content
 
 
 def validate_sql(sql_query: str) -> bool:
@@ -201,7 +187,7 @@ def validate_sql(sql_query: str) -> bool:
     if not re.match(r"^\s*select", query_lower, re.IGNORECASE):
         return False
     
-    pattern = re.compile(r"\b\w+\s*=\s*@user_id\b", re.IGNORECASE)
+    pattern = re.compile(r"@user_id\b", re.IGNORECASE)
     return bool(pattern.search(query_lower))
 
 
@@ -209,7 +195,7 @@ def load_context():
     """Load system prompts from the context file."""
     with open("context.txt", 'r', encoding='utf-8') as f:
         content = f.read()
-    parts = re.split(r'### (INTENT|GENERAL|SQL) SYSTEM PROMPT ###', content)
+    parts = re.split(r'# (INTENT|GENERAL|SQL) SYSTEM PROMPT #', content)
     
     intent_section = parts[2].strip() if len(parts) > 1 else ""
     general_section = parts[4].strip() if len(parts) > 3 else ""

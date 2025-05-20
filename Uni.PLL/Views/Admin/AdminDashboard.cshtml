@@ -1,123 +1,96 @@
-@using Uni.BLL.ModelVM.GetData;
-@model List<GetStudentDataVM>
-
+@using Uni.BLL.ModelVM
+@model List<StudentAllData>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="~/css/AdminDashboard.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"></head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/AdminDashboard.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        .cont {
+        display: flex;
+        flex-direction: row;
+        }
+    </style>
+</head>
 
 <body>
-  <aside class="sidebar">
-    <h1>Dashboard</h1>
-    <nav>
-      <a href="#">Dashboard</a>
-      <a href="#">Calendar</a>
-      <a href="#">Profile</a>
-      <a href="#">Task</a>
-      <a href="#">Tables</a>
-      <a href="#">Settings</a>
-      <a href="/Roles/Index">Roles</a>
-      <a href="/Account/LogOut">Log Out </a>
-    </nav>
-  </aside>
+    <section class="cont">
+    <aside class="sidebar">
+        <h1>Dashboard</h1>
+        <nav>
+            <a href="#">Dashboard</a>
+            <a href="#">Calendar</a>
+            <a href="#">Profile</a>
+            <a href="#">Task</a>
+            <a href="#">Tables</a>
+            <a href="#">Settings</a>
+        </nav>
+    </aside>
 
-  <main>
-    <div class="topbar">
-      <input type="text" class="search" placeholder="Search...">
-    </div>
+    <main>
+        <div class="topbar">
+            <input type="text" class="search" placeholder="Search..." />
+        </div>
 
-    <div class="stats">
-      <div class="card">
-        <div class="title">Total Students</div>
-        <div class="value">4560</div>
-      </div>
-      <div class="card">
-        <div class="title">Total Instructors</div>
-        <div class="value">45</div>
-      </div>
-      <div class="card">
-        <div class="title">Total Courses</div>
-        <div class="value">200</div>
-      </div>
-      <div class="card">
-        <div class="title">Total Departments</div>
-        <div class="value">15</div>
-      </div>
-    </div>
+        <div class="stats">
+            <div class="card"><div class="title">Total Students</div><div class="value">4560</div></div>
+            <div class="card"><div class="title">Total Instructors</div><div class="value">45</div></div>
+            <div class="card"><div class="title">Total Courses</div><div class="value">200</div></div>
+            <div class="card"><div class="title">Total Departments</div><div class="value">15</div></div>
+        </div>
 
-    <div class="table-section" style="text-align: center;">
-      <h1 style="margin: 2rem 0 1rem;">Manage Tables</h1>
-      <p style="margin-bottom: 1rem; font-size: 1.1rem;">
-        Use the dropdown below to select and manage a specific database table.
-      </p>
+        <div class="table-section" style="text-align: center;">
+            <h1 style="margin: 2rem 0 1rem;">Manage Tables</h1>
+            <p style="margin-bottom: 1rem; font-size: 1.1rem;">
+                Use the dropdown below to select and manage a specific database table.
+            </p>
 
-      <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
-        <label style="margin-top: 10px;" for="tableSelect">Choose a table:</label>
-        <select id="tableSelect" name="tableSelect">
-          <option value="" hidden>Select Table</option>
-          <option value="Student" class="choosen">Student</option>
-          <option value="Takes">Takes</option>
-          <option value="Course">Course</option>
-          <option value="Teaches">Teaches</option>
-          <option value="Department">Department</option>
-          <option value="Instructor">Instructor</option>
-          <option value="Records">Records</option>
-        </select>
-        <button class = "add"><i class="fa-solid fa-plus" style="color: #ffffff;"></i></button>
-      </div>
-      <div class="tablecontainer">
-        <table id="dataTable">
-          <thead>
-            <tr id="tableHeader">
-              <!-- <th>ID</th>
-            <th>Name</th>
-            <th>Date of Birth</th>
-            <th>Address</th>
-            <th>Phone Number</th>
-            <th>National ID</th>
-            <th>Action</th> -->
-            </tr>
-          </thead>
-          <tbody>
-            <!-- <tr>
-            <td>1</td>
-            <td >Alice</td>
-            <td>alice@example.com</td>
-            <td>alice@example.com</td>
-            <td>alice@example.com</td>
-            <td>alice@example.com</td>
-            <td><button class="Edit">Edit</button> <button class="Save">Save</button></td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Bob</td>
-            <td >bob@example.com</td>
-            <td >bob@example.com</td>
-            <td >bob@example.com</td>
-            <td >bob@example.com</td>
-            <td><button class="Edit">Edit</button> <button class="Save">Save</button></td>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
+                <label style="margin-top: 10px;" for="tableSelect">Choose a table:</label>
+                <select id="tableSelect" name="tableSelect">
+                    <option value="" hidden>Select Table</option>
+                    <option value="Student">Student</option>
+                    <option value="Takes">Takes</option>
+                    <option value="Course">Course</option>
+                    <option value="Teaches">Teaches</option>
+                    <option value="Department">Department</option>
+                    <option value="Instructor">Instructor</option>
+                    <option value="Records">Records</option>
+                </select>
+                <button class="add"><i class="fa-solid fa-plus" style="color: #ffffff;"></i></button>
+            </div>
 
-          </tr>
-          <tr>
-            <td>2</td>
-            <td >Bob</td>
-            <td >bob@example.com</td>
-            <td >bob@example.com</td>
-            <td >bob@example.com</td>
-            <td >bob@example.com</td>
-            <td><button class="Edit">Edit</button> <button class="Save">Save</button></td>
-          </tr> -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </main>
-  <script src="AdminDashboard.js"></script>
+            <div class="tablecontainer">
+                <table id="dataTable">
+                    <thead>
+                        <tr id="tableHeader"></tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    </section>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Define API endpoint for JS -->
+    <script>
+        const apiEndpoints = {
+            getAllStudents: '@Url.Action("GetStudentJson", "Admin")',
+            getAllCourses: '@Url.Action("GetCoursesJson", "Admin")',
+            getAllDepartments: '@Url.Action("GetDepartmentJson", "Admin")',
+            getAllTakes:'@Url.Action("GetTakesJson", "Admin")',
+            getAllInstructor:'@Url.Action("GetAllInstructors", "Admin")',
+            getAllTeaches:'@Url.Action("GetTeachesJson", "Admin")',
+        };
+    </script>
+
+
+    <!-- Your dashboard logic -->
+    <script src="/js/AdminDashboard.js"></script>
 </body>
-
 </html>

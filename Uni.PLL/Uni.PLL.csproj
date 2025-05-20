@@ -7,25 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Views\AdminDashboard\**" />
-    <Content Remove="Views\AdminDashboard\**" />
-    <EmbeddedResource Remove="Views\AdminDashboard\**" />
-    <None Remove="Views\AdminDashboard\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="Views\Account\LoginPage.cshtml" />
     <Content Remove="Views\dashprofile.cshtml" />
     <Content Remove="Views\formstudentinfo.cshtml" />
+    <Content Remove="Views\profile.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Views\Account\LoginPage.cshtml" />
+    <None Include="Views\Dashboard\Dashprofile.cshtml" />
     <None Include="Views\formstudentinfo.cshtml" />
+    <None Include="Views\profile.cshtml" />
+    <None Include="wwwroot\js\afnan.js" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.14.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -34,6 +30,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.SharePointOnline.CSOM" Version="16.1.26017.12000" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+    <PackageReference Include="MiNET" Version="1.0.2304" />
   </ItemGroup>
 
   <ItemGroup>

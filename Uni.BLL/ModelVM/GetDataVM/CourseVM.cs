@@ -8,7 +8,8 @@ namespace Uni.BLL.ModelVM.GetDataVM
 {
     public class CourseVM
     {
-        public string Title { get; set; }
+        public string CourseCode { get; set; }
+		public string Title { get; set; }
         public string Description { get; set; }
         public int CreditHours { get; set; }
         public string Semester { get; set; }

@@ -11,5 +11,7 @@ namespace Uni.BLL.ModelVM.GetDataVM
         public string year { get; set; }
         public string semester { get; set; }
         public double GPA { get; set; }
+        public string CourseCode { get; set; }
+
     }
 }

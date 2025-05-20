@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 using Uni.BLL.Service.Abstraction;
 using Uni.DAL.Entity;
 using Uni.DAL.Repo.Abstraction;
+using Uni.BLL.ModelVM;
 using Microsoft.AspNetCore.Identity;
 using HospitalSystem.BLL.Helper;
 using AutoMapper;
 using System.Security.Claims;
-using Uni.BLL.ModelVM.GetData;
-using Uni.BLL.ModelVM.Account;
+using Uni.BLL.ModelVM.Data;
+using Uni.DAL.Repo.Impelementation;
 using Uni.BLL.ModelVM.Admin;
+using Uni.BLL.ModelVM.Account;
+using Uni.BLL.ModelVM.GetDataVM;
+
 
 namespace Uni.BLL.Service.Impelementation
 {
@@ -20,7 +24,6 @@ namespace Uni.BLL.Service.Impelementation
     {
         private readonly IAccountRepo UserRepo;
         private readonly IMapper mapper;
-
         public AccountService(IAccountRepo UserRepo, IMapper mapper)
         {
             this.UserRepo = UserRepo;
@@ -76,38 +79,6 @@ namespace Uni.BLL.Service.Impelementation
         {
             await UserRepo.SignOutAsync();
         }
-         public async Task<IdentityResult> RegisterUserAsync(RegistrationVM registerVM)
-        {
-            // Check if user exists
-            var existingUser = await UserRepo.FindByEmailAsync(registerVM.Email);
-            if (existingUser != null)
-            {
-                return IdentityResult.Failed(new IdentityError
-                {
-                    Description = "Email address is already in use."
-                });
-            }
-
-         
-
-            // Use AutoMapper to map RegistrationVM to Patient
-            var newUser = mapper.Map<Student>(registerVM);
-           
-            newUser.MiddelName = registerVM.MiddleName;
-           
-            newUser.LockoutEnabled = true;
-
-            var userCreated = await UserRepo.CreateUserAsync(newUser, registerVM.Password);
-
-            if (userCreated.Succeeded)
-            {
-                await UserRepo.AddToRoleAsync(newUser, "Student");
-                await UserRepo.PasswordSignInAsync(newUser, registerVM.Password);
-            }
-
-            return userCreated;
-        }
-
         public async Task<IdentityResult> RegisterUserAsync(CreateStudentVM registerVM)
         {
             // Check if user exists
@@ -119,13 +90,38 @@ namespace Uni.BLL.Service.Impelementation
                     Description = "Email address is already in use."
                 });
             }
+            // Use AutoMapper to map RegistrationVM to User
+            var newUser = mapper.Map<Student>(registerVM);
+            newUser.LockoutEnabled = true;
+
+            var userCreated = await UserRepo.CreateUserAsync(newUser, registerVM.Password);
+
+            if (userCreated.Succeeded)
+            {
+                await UserRepo.PasswordSignInAsync(newUser, registerVM.Password);
+            }
+
+            return userCreated;
+        }
+        public async Task<IdentityResult> RegisterUserAsync(RegistrationVM registerVM)
+        {
+            // Check if user exists
+            var existingUser = await UserRepo.FindByEmailAsync(registerVM.Email);
+            if (existingUser != null)
+            {
+                return IdentityResult.Failed(new IdentityError
+                {
+                    Description = "Email address is already in use."
+                });
+            }
 
 
 
             // Use AutoMapper to map RegistrationVM to Patient
             var newUser = mapper.Map<Student>(registerVM);
 
-    
+            newUser.MiddelName = registerVM.MiddleName;
+
             newUser.LockoutEnabled = true;
 
             var userCreated = await UserRepo.CreateUserAsync(newUser, registerVM.Password);
@@ -139,11 +135,62 @@ namespace Uni.BLL.Service.Impelementation
             return userCreated;
         }
 
+
         public Task<IdentityResult> UpdateUser(ClaimsPrincipal user, EditVM model)
         {
             throw new NotImplementedException();
         }
+        //List<GetStudentDataVM> IAccountService.GetAllStudent()
+        //{
+        //    var users = UserRepo.GetAll();
+        //    var userVMs = mapper.Map<List<GetStudentDataVM>>(users);
+        //    return userVMs;
+        //}
+        public async Task<List<GetStudentDataVM>> GetAllStudent(ClaimsPrincipal user)
+        {
+            var Student = await UserRepo.GetAll(user);
+            if (Student == null) return null;
 
-    }
+            var GetStudentDataVM = mapper.Map<List<GetStudentDataVM>>(Student);
+            return GetStudentDataVM;
+        }
+        List<CourseVM> IAccountService.GetAllCourses()
+        {
+            var data = UserRepo.GetCourses();
+            var newData = mapper.Map<List<CourseVM>>(data);
+            return newData;
+
+        }
+        List<DepartmentVM> IAccountService.GetAllDepartments()
+        {
+            var data = UserRepo.GetDepartment();
+            var newData = mapper.Map<List<DepartmentVM>>(data);
+            return newData;
+        }
+        List<TakesVM> IAccountService.GetAllTakes()
+        {
+            var data = UserRepo.GetTakes();
+            var newData = mapper.Map<List<TakesVM>>(data);
+            return newData;
+        }
+        List<InstructorVM> IAccountService.GetAllInstructors()
+		{
+			var data = UserRepo.GetInstructors();
+			var newData = mapper.Map<List<InstructorVM>>(data);
+			return newData;
+		}
+        List<TeachesVM> IAccountService.GetAllTeaches()
+		{
+			var data = UserRepo.GetTeaches();
+			var newData = mapper.Map<List<TeachesVM>>(data);
+			return newData;
+		}
+        List<RcordsVM> IAccountService.GetAllRecords()
+        {
+			var data = UserRepo.GetRecords();
+			var newData = mapper.Map<List<RcordsVM>>(data);
+			return newData;
+		}
+	}
     
 }
