@@ -8,11 +8,7 @@ obj/
 .env
 *.env.local
 temp.*
-
-# Configuration files
 appsettings.json
 appsettings.*.json
-
-# Entity Framework files
 **/DesignTimeDbContextFactory.cs
 **/AppDBcontext.cs
