@@ -8,7 +8,8 @@ obj/
 .env
 *.env.local
 temp.*
-appsettings.json
-appsettings.*.json
+Uni.PLL/appsettings.json
+Uni.PLL/appsettings.*.json
 **/DesignTimeDbContextFactory.cs
 **/AppDBcontext.cs
+**/Migrations/

@@ -1,3 +1,7 @@
+@using Microsoft.AspNetCore.Identity
+@using Uni.DAL.Entity
+@inject SignInManager<Student> signInManager
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -382,11 +386,13 @@
                     <button class="" type="submit">Search</button>
                 </form>
 
-                <div class="user-info">
-                    <span>Hi ,</span>
-                    <span class="user-name">User Name</span>
+                <div class="user-info"> 
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <span>Hi ,@User.Identity.Name</span>
+                    }
                     <div class="user-avatar"></div>
-                </div>
+                    </div>
             </header>
            
             <div class="profile-container">
