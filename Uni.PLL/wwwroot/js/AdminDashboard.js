@@ -19,17 +19,48 @@ function addEditSaveListeners() {
         });
     });
 
+    let TableData = [];
+
+    // Step 2: Attach click listeners to all save buttons
     Array.from(savebutt).forEach((button) => {
         let tableHeaders = headers.children;
+
         button.addEventListener("click", () => {
             let fields = button.parentElement.parentElement.children;
-            let data = {}
+            let data = {};
+
             for (let i = 0; i < fields.length - 1; i++) {
                 fields[i].setAttribute("contenteditable", "false");
-                data[tableHeaders[i].innerText] = fields[i].innerText;
+                data[tableHeaders[i].innerText.trim()] = fields[i].innerText.trim();
             }
+
             TableData.push(data);
-            console.log(TableData);
+            console.log("Single Row Saved:", data);
+            console.log("All TableData:", TableData);
+
+            // Step 3: Call backend when you press Save
+            fetch('/Admin/EditCourse', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(TableData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then(result => {
+                    console.log("Courses updated successfully:", result);
+
+                    // Optional: clear TableData after successful save
+                    TableData = [];
+                })
+                .catch(error => {
+                    console.error("Error updating courses:", error);
+                });
         });
     });
 }
@@ -287,23 +318,5 @@ addbutt.addEventListener("click", () => {
    addEditSaveListeners();
 })
 
-let freshdata = fetch( '' ,{
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(TableData)
-})
-.then(response => {
-    if (!response.ok) {
-        throw new Error("Network response was not ok");
-    }
-    return response.json();        // Convert response back to JS object
-    })
-    .then(result => {
-        console.log("Success:", result);
-    })
-    .catch(error => {
-        console.error("Error:", error);
-    });
+
 

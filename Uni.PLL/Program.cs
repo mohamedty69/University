@@ -8,6 +8,7 @@ using Uni.BLL.Service.Abstraction;
 using Uni.BLL.Service.Impelementation;
 using Uni.BLL.Mapping;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Uni.BLL.Service.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,12 @@ builder.Services.AddScoped<ICourseRepo, CourseRepo>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddAutoMapper(typeof(DomainProfile));
 builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
+builder.Services.AddScoped<IFastApiService, FastApiService>();
+builder.Services.AddHttpClient<FastApiService>();
+builder.Services.AddHttpClient("FastAPI", client =>
+{
+	client.BaseAddress = new Uri("http://localhost:8000");
+});
 
 
 
@@ -62,11 +69,9 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -75,8 +80,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// Add these middleware in correct order
-app.UseAuthentication(); // You were missing this!
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -84,51 +88,3 @@ app.MapControllerRoute(
     pattern: "{controller=Account}/{action=Login}/{id?}");
 
 app.Run();
-
-//using System;
-//using Uni.DAL.Entity;
-//using Uni.DAL.DB;
-//using Microsoft.EntityFrameworkCore;
-//using Microsoft.AspNetCore.Identity;
-
-//var builder = WebApplication.CreateBuilder(args);
-
-//// Add services to the container.
-//builder.Services.AddControllersWithViews();
-
-//var app = builder.Build();
-//builder.Services.AddDbContext<AppDbContext>(options =>
-//               options.UseSqlServer("name=DefaultConnection"));
-
-//builder.Services.AddIdentity<Student, IdentityRole>()
-//                .AddEntityFrameworkStores<AppDbContext>()
-//                .AddDefaultTokenProviders();
-
-
-
-//builder.Services.AddIdentityCore<Student>(options => options.SignIn.RequireConfirmedAccount = true)
-//                .AddRoles<IdentityRole>()
-//                .AddEntityFrameworkStores<AppDbContext>()
-//                .AddTokenProvider<DataProtectorTokenProvider<Student>>(TokenOptions.DefaultProvider);
-
-
-//// Configure the HTTP request pipeline.
-//if (!app.Environment.IsDevelopment())
-//{
-//    app.UseExceptionHandler("/Home/Error");
-//    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-//    app.UseHsts();
-//}
-
-//app.UseHttpsRedirection();
-//app.UseStaticFiles();
-
-//app.UseRouting();
-
-//app.UseAuthorization();
-
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-//app.Run();

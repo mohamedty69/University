@@ -11,6 +11,7 @@ using Uni.BLL.Service.Abstraction;
 using Uni.DAL.DB;
 using Uni.DAL.Entity;
 using Uni.DAL.Enum;
+using AutoMapper;
 using Uni.DAL.Repo.Abstraction;
 
 namespace Uni.BLL.Service.Impelementation
@@ -19,11 +20,12 @@ namespace Uni.BLL.Service.Impelementation
     {
 
         private readonly ICourseRepo _repo;
-
-        public CourseService(ICourseRepo repo)
+		private readonly IMapper _mapper;
+		public CourseService(ICourseRepo repo, IMapper mapper)
         {
             _repo = repo;
-        }
+			_mapper = mapper;
+		}
 
         public async Task<CourseSelectionViewModel> GetCourseSelectionDataAsync()
         {
@@ -88,7 +90,9 @@ namespace Uni.BLL.Service.Impelementation
             await _repo.SaveAsync();
             return (true, "");
         }
-    }
+		
+
+	}
 
 }
 

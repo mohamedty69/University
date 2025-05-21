@@ -36,10 +36,10 @@ namespace Uni.DAL.Repo.Abstraction
         List<Teaches> GetTeaches();
         List<Rcords> GetRecords();
         Task AddToRoleAsync(Student user, string role);
+		bool EditCourses(Course course);
 
 
 
 
-
-    }
+	}
 }

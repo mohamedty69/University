@@ -1,22 +1,21 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Uni.BLL.Service.Abstraction;
 using Uni.PLL.Models;
 
 namespace Uni.PLL.Controllers
 {
     public class HomeController : Controller
     {
+		private readonly IFastApiService _fastApiService;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IFastApiService fastApiService)
         {
             _logger = logger;
-        }
-
-        public IActionResult Dashprofile()
-        {
-            return View();
-        }
+			_fastApiService = fastApiService ?? throw new ArgumentNullException(nameof(fastApiService));
+		}
+        
 
         public IActionResult Privacy()
         {
@@ -28,5 +27,17 @@ namespace Uni.PLL.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        public IActionResult Dashprofile() 
+        {
+            return View();
+        }
+		[HttpPost]
+		public async Task<IActionResult> Dashprofile(string file)
+		{
+			var apiResponse = await _fastApiService.UploadStringAsync(file);
+			Console.WriteLine(apiResponse);
+			// Display response
+			return Content(apiResponse);
+		}
     }
 }

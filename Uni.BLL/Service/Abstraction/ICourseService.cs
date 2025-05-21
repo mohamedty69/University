@@ -17,6 +17,6 @@ namespace Uni.BLL.Service.Abstraction
         Task<CourseSelectionViewModel> GetCourseSelectionDataAsync();
         Task<List<CoursesVM>> GetCoursesAsync(string department, string level, string semester);
         Task<(bool isSuccess, string errorMessage)> SubmitCoursesAsync(string studentId, SubmitCoursesViewModel model);
-    }
+	}
 
 }

@@ -16,6 +16,8 @@ using Uni.DAL.Repo.Impelementation;
 using Uni.BLL.ModelVM.Admin;
 using Uni.BLL.ModelVM.Account;
 using Uni.BLL.ModelVM.GetDataVM;
+using Uni.BLL.ModelVM.Course;
+using System.Numerics;
 
 
 namespace Uni.BLL.Service.Impelementation
@@ -190,6 +192,20 @@ namespace Uni.BLL.Service.Impelementation
 			var data = UserRepo.GetRecords();
 			var newData = mapper.Map<List<RcordsVM>>(data);
 			return newData;
+		}
+		bool IAccountService.EditCourses(EditCourseVM editCourseVM)
+		{
+			try
+			{
+				// Ensure proper mapping from EditCourseVM to Course
+				var course = mapper.Map<Course>(editCourseVM);
+				return UserRepo.EditCourses(course);
+			}
+			catch (Exception ex)
+			{
+				// Add logging here
+				return false;
+			}
 		}
 	}
     
