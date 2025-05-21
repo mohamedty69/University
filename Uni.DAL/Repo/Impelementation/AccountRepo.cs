@@ -81,7 +81,33 @@ namespace Uni.DAL.Repo.Impelementation
         {
             await userManager.AddToRoleAsync(user, role);
         }
-        public async Task<IdentityResult> UpdateUserAsyn(Student User) => await userManager.UpdateAsync(User);
+		bool IAccountRepo.EditCourses(Course course)
+		{
+			try
+			{
+				// Find by CourseCode (assuming it's unique)
+				var existingCourse = entity.Courses
+					.FirstOrDefault(c => c.CourseCode == course.CourseCode);
+
+				if (existingCourse == null) return false;
+
+				// Update only allowed fields (security best practice)
+				existingCourse.CourseName = course.CourseName;
+				existingCourse.CreditHours = course.CreditHours;
+				existingCourse.Semester = course.Semester;
+
+				entity.SaveChanges();
+				return true;
+			}
+			catch (Exception ex)
+			{
+				// Log exception
+				return false;
+			}
+		}
+
+
+		public async Task<IdentityResult> UpdateUserAsyn(Student User) => await userManager.UpdateAsync(User);
     }
    
 }

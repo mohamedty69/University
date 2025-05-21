@@ -11,6 +11,7 @@ using Uni.BLL.ModelVM.Data;
 using Uni.BLL.ModelVM.Admin;
 using Uni.BLL.ModelVM.Account;
 using Uni.BLL.ModelVM.GetDataVM;
+using Uni.BLL.ModelVM.Course;
 
 namespace Uni.BLL.Mapping
 {
@@ -29,6 +30,7 @@ namespace Uni.BLL.Mapping
                 CreateMap<Instructor, InstructorVM>().ReverseMap();
                 CreateMap<Teaches, TeachesVM>().ReverseMap();
                 CreateMap<Rcords,RcordsVM>().ReverseMap();
+			    CreateMap<Course, EditCourseVM>().ReverseMap();
 
 
 		}

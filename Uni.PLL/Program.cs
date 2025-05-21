@@ -8,6 +8,7 @@ using Uni.BLL.Service.Abstraction;
 using Uni.BLL.Service.Impelementation;
 using Uni.BLL.Mapping;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Uni.BLL.Service.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,12 @@ builder.Services.AddScoped<ICourseRepo, CourseRepo>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddAutoMapper(typeof(DomainProfile));
 builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
+builder.Services.AddScoped<IFastApiService, FastApiService>();
+builder.Services.AddHttpClient<FastApiService>();
+builder.Services.AddHttpClient("FastAPI", client =>
+{
+	client.BaseAddress = new Uri("http://localhost:8000");
+});
 
 
 

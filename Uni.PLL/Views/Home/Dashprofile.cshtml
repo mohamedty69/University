@@ -1,625 +1,648 @@
 @using Microsoft.AspNetCore.Identity
 @using Uni.DAL.Entity
-@inject SignInManager<Student> signInManager
+@inject SignInManager<Student> signInManager
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile</title>
-    <link rel="stylesheet" href="/css/dashprof.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #080808; /* Abyss Black */
-            --secondary-color: #1a1a1a; /* Graphite Matte */
-            --text-color: #e8ecef; /* Frost White */
-            --highlight-color: #2e1a47; /* Dark Plum */
-            --animation: #5c4b7d; /* Muted Lilac */
-        }
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>My Profile</title>
+	<link rel="stylesheet" href="/css/dashprof.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+		:root {
+			--primary-color: #080808; /* Abyss Black */
+			--secondary-color: #1a1a1a; /* Graphite Matte */
+			--text-color: #e8ecef; /* Frost White */
+			--highlight-color: #2e1a47; /* Dark Plum */
+			--animation: #5c4b7d; /* Muted Lilac */
+		}
 
-        body {
-            font-family: sans-serif;
-            background-color: var(--primary-color);
-            display: flex;
-        }
+		body {
+			font-family: sans-serif;
+			background-color: var(--primary-color);
+			display: flex;
+		}
 
-        .dashboard-container {
-            
-            width: 100%;
-        }
+		.dashboard-container {
+			width: 100%;
+		}
 
-        .sidebar {
-            background-color: var(--secondary-color);
-            color: var(--text-color);
-            color: white;
-            width: 250px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            margin-left: -120px;
-            height:700px;
-        }
+		.sidebar {
+			background-color: var(--secondary-color);
+			color: var(--text-color);
+			color: white;
+			width: 250px;
+			padding: 20px;
+			display: flex;
+			flex-direction: column;
+			margin-left: -120px;
+			height: 700px;
+		}
 
-        .logo {
-            font-size: 1em;
-            font-weight: bold;
-            margin-bottom: 30px;
-        }
+		.logo {
+			font-size: 1em;
+			font-weight: bold;
+			margin-bottom: 30px;
+		}
 
-        .main-nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+		.main-nav ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
 
-        .main-nav li {
-            margin-bottom: 15px;
-        }
+		.main-nav li {
+			margin-bottom: 15px;
+		}
 
-        .main-nav a {
-            color: white;
-            text-decoration: none;
-            display: block;
-            padding: 10px;
-            border-radius: 5px;
-        }
+		.main-nav a {
+			color: white;
+			text-decoration: none;
+			display: block;
+			padding: 10px;
+			border-radius: 5px;
+		}
 
-            .main-nav a:hover, .main-nav li.active a {
-                background-color: var(--animation);
-            }
+			.main-nav a:hover, .main-nav li.active a {
+				background-color: var(--animation);
+			}
 
-            .main-nav a:focus {
-                outline: none;
-                box-shadow: 0 0 5px var(--animation);
-            }
+			.main-nav a:focus {
+				outline: none;
+				box-shadow: 0 0 5px var(--animation);
+			}
 
-        .badge {
-            background-color: #f44336;
-            color: white;
-            border-radius: 50%;
-            padding: 5px 8px;
-            font-size: 0.8em;
-            margin-left: 5px;
-        }
+		.badge {
+			background-color: #f44336;
+			color: white;
+			border-radius: 50%;
+			padding: 5px 8px;
+			font-size: 0.8em;
+			margin-left: 5px;
+		}
 
-        .main-content {
-            background-color: var(--primary-color);
-            color: var(--text-color);
-            flex-grow: 1;
-            padding: 20px;
-        }
+		.main-content {
+			background-color: var(--primary-color);
+			color: var(--text-color);
+			flex-grow: 1;
+			padding: 20px;
+		}
 
-        .main-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+		.main-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 20px;
+		}
 
-        form button {
-            background-color: var(--highlight-color);
-            color: white;
-            border: none;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            padding: 10px 20px;
-            border-radius: 5px;
-        }
+		form button {
+			background-color: var(--highlight-color);
+			color: white;
+			border: none;
+			transition: background-color 0.3s ease, transform 0.3s ease;
+			padding: 10px 20px;
+			border-radius: 5px;
+		}
 
-            form button:hover {
-                background-color: #5c4b7d;
-                transform: scale(1.05);
-            }
+			form button:hover {
+				background-color: #5c4b7d;
+				transform: scale(1.05);
+			}
 
-            form button:focus {
-                outline: none;
-                box-shadow: 0 0 5px #5c4b7d;
-            }
+			form button:focus {
+				outline: none;
+				box-shadow: 0 0 5px #5c4b7d;
+			}
 
-        .user-info {
-            display: flex;
-            align-items: center;
-        }
+		.user-info {
+			display: flex;
+			align-items: center;
+		}
 
-        .user-avatar {
-            width: 30px;
-            height: 30px;
-            background-color: var(--primary-color);
-            border-radius: 50%;
-            margin-left: 10px;
-        }
+		.user-avatar {
+			width: 30px;
+			height: 30px;
+			background-color: var(--primary-color);
+			border-radius: 50%;
+			margin-left: 10px;
+		}
 
-        .overview-section h2 {
-            margin-top: 0;
-        }
+		.overview-section h2 {
+			margin-top: 0;
+		}
 
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
+		.grid-container {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			gap: 20px;
+		}
 
-        .average-charts, .calculation-summary, .maps-section, .analytical-data, .recent-activity {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
+		.average-charts, .calculation-summary, .maps-section, .analytical-data, .recent-activity {
+			background-color: white;
+			padding: 20px;
+			border-radius: 5px;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+		}
 
-        .calculation-items {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
+		.calculation-items {
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+		}
 
-        .calculation-item {
-            text-align: center;
-        }
+		.calculation-item {
+			text-align: center;
+		}
 
-            .calculation-item .icon {
-                font-size: 1.5em;
-                color: #3f51b5; /* Example icon color */
-            }
+			.calculation-item .icon {
+				font-size: 1.5em;
+				color: #3f51b5; /* Example icon color */
+			}
 
-            .calculation-item .value {
-                font-size: 1.2em;
-                font-weight: bold;
-            }
+			.calculation-item .value {
+				font-size: 1.2em;
+				font-weight: bold;
+			}
 
-            .calculation-item .label {
-                color: #777;
-                font-size: 0.9em;
-            }
+			.calculation-item .label {
+				color: #777;
+				font-size: 0.9em;
+			}
 
-        .analytical-items .analytical-item {
-            margin-bottom: 15px;
-        }
+		.analytical-items .analytical-item {
+			margin-bottom: 15px;
+		}
 
-        .progress-bar {
-            background-color: #eee;
-            border-radius: 5px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            margin-top: 5px;
-        }
+		.progress-bar {
+			background-color: #eee;
+			border-radius: 5px;
+			height: 20px;
+			display: flex;
+			align-items: center;
+			position: relative;
+			overflow: hidden;
+			margin-top: 5px;
+		}
 
-        .progress {
-            height: 100%;
-            border-radius: 5px;
-        }
+		.progress {
+			height: 100%;
+			border-radius: 5px;
+		}
 
-        .percentage {
-            position: absolute;
-            right: 10px;
-            color: #555;
-            font-size: 0.9em;
-        }
+		.percentage {
+			position: absolute;
+			right: 10px;
+			color: #555;
+			font-size: 0.9em;
+		}
 
-        .chart-legend {
-            margin-top: 10px;
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
+		.chart-legend {
+			margin-top: 10px;
+			display: flex;
+			gap: 15px;
+			align-items: center;
+		}
 
-        .legend-color {
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-        }
-
+		.legend-color {
+			width: 15px;
+			height: 15px;
+			border-radius: 50%;
+		}
 
 
-        .chat-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--highlight-color);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 20px;
-            font-size: 15px;
-            cursor: pointer;
-            z-index: 1000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
 
-        .chat-popup {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 300px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            display: none;
-            flex-direction: column;
-            z-index: 1000;
-        }
+		.chat-btn {
+			position: fixed;
+			bottom: 20px;
+			right: 20px;
+			background-color: var(--highlight-color);
+			color: white;
+			border: none;
+			padding: 10px;
+			border-radius: 20px;
+			font-size: 15px;
+			cursor: pointer;
+			z-index: 1000;
+			box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+			transition: background-color 0.3s ease, transform 0.3s ease;
+		}
 
-        .chat-header {
-            background-color: var(--animation);
-            color: white;
-            padding: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #ccc;
-            border-radius: 10px 10px 0 0;
-            position: relative;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: background-color 0.3s ease;
-        }
+		.chat-popup {
+			position: fixed;
+			bottom: 90px;
+			right: 20px;
+			width: 300px;
+			background: white;
+			border-radius: 10px;
+			box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+			display: none;
+			flex-direction: column;
+			z-index: 1000;
+		}
 
-            .chat-header button {
-                background: none;
-                border: none;
-                font-size: 20px;
-                cursor: pointer;
-            }
+		.chat-header {
+			background-color: var(--animation);
+			color: white;
+			padding: 15px;
+			font-size: 18px;
+			font-weight: bold;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			border-bottom: 1px solid #ccc;
+			border-radius: 10px 10px 0 0;
+			position: relative;
+			box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+			transition: background-color 0.3s ease;
+		}
 
-        .chat-body {
-            padding: 20px;
-            text-align: center;
-            height: 200px;
-        }
+			.chat-header button {
+				background: none;
+				border: none;
+				font-size: 20px;
+				cursor: pointer;
+			}
 
-        .start-chat {
-            margin-top: 15px;
-            padding: 10px 20px;
-            background-color: var(--highlight-color);
-            color: white;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
+		.chat-body {
+			padding: 20px;
+			text-align: center;
+			height: 200px;
+		}
 
-        .chat-interface {
-            display: flex;
-            flex-direction: column;
-            height: 300px;
-            overflow-y: scroll;
-        }
+		.start-chat {
+			margin-top: 15px;
+			padding: 10px 20px;
+			background-color: var(--highlight-color);
+			color: white;
+			border: none;
+			border-radius: 20px;
+			cursor: pointer;
+			transition: background-color 0.3s ease, transform 0.3s ease;
+		}
 
-        .chat-messages {
-            flex: 1;
-            padding: 10px;
-            border-top: 1px solid #eee;
-            border-bottom: 1px solid #eee;
-            max-width: 100%;
-            word-wrap: break-word; /* Prevent overflow */
-            overflow-wrap: break-word; /* Prevent overflow */
-            ;
-        }
+		.chat-interface {
+			display: flex;
+			flex-direction: column;
+			height: 300px;
+			overflow-y: scroll;
+		}
+
+		.chat-messages {
+			flex: 1;
+			padding: 10px;
+			border-top: 1px solid #eee;
+			border-bottom: 1px solid #eee;
+			max-width: 100%;
+			word-wrap: break-word; /* Prevent overflow */
+			overflow-wrap: break-word; /* Prevent overflow */
+			;
+		}
 
 
-        .chat-input-area {
-            display: flex;
-            padding: 10px;
-        }
+		.chat-input-area {
+			display: flex;
+			padding: 10px;
+		}
 
-            .chat-input-area input {
-                flex: 1;
-                padding: 8px;
-                border: 1px solid #ccc;
-                border-radius: 20px;
-                margin-right: 10px;
-            }
+			.chat-input-area input {
+				flex: 1;
+				padding: 8px;
+				border: 1px solid #ccc;
+				border-radius: 20px;
+				margin-right: 10px;
+			}
 
-            .chat-input-area button {
-                padding: 8px 15px;
-                background-color: var(--highlight-color);
-                color: white;
-                border: none;
-                border-radius: 20px;
-                cursor: pointer;
-            }
+			.chat-input-area button {
+				padding: 8px 15px;
+				background-color: var(--highlight-color);
+				color: white;
+				border: none;
+				border-radius: 20px;
+				cursor: pointer;
+			}
 
-        .profile-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            /* background: white; */
-            padding: 30px;
-            /* border-radius: 10px;
-              box-shadow: 0 0 10px rgba(0,0,0,0.1); */
-        }
+		.profile-container {
+			max-width: 1000px;
+			margin: 0 auto;
+			/* background: white; */
+			padding: 30px;
+			/* border-radius: 10px;
+					  box-shadow: 0 0 10px rgba(0,0,0,0.1); */
+		}
 
-        .charts {
-            display: flex;
-            gap: 40px;
-            justify-content: space-around;
-            flex-wrap: wrap;
-        }
+		.charts {
+			display: flex;
+			gap: 40px;
+			justify-content: space-around;
+			flex-wrap: wrap;
+		}
 
-        .chart-box {
-            flex: 1 1 400px;
-            background: var(--secondary-color);
-            color: var(--text-color);
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border: var(--animation) 2px solid;
-            padding: 30px;
-            border-radius: 8px;
-            margin: 10px;
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            max-width: 900px;
-        }
+		.chart-box {
+			flex: 1 1 400px;
+			background: var(--secondary-color);
+			color: var(--text-color);
+			box-shadow: 0 0 10px rgba(0,0,0,0.1);
+			border: var(--animation) 2px solid;
+			padding: 30px;
+			border-radius: 8px;
+			margin: 10px;
+			position: relative;
+			overflow: hidden;
+			width: 100%;
+			max-width: 900px;
+		}
 
-        canvas {
-            width: 100% !important;
-            height: 300px !important;
-        }
-    </style>
+		canvas {
+			width: 100% !important;
+			height: 300px !important;
+		}
+	</style>
 </head>
 <body>
-    <div class="dashboard-container">
-        <div class="sidebar">
-            <div class="logo">Port Said University</div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Messages</a></li>
-                    <li><a href="#">Account</a></li>
-                    <li><a href="#profile-container">Chart</a></li>
-                    <li><a href="/Courses/GetT">Courses</a></li>
-                    <li><a href="/Courses/Select"> Enrollment</a></li>
-                    <li><a href="/Account/LogOut">Log Out </a></li>
+	<div class="dashboard-container">
+		<div class="sidebar">
+			<div class="logo">Port Said University</div>
+			<nav class="main-nav">
+				<ul>
+					<li><a href="#">Home</a></li>
+					<li><a href="#">Messages</a></li>
+					<li><a href="#">Account</a></li>
+					<li><a href="#profile-container">Chart</a></li>
+					<li><a href="/Courses/GetT">Courses</a></li>
+					<li><a href="/Courses/Select"> Enrollment</a></li>
+					<li><a href="/Account/LogOut">Log Out </a></li>
 
-                </ul>
-            </nav>
-        </div>
-        <main class="main-content">
-            <header class="main-header">
+				</ul>
+			</nav>
+		</div>
+		<main class="main-content">
+			<header class="main-header">
 
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="" type="submit">Search</button>
-                </form>
+				<form class="d-flex" role="search">
+					<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+					<button class="" type="submit">Search</button>
+				</form>
 
-                <div class="user-info"> 
-                    @if (signInManager.IsSignedIn(User))
-                    {
-                        <span>Hi ,@User.Identity.Name</span>
-                    }
-                    <div class="user-avatar"></div>
-                    </div>
-            </header>
-           
-            <div class="profile-container">
+				<div class="user-info">
+					@if (signInManager.IsSignedIn(User))
+					{
+						<span>Hi ,@User.Identity.Name</span>
+					}
+					<div class="user-avatar"></div>
+				</div>
+			</header>
 
-                <div class="charts">
-                 <div class="chart-box">
-                   <h3>GPA Over Semesters</h3>
-                   <canvas id="gpaChart"></canvas>
-                 </div>
-                 <div class="chart-box">
-                   <h3>Credit Hours Over Semesters</h3>
-                   <canvas id="creditsChart"></canvas>
-                 </div>
-                </div>
-            </div>
+			<div class="profile-container">
 
-            <section class="chatbot">
-                <button id="chat-toggle" class="chat-btn">💬 chat With Us</button>
+				<div class="charts">
+					<div class="chart-box">
+						<h3>GPA Over Semesters</h3>
+						<canvas id="gpaChart"></canvas>
+					</div>
+					<div class="chart-box">
+						<h3>Credit Hours Over Semesters</h3>
+						<canvas id="creditsChart"></canvas>
+					</div>
+				</div>
+			</div>
 
-                <div class="chat-popup" id="chat-popup">
+			<section class="chatbot">
+				<button id="chat-toggle" class="chat-btn">💬 chat With Us</button>
 
-                    <div class="chat-header">
-                        <span>Hello!</span>
-                        <button id="chat-close">&times;</button>
-                    </div>
-                    <!-- first dashboard of chatbot -->
-                    <div class="chat-body" id="chat-greeting">
-                        <p>I'm your personal assistant,<br>How can I help you?</p>
-                        <button class="start-chat" id="start-chat">Let's chat</button>
-                    </div>
-                    <!-- second dashboard of chatbot -->
-                    <div class="chat-interface" id="chat-interface" style="display: none;">
-                        <div class="chat-messages" id="chat-messages">
-                            <!-- Messages will appear here -->
-                        </div>
-                        <div class="chat-input-area">
-                            <input type="text" id="user-input" placeholder="Type your message..." />
-                            <button id="send-btn">Send</button>
-                        </div>
-                    </div>
+				<div class="chat-popup" id="chat-popup">
 
-
-                </div>
-
-            </section>
-        </main>
-    </div>
-
-   
-   
-
-  <!-- Chart.js library -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    // Sample data: semesters, GPA and Credit Hours
-    const semesters = ['Semester 1', 'Semester 2', 'Semester 3', 'Semester 4', 'Semester 5'];
-    const gpaData = [3.2, 3.5, 3.7, 3.8, 3.6];
-    const creditHoursData = [15, 16, 14, 18, 17];
-
-    // GPA Chart config
-    const gpaCtx = document.getElementById('gpaChart').getContext('2d');
-    const gpaChart = new Chart(gpaCtx, {
-      type: 'line',
-      data: {
-        labels: semesters,
-        datasets: [{
-          label: 'GPA',
-          data: gpaData,
-          fill: false,
-          borderColor: '#3b82f6',
-          backgroundColor: '#3b82f6',
-          tension: 0.3,
-          pointRadius: 5,
-          pointHoverRadius: 7,
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            min: 0,
-            max: 4,
-            ticks: {
-              stepSize: 0.5
-            },
-            title: {
-              display: true,
-              text: 'GPA'
-            }
-          },
-          x: {
-            title: {
-              display: true,
-              text: 'Semester'
-            }
-          }
-        },
-        responsive: true,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top'
-          },
-          tooltip: {
-            enabled: true
-          }
-        }
-      }
-    });
-
-    // Credit Hours Chart config
-    const creditsCtx = document.getElementById('creditsChart').getContext('2d');
-    const creditsChart = new Chart(creditsCtx, {
-      type: 'bar',
-      data: {
-        labels: semesters,
-        datasets: [{
-          label: 'Credit Hours',
-          data: creditHoursData,
-          backgroundColor: '#10b981',
-          borderRadius: 5,
-          barPercentage: 0.6
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: 'Credit Hours'
-            }
-          },
-          x: {
-            title: {
-              display: true,
-              text: 'Semester'
-            }
-          }
-        },
-        responsive: true,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top'
-          },
-          tooltip: {
-            enabled: true
-          }
-        }
-      }
-    });
-    </script>
+					<div class="chat-header">
+						<span>Hello!</span>
+						<button id="chat-close">&times;</button>
+					</div>
+					<!-- first dashboard of chatbot -->
+					<div class="chat-body" id="chat-greeting">
+						<p>I'm your personal assistant,<br>How can I help you?</p>
+						<button class="start-chat" id="start-chat">Let's chat</button>
+					</div>
+					<!-- second dashboard of chatbot -->
+					<div class="chat-interface" id="chat-interface" style="display: none;">
+						<div class="chat-messages" id="chat-messages">
+							<!-- Messages will appear here -->
+						</div>
+						<div class="chat-input-area">
+							<input type="text" id="user-input" placeholder="Type your message..." />
+							<button id="send-btn">Send</button>
+						</div>
+					</div>
 
 
-    <script>
-   const chatBtn = document.getElementById('chat-toggle');
-const chatPopup = document.getElementById('chat-popup');
-const chatClose = document.getElementById('chat-close');
-const startChatBtn = document.getElementById('start-chat');
-const greeting = document.getElementById('chat-greeting');
-const chatInterface = document.getElementById('chat-interface');
-const sendBtn = document.getElementById('send-btn');
-const userInput = document.getElementById('user-input');
-const chatMessages = document.getElementById('chat-messages');
+				</div>
 
-chatBtn.addEventListener('click', () => {
-  chatPopup.style.display = 'flex';
-});
-
-chatClose.addEventListener('click', () => {
-  chatPopup.style.display = 'none';
-});
-
-// Show chat interface
-startChatBtn.addEventListener('click', () => {
-  greeting.style.display = 'none';
-  chatInterface.style.display = 'flex';
-});
-
-// Send message
-sendBtn.addEventListener('click', () => {
-  const message = userInput.value.trim();
-  if (message) {
-    const userMsg = document.createElement('div');
-    userMsg.style.borderRadius = "10px";
-    userMsg.style.width = "fit-content";
-    userMsg.style.height = "fit-content";
-    userMsg.style.backgroundColor = " #5c4b7d";
-    userMsg.style.color = "white";
-    userMsg.style.padding = "10px";
-    userMsg.textContent = message;
-    userMsg.style.margin = "10px 0";
-    userMsg.style.position = "relative";
-    userMsg.style.textAlign = "left";
-    userMsg.style.maxWidth = "80%";
-    chatMessages.appendChild(userMsg);
-    userInput.value = "";
-
-
-    // Simulated bot response (optional)
-    const botMsg = document.createElement('div');
-    //  response of chatbot
-    botMsg.textContent = "thank vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv";
-    botMsg.style.borderRadius = "10px";
-    botMsg.style.width = "fit-content";
-    botMsg.style.height = "fit-content";
-    botMsg.style.padding = "10px";
-    botMsg.style.backgroundColor = "#f5f5f5";
-    botMsg.style.margin = "10px 0";
-    botMsg.style.textAlign = "left";
-    botMsg.style.right = "0px";
-    botMsg.style.color = "black";
-    botMsg.style.position = "relative";
-    botMsg.style.maxWidth = "80%";
-    botMsg.style.marginLeft = "auto";
-    chatMessages.appendChild(botMsg);
-
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-});
+			</section>
+		</main>
+	</div>
 
 
 
-    </script>
+
+	<!-- Chart.js library -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script>
+		// Sample data: semesters, GPA and Credit Hours
+		const semesters = ['Semester 1', 'Semester 2', 'Semester 3', 'Semester 4', 'Semester 5'];
+		const gpaData = [3.2, 3.5, 3.7, 3.8, 3.6];
+		const creditHoursData = [15, 16, 14, 18, 17];
+
+		// GPA Chart config
+		const gpaCtx = document.getElementById('gpaChart').getContext('2d');
+		const gpaChart = new Chart(gpaCtx, {
+		  type: 'line',
+		  data: {
+			labels: semesters,
+			datasets: [{
+			  label: 'GPA',
+			  data: gpaData,
+			  fill: false,
+			  borderColor: '#3b82f6',
+			  backgroundColor: '#3b82f6',
+			  tension: 0.3,
+			  pointRadius: 5,
+			  pointHoverRadius: 7,
+			}]
+		  },
+		  options: {
+			scales: {
+			  y: {
+				min: 0,
+				max: 4,
+				ticks: {
+				  stepSize: 0.5
+				},
+				title: {
+				  display: true,
+				  text: 'GPA'
+				}
+			  },
+			  x: {
+				title: {
+				  display: true,
+				  text: 'Semester'
+				}
+			  }
+			},
+			responsive: true,
+			plugins: {
+			  legend: {
+				display: true,
+				position: 'top'
+			  },
+			  tooltip: {
+				enabled: true
+			  }
+			}
+		  }
+		});
+
+		// Credit Hours Chart config
+		const creditsCtx = document.getElementById('creditsChart').getContext('2d');
+		const creditsChart = new Chart(creditsCtx, {
+		  type: 'bar',
+		  data: {
+			labels: semesters,
+			datasets: [{
+			  label: 'Credit Hours',
+			  data: creditHoursData,
+			  backgroundColor: '#10b981',
+			  borderRadius: 5,
+			  barPercentage: 0.6
+			}]
+		  },
+		  options: {
+			scales: {
+			  y: {
+				beginAtZero: true,
+				title: {
+				  display: true,
+				  text: 'Credit Hours'
+				}
+			  },
+			  x: {
+				title: {
+				  display: true,
+				  text: 'Semester'
+				}
+			  }
+			},
+			responsive: true,
+			plugins: {
+			  legend: {
+				display: true,
+				position: 'top'
+			  },
+			  tooltip: {
+				enabled: true
+			  }
+			}
+		  }
+		});
+	</script>
+
+
+	<script>
+		   const chatBtn = document.getElementById('chat-toggle');
+		const chatPopup = document.getElementById('chat-popup');
+		const chatClose = document.getElementById('chat-close');
+		const startChatBtn = document.getElementById('start-chat');
+		const greeting = document.getElementById('chat-greeting');
+		const chatInterface = document.getElementById('chat-interface');
+		const sendBtn = document.getElementById('send-btn');
+		const userInput = document.getElementById('user-input');
+		const chatMessages = document.getElementById('chat-messages');
+
+		chatBtn.addEventListener('click', () => {
+		  chatPopup.style.display = 'flex';
+		});
+
+		chatClose.addEventListener('click', () => {
+		  chatPopup.style.display = 'none';
+		});
+
+		// Show chat interface
+		startChatBtn.addEventListener('click', () => {
+		  greeting.style.display = 'none';
+		  chatInterface.style.display = 'flex';
+		});
+
+		// Send message
+				sendBtn.addEventListener('click', () => {
+				  const message = userInput.value.trim(); // 1. Get user message
+
+				  if (message) {
+					// === 2. Show user message in chat ===
+					const userMsg = document.createElement('div');
+					userMsg.textContent = message;
+					userMsg.style.borderRadius = "10px";
+					userMsg.style.width = "fit-content";
+					userMsg.style.height = "fit-content";
+					userMsg.style.backgroundColor = "#5c4b7d";
+					userMsg.style.color = "white";
+					userMsg.style.padding = "10px";
+					userMsg.style.margin = "10px 0";
+					userMsg.style.position = "relative";
+					userMsg.style.textAlign = "left";
+					userMsg.style.maxWidth = "80%";
+					chatMessages.appendChild(userMsg);
+					chatMessages.scrollTop = chatMessages.scrollHeight;
+
+					// Clear input
+					userInput.value = "";
+
+					// === 3. Create bot message container (to show FastAPI response later) ===
+					const botMsg = document.createElement('div');
+					botMsg.style.borderRadius = "10px";
+					botMsg.style.width = "fit-content";
+					botMsg.style.height = "fit-content";
+					botMsg.style.padding = "10px";
+					botMsg.style.backgroundColor = "#f5f5f5";
+					botMsg.style.margin = "10px 0";
+					botMsg.style.textAlign = "left";
+					botMsg.style.right = "0px";
+					botMsg.style.color = "black";
+					botMsg.style.position = "relative";
+					botMsg.style.maxWidth = "80%";
+					botMsg.style.marginLeft = "auto";
+
+					// === 4. Send POST request to Dashprofile method ===
+					fetch('@Url.Action("Dashprofile", "Home")', {
+					  method: 'POST',
+					  headers: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+					  },
+					  body: new URLSearchParams({
+						file: message
+					  })
+					})
+					.then(response => response.text())
+					.then(data => {
+					  // === 5. Display FastAPI response inside bot message ===
+					  console.log("Response from server:", data);
+					  botMsg.textContent = data;
+					  chatMessages.appendChild(botMsg);
+					  chatMessages.scrollTop = chatMessages.scrollHeight;
+					})
+					.catch(error => {
+					  console.error("Error posting to server:", error);
+					  botMsg.textContent = "⚠️ Failed to contact the server.";
+					  chatMessages.appendChild(botMsg);
+					});
+				  }
+				});
 
 
 
-          
+
+	</script>
+
+
+
+
 </body>
 </html>

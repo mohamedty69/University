@@ -101,7 +101,7 @@ async def startup_event():
     INT_SYS_PROMPT, GEN_SYS_PROMPT, DATA_SYS_PROMPT = load_context()
 
 
-@app.post("/chat")
+@app.post("/chat/")
 @handle_llm_errors
 async def chat_endpoint(request: UserPrompt):
     """Chatbot endpoint to handle user queries."""

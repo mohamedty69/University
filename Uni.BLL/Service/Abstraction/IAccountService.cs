@@ -11,6 +11,7 @@ using Uni.BLL.ModelVM.Data;
 using Uni.BLL.ModelVM.Admin;
 using Uni.BLL.ModelVM.Account;
 using Uni.BLL.ModelVM.GetDataVM;
+using Uni.BLL.ModelVM.Course;
 
 
 namespace Uni.BLL.Service.Abstraction
@@ -33,6 +34,8 @@ namespace Uni.BLL.Service.Abstraction
         List<InstructorVM> GetAllInstructors();
         List<TeachesVM> GetAllTeaches();
         List<RcordsVM> GetAllRecords();
+		bool EditCourses(EditCourseVM editCourseVM);
+
 
 
 	}

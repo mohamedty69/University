@@ -20,5 +20,7 @@ namespace Uni.DAL.Repo.Abstraction
         Task<Student?> GetStudentByIdAsync(string id);
         Task AddTakesAsync(Takes takes);
         Task SaveAsync();
-    }
+		
+
+	}
 }

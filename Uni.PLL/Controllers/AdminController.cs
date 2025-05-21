@@ -10,6 +10,8 @@ using Uni.BLL.ModelVM.Data;
 using Uni.BLL.ModelVM.Admin;
 using Uni.BLL.ModelVM.Account;
 using Uni.BLL.ModelVM.GetDataVM;
+using Uni.BLL.ModelVM.Course;
+using Uni.BLL.Service.Impelementation;
 
 
 namespace Uni.PLL.Controllers
@@ -182,6 +184,38 @@ namespace Uni.PLL.Controllers
 		{
 			var Data = userService.GetAllTeaches();
 			return Json(Data);
+		}
+		[HttpPost] // Add this attribute explicitly
+		public IActionResult EditCourse(EditCourseVM editcVM)
+		{
+			try
+			{
+				// Correct ModelState check (FIXED)
+				if (ModelState.IsValid)
+				{
+					bool success = userService.EditCourses(editcVM);
+
+					if (success)
+					{
+						// Return JSON for AJAX calls (match your fetch() logic)
+						return Json(new { success = true, message = "Course updated successfully" });
+					}
+					else
+					{
+						return Json(new { success = false, message = "Failed to update course" });
+					}
+				}
+
+				// If model is invalid, return validation errors
+				var errors = ModelState.Values.SelectMany(v => v.Errors)
+											 .Select(e => e.ErrorMessage);
+				return Json(new { success = false, message = "Validation failed", errors });
+			}
+			catch (Exception ex)
+			{
+				// Log the exception here
+				return StatusCode(500, new { success = false, message = ex.Message });
+			}
 		}
 		public IActionResult GetCourses()
 		{
