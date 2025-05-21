@@ -191,6 +191,7 @@ namespace Uni.BLL.Service.Impelementation
 			var newData = mapper.Map<List<RcordsVM>>(data);
 			return newData;
 		}
-	}
+     
+    }
     
 }

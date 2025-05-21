@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Uni.BLL.ModelVM.Course;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Uni.BLL.Service.Abstraction;
+using Uni.BLL.ModelVM.GetDataVM;
 
 
 namespace Uni.PLL.Controllers
@@ -59,19 +60,37 @@ namespace Uni.PLL.Controllers
         {
             return View();
         }
-  
-        public IActionResult GetT()
+
+        public async Task<IActionResult> GetT()
         {
-            var userId = _userManager.GetUserId(User);
-            var user = _userManager.Users.FirstOrDefault(u => u.Id == userId);  
-            if (user.Id == userId)
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
             {
-                var Data = userService.GetAllTakes();
-                return View(Data);
+                return RedirectToAction("Dashprofile", "Home");
             }
-            else
-                return RedirectToAction("Login", "Account");
-            
+
+            var userWithTakes = await _userManager.Users
+                .Where(u => u.Id == user.Id)
+                .Include(u => u.Takes)
+                .FirstOrDefaultAsync();
+
+            if (userWithTakes == null)
+            {
+                return RedirectToAction("Dashprofile", "Home");
+            }
+
+            // Map Takes to TakesVM
+            var takeVMs = userWithTakes.Takes.Select(t => new TakesVM
+            {
+                CourseCode = t.CourseCode,
+                GPA = t.GPA,
+                semester = t.Semester,
+                year = t.Year
+            }).ToList();
+
+            return View(takeVMs); // ✔️ Now you're passing the correct model type
         }
+
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Uni.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDataBase : Migration
+    public partial class CreateDBa : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,9 +33,11 @@ namespace Uni.DAL.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MiddelName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NationalId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -291,7 +293,7 @@ namespace Uni.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RecordsStudent",
+                name: "RcordsStudent",
                 columns: table => new
                 {
                     RecordsrecordId = table.Column<int>(type: "int", nullable: false),
@@ -299,15 +301,15 @@ namespace Uni.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RecordsStudent", x => new { x.RecordsrecordId, x.StudentId });
+                    table.PrimaryKey("PK_RcordsStudent", x => new { x.RecordsrecordId, x.StudentId });
                     table.ForeignKey(
-                        name: "FK_RecordsStudent_AspNetUsers_StudentId",
+                        name: "FK_RcordsStudent_AspNetUsers_StudentId",
                         column: x => x.StudentId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RecordsStudent_Records_RecordsrecordId",
+                        name: "FK_RcordsStudent_Records_RecordsrecordId",
                         column: x => x.RecordsrecordId,
                         principalTable: "Records",
                         principalColumn: "recordId",
@@ -370,7 +372,7 @@ namespace Uni.DAL.Migrations
                     IId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Semester = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Year = table.Column<int>(type: "int", nullable: false),
+                    Year = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     InstructorIId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CourseCode = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -472,8 +474,8 @@ namespace Uni.DAL.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_RecordsStudent_StudentId",
-                table: "RecordsStudent",
+                name: "IX_RcordsStudent_StudentId",
+                table: "RcordsStudent",
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
@@ -520,7 +522,7 @@ namespace Uni.DAL.Migrations
                 name: "Profiles");
 
             migrationBuilder.DropTable(
-                name: "RecordsStudent");
+                name: "RcordsStudent");
 
             migrationBuilder.DropTable(
                 name: "Takes");

@@ -1,4 +1,5 @@
-﻿@using Uni.BLL.ModelVM.Course
+﻿
+@using Uni.BLL.ModelVM.Course
 @model CourseSelectionViewModel
 <!DOCTYPE html>
 <html lang="en">
@@ -118,78 +119,69 @@
 
         /* Extra large devices (large desktops, 1200px and up) */
         @@media (min-width: 1200px) {
-            .selector-container
+            .selector-container {
+                margin-left: 355px;
+                width: 600px;
+                padding: 40px;
+            }
 
-        {
-            margin-left: 355px;
-            width: 600px;
-            padding: 40px;
-        }
+            button {
+                width: 30%;
+                margin-left: 160px;
+            }
 
-        button {
-            width: 30%;
-            margin-left: 160px;
-        }
-
-        table {
-            width: 80%;
-        }
-
+            table {
+                width: 80%;
+            }
         }
 
         /* Medium to large devices (tablets to desktops, 768px - 1199px) */
         @@media (max-width: 1199px) and (min-width: 768px) {
-            .selector-container
+            .selector-container {
+                width: 60%;
+                margin: 20px auto;
+                padding: 30px;
+            }
 
-        {
-            width: 60%;
-            margin: 20px auto;
-            padding: 30px;
-        }
+            button {
+                width: 37%;
+                margin-left: 25%;
+            }
 
-        button {
-            width: 37%;
-            margin-left: 25%;
-        }
-
-        table {
-            width: 80%;
-        }
-
+            table {
+                width: 80%;
+            }
         }
 
         /* Small devices (phones, less than 768px) */
         @@media (max-width: 767px) {
-            .selector-container
+            .selector-container {
+                width: 85%;
+                margin: 20px auto;
+                padding: 20px;
+            }
 
-        {
-            width: 85%;
-            margin: 20px auto;
-            padding: 20px;
-        }
+            select {
+                width: 82%;
+            }
 
-        select {
-            width: 82%;
-        }
+            button {
+                width: 21%;
+                margin-left: 154px;
+            }
 
-        button {
-            width: 21%;
-            margin-left: 154px;
-        }
+            table {
+                width: 80%;
+                font-size: 14px;
+            }
 
-        table {
-            width: 80%;
-            font-size: 14px;
-        }
+            th, td {
+                padding: 8px;
+            }
 
-        th, td {
-            padding: 8px;
-        }
-
-        label {
-            font-size: 14px;
-        }
-
+            label {
+                font-size: 14px;
+            }
         }
 
         @@media (max-width: 500px) {
@@ -220,7 +212,7 @@
             label {
                 font-size: 14px;
             }
-}
+        }
     </style>
 </head>
 <body>
@@ -256,27 +248,30 @@
 
         <label>Courses</label>
         <select id="courses">
-            <option value="" >-- Select Courses --</option>
+            <option value="">-- Select Courses --</option>
         </select>
 
         <h4>Selected Courses</h4>
         <table id="selectedCoursesTable">
             <thead>
                 <tr>
-                    <th >Selected Courses</th>
-                    <th   >Credit Hours</th>
+                    <th>Selected Courses</th>
+                    <th>Credit Hours</th>
                 </tr>
             </thead>
             <tbody></tbody>
             <tfoot>
                 <tr>
-                    <td ><strong>Total</strong></td>
-                    <td   id="totalCredits"><strong>0</strong></td>
+                    <td><strong>Total</strong></td>
+                    <td id="totalCredits"><strong>0</strong></td>
                 </tr>
             </tfoot>
         </table>
         <button id="submit">Submit</button>
+        <a asp-action="Dashprofile" asp-controller="Home" class="btn btn-danger btn-block">Go Back</a>
+
     </div>
+
 
     <script>
         const departmentSelect = document.getElementById("department");
@@ -294,7 +289,7 @@
           const level = levelSelect.value;
           const semester = semesterSelect.value;
 
-          coursesSelect.innerHTML = `<option value="" >-- Select Courses --</option>`;
+          coursesSelect.innerHTML = `<option value="">-- Select Courses --</option>`;
           availableCourses = [];
           selectedCoursesList = [];
           tableBody.innerHTML = "";
@@ -370,11 +365,7 @@
           const totalCredits = selectedCoursesList.reduce((sum, course) => sum + course.creditHours, 0);
           if (totalCredits < 12 || totalCredits > 16) {
             alert("Total credit hours must be between 12 and 16.");
-            return ;
-          }
-          else if (totalCredits > 12 && totalCredits < 16 ){
-              window.location.href = '/Home/Dashprofile';
-              return;
+            return;
           }
 
           try {
@@ -417,6 +408,7 @@
 
           renderSelectedCourses();
         }
+
 
                 function renderSelectedCourses() {
           tableBody.innerHTML = "";
@@ -475,308 +467,3 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@* @using Uni.BLL.ModelVM.Course
-@model CourseSelectionViewModel
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Enroll courses</title>
-
-    <link rel="stylesheet" href="/css/courses.css" />
-
-</head>
-<body>
-<div class="container">
-    <form method="post" id="courseForm">
-        <h2>Course Selection</h2>
-
-        <label>Department</label>
-        <select id="department" onchange="populateCourses()">
-            @foreach (var dept in Model.Departments)
-            {
-                <option>@dept.DeptName</option>
-            }
-        </select>
-
-        <label>Level</label>
-        <select id="level" onchange="populateCourses()">
-            @foreach (var level in Model.Levels)
-            {
-                <option>@level</option>
-            }
-        </select>
-
-        <label>Semester</label>
-        <select id="semester" onchange="populateCourses()">
-            @foreach (var sem in Model.Semesters)
-            {
-                <option>@sem</option>
-            }
-        </select>
-            <label>Courses</label>
-            <select id="courses" onchange="addCourse()" class="form-control">
-                <option value="">-- Select Courses --</option>
-            </select>
-
-            <h3>Selected Courses</h3>
-            <table class="table" id="selectedCoursesTable">
-                <tbody></tbody>
-                <tfoot>
-                    <tr>
-                        <td><strong>Total</strong></td>
-                        <td id="totalCredits"><strong>0</strong></td>
-                    </tr>
-                </tfoot>
-            </table>
-
-            <input type="hidden" name="selectedCourseIds" id="selectedCourseIds" />
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
-
-    @section Scripts {
-        <script>
-            let selectedCourses = [];
-            let totalCredits = 0;
-
-            function populateCourses() {
-                const dept = document.getElementById("department").value;
-                const year = document.getElementById("level").value;  // 'level' passed as 'year'
-                const semester = document.getElementById("semester").value;
-
-                fetch(`/Course/GetCourses?department=${encodeURIComponent(dept)}&year=${encodeURIComponent(year)}&semester=${encodeURIComponent(semester)}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        const courseDropdown = document.getElementById("courses");
-                        courseDropdown.innerHTML = `<option value="">-- Select Courses --</option>`;
-                        data.forEach(course => {
-                            const opt = document.createElement("option");
-                            opt.value = course.id;  // Should match controller's JSON field
-                            opt.text = `${course.name} (${course.creditHours})`;
-                            courseDropdown.appendChild(opt);
-                        });
-                    })
-                    .catch(err => console.error("Failed to load courses:", err));
-            }
-
-            function addCourse() {
-                const courseDropdown = document.getElementById("courses");
-                const selectedId = courseDropdown.value;
-                const selectedText = courseDropdown.options[courseDropdown.selectedIndex].text;
-
-                if (!selectedId || selectedCourses.find(c => c.id === selectedId)) return;
-
-                const credit = parseInt(selectedText.match(/\((\d+)\)/)[1]);
-                totalCredits += credit;
-                selectedCourses.push({ id: selectedId, text: selectedText, credit });
-
-                const row = `<tr><td>${selectedText}</td><td>${credit}</td></tr>`;
-                document.querySelector("#selectedCoursesTable tbody").innerHTML += row;
-                document.getElementById("totalCredits").textContent = totalCredits;
-
-                document.getElementById("selectedCourseIds").value = selectedCourses.map(c => c.id).join(",");
-            }
-
-            document.getElementById("courseForm").addEventListener("submit", function (e) {
-                const hidden = document.createElement("input");
-                hidden.type = "hidden";
-                hidden.name = "selectedCourseIds";
-                hidden.value = selectedCourses.map(c => c.id).join(",");
-                this.appendChild(hidden);
-            });
-
-            window.onload = populateCourses;
-        </script>
-    }
-</body>
-</html>
-
- *@
-
-@* 
-
- @using Uni.BLL.ModelVM.Course
-@model CourseSelectionViewModel
-
-<div class="container">
-    <form method="post" id="courseForm">
-        <h2>Course Selection</h2>
-
-        <label>Department</label>
-        <select id="department" onchange="populateCourses()">
-            @foreach (var dept in Model.Departments)
-            {
-                <option>@dept.DeptName</option>
-            }
-        </select>
-
-        <label>Level</label>
-        <select id="level" onchange="populateCourses()">
-            @foreach (var level in Model.Levels)
-            {
-                <option>@level</option>
-            }
-        </select>
-
-        <label>Semester</label>
-        <select id="semester" onchange="populateCourses()">
-            @foreach (var sem in Model.Semesters)
-            {
-                <option>@sem</option>
-            }
-        </select>
-
-        <label>Courses</label>
-        <select id="courses" onchange="addCourse()" class="form-control">
-            <option value="">-- Select Courses --</option>
-        </select>
-
-        <h3>Selected Courses</h3>
-        <table class="table" id="selectedCoursesTable">
-            <tbody></tbody>
-            <tfoot>
-                <tr>
-                    <td><strong>Total</strong></td>
-                    <td id="totalCredits"><strong>0</strong></td>
-                </tr>
-            </tfoot>
-        </table>
-
-        <input type="hidden" name="selectedCourseIds" id="selectedCourseIds" />
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
-
-@section Scripts {
-    <script>
-        let selectedCourses = [];
-        let totalCredits = 0;
-
-        function populateCourses() {
-            const dept = document.getElementById("department").value;
-            const level = document.getElementById("level").value;
-            const semester = document.getElementById("semester").value;
-
-            fetch(`/Course/GetCourses?department=${dept}&level=${level}&semester=${semester}`)
-                .then(res => res.json())
-                .then(data => {
-                    const courseDropdown = document.getElementById("courses");
-                    courseDropdown.innerHTML = `<option value="">-- Select Courses --</option>`;
-                    data.forEach(course => {
-                        const opt = document.createElement("option");
-                        opt.value = course.id;
-                        opt.text = `${course.name} (${course.creditHours})`;
-                        courseDropdown.appendChild(opt);
-                    });
-                });
-        }
-
-        function addCourse() {
-            const courseDropdown = document.getElementById("courses");
-            const selectedId = parseInt(courseDropdown.value);
-            const selectedText = courseDropdown.options[courseDropdown.selectedIndex].text;
-
-            if (!selectedId || selectedCourses.find(c => c.id === selectedId)) return;
-
-            const credit = parseInt(selectedText.match(/\((\d+)\)/)[1]);
-            totalCredits += credit;
-            selectedCourses.push({ id: selectedId, text: selectedText, credit });
-
-            const row = `<tr><td>${selectedText}</td><td>${credit}</td></tr>`;
-            document.querySelector("#selectedCoursesTable tbody").innerHTML += row;
-            document.getElementById("totalCredits").textContent = totalCredits;
-
-            document.getElementById("selectedCourseIds").value = selectedCourses.map(c => c.id).join(",");
-        }
-
-        document.getElementById("courseForm").addEventListener("submit", function (e) {
-            const form = this;
-            const hidden = document.createElement("input");
-            hidden.name = "selectedCourseIds";
-            hidden.value = selectedCourses.map(c => c.id).join(",");
-            form.appendChild(hidden);
-        });
-    </script>
-}
-
-
-
-
-
-
-@{
-    ViewData["Title"] = "Select";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-<h2>Select Courses</h2>
-
-<form asp-action="GetCourses" method="post" id="filterForm">
-    <label>Department:</label>
-    <select name="departmentName" id="department" class="form-control" required>
-        <option value="">-- Select Department --</option>
-        @foreach (var dept in ViewBag.Departments)
-        {
-            <option value="@dept.DeptName">@dept.DeptName</option>
-        }
-    </select>
-
-    <label>Year:</label>
-    <select name="year" class="form-control" required>
-        @foreach (var year in ViewBag.Years)
-        {
-            <option value="@year">@year</option>
-        }
-    </select>
-
-    <label>Semester:</label>
-    <select name="semester" class="form-control" required>
-        @foreach (var sem in ViewBag.Semesters)
-        {
-            <option value="@sem">@sem</option>
-        }
-    </select>
-
-    <button type="submit" class="btn btn-primary mt-2">Load Courses</button>
-</form>
-
-<div id="courseContainer">
-    <!-- Loaded course checkboxes will appear here -->
-</div>
-
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger mt-3">@TempData["Error"]</div>
-}
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success mt-3">@TempData["Success"]</div>
-}
- *@
- 

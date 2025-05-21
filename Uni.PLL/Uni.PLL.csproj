@@ -32,7 +32,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.SharePointOnline.CSOM" Version="16.1.26017.12000" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
-    <PackageReference Include="MiNET" Version="1.0.2304" />
+	 
+
+	  <PackageReference Include="MiNET" Version="1.0.2304" />
   </ItemGroup>
 
   <ItemGroup>

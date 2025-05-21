@@ -82,6 +82,6 @@ namespace Uni.DAL.Repo.Impelementation
             await userManager.AddToRoleAsync(user, role);
         }
         public async Task<IdentityResult> UpdateUserAsyn(Student User) => await userManager.UpdateAsync(User);
+  
     }
-   
 }

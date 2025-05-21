@@ -17,7 +17,7 @@ namespace Uni.DAL.Entity
        // [Key, Column(Order = 2)]
         public string Semester { get; set; }
        // [Key, Column(Order = 3)]
-        public int Year { get; set; }
+        public string Year { get; set; }
 
         public virtual Instructor Instructor { get; set; }
         

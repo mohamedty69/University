@@ -27,7 +27,6 @@ namespace Uni.BLL.Service.Abstraction
         Task<IdentityResult> UpdateUser(ClaimsPrincipal user, EditVM model);
         Task<List<GetStudentDataVM>> GetAllStudent(ClaimsPrincipal user);
 		List<CourseVM> GetAllCourses();
-        
         List<DepartmentVM> GetAllDepartments();
         List<TakesVM> GetAllTakes();
         List<InstructorVM> GetAllInstructors();

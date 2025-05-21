@@ -497,8 +497,8 @@ namespace Uni.DAL.Migrations
                     b.Property<string>("Semester")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Year")
-                        .HasColumnType("int");
+                    b.Property<string>("Year")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CourseCode")
                         .HasColumnType("nvarchar(450)");

@@ -12,8 +12,8 @@ using Uni.DAL.DB;
 namespace Uni.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250514212734_Remo")]
-    partial class Remo
+    [Migration("20250521014909_CreateDBa")]
+    partial class CreateDBa
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,7 +158,7 @@ namespace Uni.DAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RecordsStudent", b =>
+            modelBuilder.Entity("RcordsStudent", b =>
                 {
                     b.Property<int>("RecordsrecordId")
                         .HasColumnType("int");
@@ -170,7 +170,7 @@ namespace Uni.DAL.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("RecordsStudent");
+                    b.ToTable("RcordsStudent");
                 });
 
             modelBuilder.Entity("Uni.DAL.Entity.AcademicStatus", b =>
@@ -338,7 +338,7 @@ namespace Uni.DAL.Migrations
                     b.ToTable("Profiles");
                 });
 
-            modelBuilder.Entity("Uni.DAL.Entity.Records", b =>
+            modelBuilder.Entity("Uni.DAL.Entity.Rcords", b =>
                 {
                     b.Property<int>("recordId")
                         .ValueGeneratedOnAdd()
@@ -500,8 +500,8 @@ namespace Uni.DAL.Migrations
                     b.Property<string>("Semester")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Year")
-                        .HasColumnType("int");
+                    b.Property<string>("Year")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CourseCode")
                         .HasColumnType("nvarchar(450)");
@@ -569,9 +569,9 @@ namespace Uni.DAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RecordsStudent", b =>
+            modelBuilder.Entity("RcordsStudent", b =>
                 {
-                    b.HasOne("Uni.DAL.Entity.Records", null)
+                    b.HasOne("Uni.DAL.Entity.Rcords", null)
                         .WithMany()
                         .HasForeignKey("RecordsrecordId")
                         .OnDelete(DeleteBehavior.Cascade)

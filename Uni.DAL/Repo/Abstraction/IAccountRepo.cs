@@ -26,8 +26,7 @@ namespace Uni.DAL.Repo.Abstraction
 		//List<Student> GetAll();
 		//  Task<User> GetCurrentUser();
 		Task<List<Student>> GetAll(ClaimsPrincipal user);
-
-		Task<IdentityResult> UpdateUserAsync(Student User);
+        Task<IdentityResult> UpdateUserAsync(Student User);
         Task<IdentityResult> UpdateUserAsyn(Student User);
 		List<Course> GetCourses();
         List<Department> GetDepartment();
